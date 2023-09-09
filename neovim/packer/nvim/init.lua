@@ -1,0 +1,2 @@
+require("tito")
+require("colorscheme")
