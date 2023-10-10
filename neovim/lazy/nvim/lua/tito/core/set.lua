@@ -38,16 +38,8 @@ vim.opt.listchars = { tab = "\\x20\\x20", eol = "\\u21b5" }
 vim.opt.wildmode = "longest,list,full"
 vim.opt.wildmenu = true
 
--- netrw style
--- let g:netrw_liststyle = 3
-
 -- Folding method
-vim.opt.foldcolumn = '0' -- '0' is not bad
+vim.opt.foldcolumn = '0'
 vim.opt.foldlevel = 100
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
--- vim.opt.foldmethod = 'expr'
--- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
---vim.opt.foldenable = false
---vim.opt.foldclose = 'all'
---vim.opt.foldlevel = 10000
