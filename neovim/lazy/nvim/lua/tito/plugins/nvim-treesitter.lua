@@ -24,6 +24,7 @@ return {
                     "cpp",
                     "c",
                     "python",
+                    "julia",
                     "markdown",
                     "markdown_inline",
                     "bash",
