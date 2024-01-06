@@ -1,6 +1,6 @@
 return {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    tag = "0.1.5",
     dependencies = {
         "nvim-lua/plenary.nvim",
         {
@@ -22,8 +22,9 @@ return {
                 path_display = { "truncate " },
                 mappings = {
                     i = {
+                        ["<C-h>"] = "which_key",
                         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-                        ["<C-j>"] = actions.move_selection_next, -- move to next result
+                        ["<C-j>"] = actions.move_selection_next,     -- move to next result
                         ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
                     },
                 },
@@ -34,6 +35,8 @@ return {
 
         -- set keymaps
         vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = "[P]roject [F]iles" })
+        vim.keymap.set('n', '<leader>bf', builtin.buffers, { desc = "[B]uffer [F]ind" })
+        vim.keymap.set('n', '<leader>km', builtin.keymaps, { desc = "[K]ey [M]aps" })
         vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "[G]it [F]iles" })
         vim.keymap.set('n', '<leader>gr', builtin.live_grep, { desc = "[GR]ep something" })
         vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })

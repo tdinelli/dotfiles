@@ -1,4 +1,4 @@
-return{
+return {
     -- DAP, DAP-UI, DAP virtual text, telescopic DAP
     'mfussenegger/nvim-dap',
 
@@ -9,7 +9,7 @@ return{
 
     'nvim-telescope/telescope-dap.nvim',
 
-    event = 'VeryLazy',
+    event = { "BufReadPre", "BufNewFile" },
 
     config = function()
         local dap = require("dap")

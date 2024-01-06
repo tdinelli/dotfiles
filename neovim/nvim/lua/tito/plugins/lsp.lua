@@ -21,12 +21,10 @@ return {
             -- see :help lsp-zero-keybindings
             -- -- to learn the available actions
             lsp_zero.default_keymaps({ buffer = bufnr })
+
             lsp_zero.buffer_autoformat()
             -- make sure you use clients with formatting capabilities
             -- otherwise you'll get a warning message
-            -- if client.supports_method('textDocument/formatting') then
-            --     require('lsp-format').on_attach(client)
-            -- end
         end)
 
         require('mason').setup({})
@@ -35,6 +33,8 @@ return {
                 lsp_zero.default_setup,
             },
         })
+
+        lsp_zero.setup_servers({ 'lua_ls', 'pylsp', 'cmake', 'julials', 'clangd'})
 
         local cmp = require('cmp')
         local cmp_action = require('lsp-zero').cmp_action()
