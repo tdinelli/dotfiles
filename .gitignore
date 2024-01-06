@@ -1,2 +1,11 @@
-neovim/packer/nvim/plugin
-neovim/lazy/nvim/lazy-lock.json
+# ssh folder
+ssh
+clusterDCMC
+fisso
+id_rsa
+id_rsa.pub
+known_hosts
+known_hosts.old
+
+# nvim folder
+neovim/nvim/lazy-lock.json
