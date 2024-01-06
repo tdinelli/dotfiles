@@ -1,0 +1,47 @@
+# --- Brew stuff
+export PATH=/opt/homebrew/bin:$PATH
+# export PATH=/opt/homebrew/opt/sphinx-doc/bin:$PATH
+# export PATH=/opt/homebrew/opt/llvm/bin:$PATH
+# if I want the llvm always active decomment the line below
+# export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+# If you need to have llvm first in your PATH, run:
+#   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
+#
+# For compilers to find llvm you may need to set:
+#   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+#   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+
+# --- Autocomp
+[[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
+
+# --- Aliases
+[[ -f ~/.aliases ]] && source ~/.aliases
+
+
+# --- Terminal personalization
+[[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
+
+# --- ANACONDA
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/Users/tdinelli/.juliaup/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
