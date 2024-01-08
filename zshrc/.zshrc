@@ -15,8 +15,7 @@ export PATH=/opt/homebrew/bin:$PATH
 [[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
 
 # --- Aliases
-[[ -f ~/.aliases ]] && source ~/.aliases
-
+[[ -f ~/.aliases.zsh ]] && source ~/.aliases.zsh
 
 # --- Terminal personalization
 [[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
