@@ -31,9 +31,10 @@ return {
             },
         })
 
+        -- Not sure if this is needed, read documentation
         telescope.load_extension("fzf")
 
-        -- set keymaps
+        -- remapping
         vim.keymap.set("n", "<leader>pf", builtin.find_files, { desc = "[P]roject [F]iles" })
         vim.keymap.set("n", "<leader>bf", builtin.buffers, { desc = "[B]uffer [F]ind" })
         vim.keymap.set("n", "<leader>km", builtin.keymaps, { desc = "[K]ey [M]aps" })

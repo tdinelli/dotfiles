@@ -1,7 +1,6 @@
 -- This set the cursor always to be fat as in vim
 -- vim.opt.guicursor=''
 
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 

@@ -1,59 +1,136 @@
 return {
-    'VonHeikemen/lsp-zero.nvim',
-    event = { "BufReadPre", "BufNewFile" },
-    branch = 'v3.x',
-    lazy = true,
+    "neovim/nvim-lspconfig",
     dependencies = {
-        -- LSP Support
-        { 'neovim/nvim-lspconfig' },             -- Required
-        { 'williamboman/mason.nvim' },           -- Optional
-        { 'williamboman/mason-lspconfig.nvim' }, -- Optional
-
-        -- Autocompletion
-        { 'hrsh7th/nvim-cmp' },     -- Required
-        { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-        { 'L3MON4D3/LuaSnip' },     -- Required
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-cmdline",
+        "hrsh7th/nvim-cmp",
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+        "j-hui/fidget.nvim",
     },
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-        local lsp_zero = require('lsp-zero')
-
-        lsp_zero.on_attach(function(client, bufnr)
-            -- see :help lsp-zero-keybindings
-            -- -- to learn the available actions
-            lsp_zero.default_keymaps({ buffer = bufnr })
-
-            lsp_zero.buffer_autoformat()
-            -- make sure you use clients with formatting capabilities
-            -- otherwise you'll get a warning message
-        end)
-
-        require('mason').setup({})
-        require('mason-lspconfig').setup({
+        require("fidget").setup({})
+        local cmp_lsp = require('cmp_nvim_lsp')
+        local capabilities = vim.tbl_deep_extend(
+            "force",
+            {},
+            vim.lsp.protocol.make_client_capabilities(),
+            cmp_lsp.default_capabilities()
+        )
+        require("mason").setup()
+        require("mason-lspconfig").setup({
+            ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd" },
             handlers = {
-                lsp_zero.default_setup,
+                function(server_name)
+                    require("lspconfig")[server_name].setup({
+                        capabilities = capabilities,
+                    })
+                end,
+                ["lua_ls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.lua_ls.setup {
+                        capabilities = capabilities,
+                        settings = {
+                            Lua = {
+                                diagnostics = {
+                                    globals = { "vim" }
+                                }
+                            }
+                        }
+                    }
+                end
             },
         })
 
-        lsp_zero.setup_servers({ 'lua_ls', 'pylsp', 'cmake', 'julials', 'clangd'})
-
-        local cmp = require('cmp')
-        local cmp_action = require('lsp-zero').cmp_action()
+        local cmp = require("cmp")
         cmp.setup({
+            snippet = {
+                expand = function(args)
+                    require("luasnip").lsp_expand(args.body)
+                end,
+            },
             mapping = cmp.mapping.preset.insert({
+                -- TODO Rethink these mappings
                 -- `Enter` key to confirm completion
                 ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
                 -- Ctrl+Space to trigger completion menu
                 ['<C-Space>'] = cmp.mapping.complete(),
 
-                -- Navigate between snippet placeholder
-                ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-                ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-
                 -- Scroll up and down in the completion documentation
                 ['<C-u>'] = cmp.mapping.scroll_docs(-4),
                 ['<C-d>'] = cmp.mapping.scroll_docs(4),
-            })
+            }),
+            sources = cmp.config.sources({
+                    { name = "nvim_lsp" },
+                    { name = "luasnip" },
+                },
+                {
+                    { name = "buffer" },
+                }),
+            -- This I am just trying what they do beacuse I dont actually know
+            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+            -- cmp.setup.cmdline({ '/', '?' }, {
+            --     mapping = cmp.mapping.preset.cmdline(),
+            --     sources = {
+            --         { name = 'buffer' }
+            --     }
+            -- }),
+            -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+            -- cmp.setup.cmdline(':', {
+            --     mapping = cmp.mapping.preset.cmdline(),
+            --     sources = cmp.config.sources({
+            --         { name = 'path' }
+            --     }, {
+            --             { name = 'cmdline' }
+            --         })
+            -- })
         })
-    end,
+
+        vim.diagnostic.config({
+            update_in_insert = true,
+            float = {
+                focusable = false,
+                style = "minimal",
+                border = "rounded",
+                source = "always",
+                header = "",
+                prefix = "",
+            },
+        })
+
+        -- Lspattach rempapping: for the moment I am testing these remappings
+        -- those are the default ones in the future maybe I will move them into init.lua
+        -- considering maybe I will add my own autogroups in the future
+        -- TODO: add comments for the remapping
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+            callback = function(ev)
+                vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+                local opts = { buffer = ev.buf }
+                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+                vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+                vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+                vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+                vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+                vim.keymap.set("n", "<leader>wl", function()
+                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                end, opts)
+                vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+                vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
+                vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+                vim.keymap.set("n", "<leader>f", function()
+                    vim.lsp.buf.format { async = true }
+                end, opts)
+            end,
+        })
+    end
 }

@@ -1,3 +1,4 @@
+-- Set <leader> key to space
 vim.g.mapleader = " "
 
 -- netrw options
@@ -33,19 +34,15 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- Think if we will need this again
 -- TAB remapping
-vim.keymap.set("n", "th", "<cmd> tabfirst <CR>", { desc = "ciao" })
-vim.keymap.set("n", "tj", "<cmd> tabprev <CR>", { desc = "" })
-vim.keymap.set("n", "tk", "<cmd> tabnext <CR>", { desc = "" })
+vim.keymap.set("n", "th", "<cmd> tabfirst <CR>", { desc = "[T]ab [H]ead" })
+vim.keymap.set("n", "tj", "<cmd> tabprev <CR>", { desc = "Move to previous tab" })
+vim.keymap.set("n", "tk", "<cmd> tabnext <CR>", { desc = "Move to next tab" })
+--- Don't know if needed again
 vim.keymap.set("n", "te", "<cmd> tabedit<Space> <CR>", { desc = "" })
 vim.keymap.set("n", "tm", "<cmd> tabm<Space> <CR>", { desc = "" })
 vim.keymap.set("n", "tn", "<cmd> tabnew <CR>", { desc = "" })
-vim.keymap.set("n", "tc", "<cmd> tabclose <CR>", { desc = "" })
-vim.keymap.set("n", "t1", "<cmd> tabnext 1 <CR>", { desc = "" })
-vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "" })
-vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "" })
-vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "" })
-vim.keymap.set("n", "t5", "<cmd> tabnext 5 <CR>", { desc = "" })
-vim.keymap.set("n", "t6", "<cmd> tabnext 6 <CR>", { desc = "" })
-vim.keymap.set("n", "t7", "<cmd> tabnext 7 <CR>", { desc = "" })
-vim.keymap.set("n", "t8", "<cmd> tabnext 8 <CR>", { desc = "" })
-vim.keymap.set("n", "t9", "<cmd> tabnext 9 <CR>", { desc = "" })
+vim.keymap.set("n", "tc", "<cmd> tabclose <CR>", { desc = "[T]ab [C]locse" })
+vim.keymap.set("n", "t1", "<cmd> tabnext 1 <CR>", { desc = "Move to [T]ab number [1]" })
+vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "Move to [T]ab number [2]" })
+vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "Move to [T]ab number [3]" })
+vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "Move to [T]ab number [4]" })
