@@ -11,7 +11,7 @@ export PATH=/opt/homebrew/bin:$PATH
 #   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 #   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
-# --- Autocomp
+# --- Autocompilation options
 [[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
 
 # --- Aliases
@@ -20,7 +20,6 @@ export PATH=/opt/homebrew/bin:$PATH
 # --- Terminal personalization
 [[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
 
-# --- ANACONDA
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -37,10 +36,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # >>> juliaup initialize >>>
-
 # !! Contents within this block are managed by juliaup !!
-
 path=('/Users/tdinelli/.juliaup/bin' $path)
 export PATH
-
 # <<< juliaup initialize <<<
