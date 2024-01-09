@@ -7,7 +7,7 @@ return {
             "nvim-telescope/telescope-fzf-native.nvim",
             build = "make",
             cond = function()
-                return vim.fn.executable 'make' == 1
+                return vim.fn.executable "make" == 1
             end,
         },
         "nvim-tree/nvim-web-devicons",
@@ -15,7 +15,7 @@ return {
     config = function()
         local telescope = require("telescope")
         local actions = require("telescope.actions")
-        local builtin = require('telescope.builtin')
+        local builtin = require("telescope.builtin")
 
         telescope.setup({
             defaults = {
@@ -34,11 +34,11 @@ return {
         telescope.load_extension("fzf")
 
         -- set keymaps
-        vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = "[P]roject [F]iles" })
-        vim.keymap.set('n', '<leader>bf', builtin.buffers, { desc = "[B]uffer [F]ind" })
-        vim.keymap.set('n', '<leader>km', builtin.keymaps, { desc = "[K]ey [M]aps" })
-        vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "[G]it [F]iles" })
-        vim.keymap.set('n', '<leader>gr', builtin.live_grep, { desc = "[GR]ep something" })
-        vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+        vim.keymap.set("n", "<leader>pf", builtin.find_files, { desc = "[P]roject [F]iles" })
+        vim.keymap.set("n", "<leader>bf", builtin.buffers, { desc = "[B]uffer [F]ind" })
+        vim.keymap.set("n", "<leader>km", builtin.keymaps, { desc = "[K]ey [M]aps" })
+        vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
+        vim.keymap.set("n", "<leader>gr", builtin.live_grep, { desc = "[GR]ep something" })
+        vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
     end,
 }

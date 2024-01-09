@@ -25,26 +25,27 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste the internal registry
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy the selection in the external registry" })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Non mi ricordo" })
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]],
-    { desc = "Delete the selection withouth pasting it in the internal registry" })                                            -- delete in the void register
+    { desc = "Delete the selection withouth pasting it in the internal registry" }) -- delete in the void register
 
 -- If I am gonna press leader s it gives me the possibility to change the word I am on
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = "Change the word under the cursor" })
 
+-- Think if we will need this again
 -- TAB remapping
-vim.keymap.set("n", "th", "<cmd> tabfirst <CR>")
-vim.keymap.set("n", "tj", "<cmd> tabprev <CR>")
-vim.keymap.set("n", "tk", "<cmd> tabnext <CR>")
-vim.keymap.set("n", "te", "<cmd> tabedit<Space> <CR>")
-vim.keymap.set("n", "tm", "<cmd> tabm<Space> <CR>")
-vim.keymap.set("n", "tn", "<cmd> tabnew <CR>")
-vim.keymap.set("n", "tc", "<cmd> tabclose <CR>")
-vim.keymap.set("n", "t1", "<cmd> tabnext 1 <CR>")
-vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>")
-vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>")
-vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>")
-vim.keymap.set("n", "t5", "<cmd> tabnext 5 <CR>")
-vim.keymap.set("n", "t6", "<cmd> tabnext 6 <CR>")
-vim.keymap.set("n", "t7", "<cmd> tabnext 7 <CR>")
-vim.keymap.set("n", "t8", "<cmd> tabnext 8 <CR>")
-vim.keymap.set("n", "t9", "<cmd> tabnext 9 <CR>")
+vim.keymap.set("n", "th", "<cmd> tabfirst <CR>", { desc = "ciao" })
+vim.keymap.set("n", "tj", "<cmd> tabprev <CR>", { desc = "" })
+vim.keymap.set("n", "tk", "<cmd> tabnext <CR>", { desc = "" })
+vim.keymap.set("n", "te", "<cmd> tabedit<Space> <CR>", { desc = "" })
+vim.keymap.set("n", "tm", "<cmd> tabm<Space> <CR>", { desc = "" })
+vim.keymap.set("n", "tn", "<cmd> tabnew <CR>", { desc = "" })
+vim.keymap.set("n", "tc", "<cmd> tabclose <CR>", { desc = "" })
+vim.keymap.set("n", "t1", "<cmd> tabnext 1 <CR>", { desc = "" })
+vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "" })
+vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "" })
+vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "" })
+vim.keymap.set("n", "t5", "<cmd> tabnext 5 <CR>", { desc = "" })
+vim.keymap.set("n", "t6", "<cmd> tabnext 6 <CR>", { desc = "" })
+vim.keymap.set("n", "t7", "<cmd> tabnext 7 <CR>", { desc = "" })
+vim.keymap.set("n", "t8", "<cmd> tabnext 8 <CR>", { desc = "" })
+vim.keymap.set("n", "t9", "<cmd> tabnext 9 <CR>", { desc = "" })

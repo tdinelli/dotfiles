@@ -1,23 +1,15 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPre", "BufNewFile" },
         build = ":TSUpdate",
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
         },
+        event = { "BufReadPre", "BufNewFile" },
         config = function()
-            -- import nvim-treesitter plugin
-            local treesitter = require("nvim-treesitter.configs")
+            local configs = require("nvim-treesitter.configs")
 
-            -- configure treesitter
-            treesitter.setup({ -- enable syntax highlighting
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = false,
-                },
-                -- enable indentation
-                indent = { enable = true },
+            configs.setup({
                 -- ensure these language parsers are installed
                 ensure_installed = {
                     "latex",
@@ -33,6 +25,9 @@ return {
                     "vimdoc",
                     "gitignore",
                 },
+                sync_install = false,
+                highlight = { enable = true, additional_vim_regex_highlighting = false, },
+                indent = { enable = true },
                 -- auto install above language parsers
                 auto_install = false,
                 textobjects = {

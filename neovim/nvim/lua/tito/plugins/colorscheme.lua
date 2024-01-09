@@ -4,17 +4,13 @@ return {
         name = "catppuccin",
         priority = 1000,
         config = function()
-            local catppuccin = require('catppuccin')
-            catppuccin.setup({
+            require("catppuccin").setup({
                 flavour = "latte",
                 integrations = {
                     cmp = true,
                     gitsigns = true,
-                    nvimtree = false,
+                    harpoon=true,
                     treesitter = true,
-                    notify = false,
-                    mini = false,
-                    -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
                 },
             })
             -- load the colorscheme here

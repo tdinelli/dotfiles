@@ -2,30 +2,26 @@ return {
     'lukas-reineke/indent-blankline.nvim',
     event = "VeryLazy",
     main = "ibl",
-    opts = {
-        enabled = true,
-        exclude = {
-            filetypes =
+    config = function()
+        require("ibl").setup(
             {
-                "help",
-                "terminal",
-                "starter",
-                "nvim-tree",
-                "packer",
-                "lspinfo",
-                "TelescopePrompt",
-                "TelescopeResults",
-                "mason",
-                "",
+                enabled = true,
+                exclude = {
+                    filetypes =
+                    {
+                        "help",
+                        "terminal",
+                        "starter",
+                        "lspinfo",
+                        "TelescopePrompt",
+                        "TelescopeResults",
+                        "mason",
+                    }
+                },
+                indent = { char = "┊", smart_indent_cap = true },
+                scope = { enabled = false },
+                whitespace = { remove_blankline_trail = true, },
             }
-        },
-        indent = {
-            char = "┊",
-            smart_indent_cap = true
-        },
-        scope = { enabled = false },
-        whitespace = {
-            remove_blankline_trail = true,
-        },
-    }
+        )
+    end,
 }

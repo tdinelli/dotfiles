@@ -1,18 +1,21 @@
 return {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    config = true,
-    version = "*",
     event = "VeryLazy",
     config = function()
-        local neogen = require('neogen')
-        neogen.setup({
+        require("neogen").setup({
             languages = {
-                ['cpp.doxygen'] = require('neogen.configurations.cpp')
-            }
+                ["cpp.doxygen"] = require("neogen.configurations.cpp"),
+                lua = { template = { annotation_convention = "emmylua" } }
+            },
+            -- remapping
+            vim.keymap.set("n", "<leader>cc", ":lua require('neogen').generate({ type = 'class' })<CR>",
+                { desc = "[C]omment [C]lass" }),
+            vim.keymap.set("n", "<leader>cf", ":lua require('neogen').generate({ type = 'func' })<CR>",
+                { desc = "[C]omment [F]unction" }),
+            vim.keymap.set("n", "<leader>ct", ":lua require('neogen').generate({ type = 'type' })<CR>",
+                { desc = "[C]omment [T]ype" }),
         })
     end,
 
-    -- Neogen remap
-    vim.keymap.set("n", "<leader>gc", ":lua require('neogen').generate()<CR>", { desc = "[G]enerate [C]omment" })
 }
