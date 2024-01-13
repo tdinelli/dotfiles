@@ -33,7 +33,7 @@ return {
                 end,
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
+                    lspconfig.lua_ls.setup({
                         capabilities = capabilities,
                         settings = {
                             Lua = {
@@ -42,8 +42,15 @@ return {
                                 }
                             }
                         }
-                    }
-                end
+                    })
+                end,
+                ["fortls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.fortls.setup({
+                        capabilities = capabilities,
+                        -- root_dir = ".fortls",
+                    })
+                end,
             },
         })
 
