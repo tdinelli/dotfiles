@@ -18,6 +18,11 @@ return {
         local builtin = require("telescope.builtin")
 
         telescope.setup({
+            pickers = {
+                find_files = {
+                    follow = true
+                }
+            },
             defaults = {
                 path_display = { "truncate " },
                 mappings = {
@@ -40,6 +45,8 @@ return {
         vim.keymap.set("n", "<leader>km", builtin.keymaps, { desc = "[K]ey [M]aps" })
         vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
         vim.keymap.set("n", "<leader>gr", builtin.live_grep, { desc = "[GR]ep something" })
+        vim.keymap.set("n", "<leader>qo", builtin.quickfix, { desc = "[Q]uickfix [O]pen" })
+        vim.keymap.set("n", "<leader>ts", builtin.treesitter, { desc = "[T]ree [S]itter search" })
         vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
     end,
 }

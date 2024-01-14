@@ -27,10 +27,9 @@ return {
                     "fortran",
                 },
                 sync_install = false,
+                auto_install = false,
                 highlight = { enable = true, additional_vim_regex_highlighting = false, },
                 indent = { enable = true },
-                -- auto install above language parsers
-                auto_install = false,
                 textobjects = {
                     select = {
                         enable = true,
