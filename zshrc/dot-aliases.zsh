@@ -2,6 +2,7 @@
 alias ll="ls -lh"
 alias la="ls -altrh"
 alias vim="nvim"
+alias vimdiff="nvim -d"
 alias vi="nvim"
 
 # --- libraries
@@ -12,9 +13,8 @@ alias set-openblas-0.3.24-gcc="export DYLD_LIBRARY_PATH=/Users/tdinelli/Numerica
 alias set-gfortran-13="export DYLD_LIBRARY_PATH=/opt/homebrew/opt/gfortran/lib/gcc/13:$DYLD_LIBRARY_PATH"
 
 # --- tools
+alias set-numdiff="export PATH=/Users/tdinelli/.tools/numdiff/numdiff-5.9.0/bin:$PATH"
+alias set-opensmoke-0.21.0="export PATH=/Users/tdinelli/.tools/opensmoke/opensmoke-0.21.0/bin:$PATH; set-boost-1.83.0-gcc"
+alias set-opensmoke-0.20.0="export PATH=/Users/tdinelli/.tools/opensmoke/opensmoke-0.20.0/bin:$PATH; set-boost-1.83.0-gcc"
 alias set-optismoke="export PATH=/Users/tdinelli/Documents/GitHub/OptiSMOKE_toolbox/build:$PATH"
-alias set-opensmoke-0.21.0="export PATH=/Users/tdinelli/Tools/opensmoke/opensmoke-0.21.0/bin:$PATH; set-boost-1.83.0-gcc"
-alias set-opensmoke-0.20.0="export PATH=/Users/tdinelli/Tools/opensmoke/opensmoke-0.20.0/bin:$PATH; set-boost-1.83.0-gcc"
 alias set-devsmoke="export PATH=/Users/tdinelli/Documents/GitHub/OpenSMOKEppSolvers/build:$PATH; set-boost-1.83.0-gcc"
-alias set-numdiff="export PATH=/Users/tdinelli/Tools/numdiff/numdiff-5.9.0/bin:$PATH"
-

@@ -1,15 +1,9 @@
-# --- Brew stuff
+# --- Exports
 export PATH=/opt/homebrew/bin:$PATH
+export CC="/opt/homebrew/opt/llvm/bin/clang"
+export CXX="/opt/homebrew/opt/llvm/bin/clang++"
 # export PATH=/opt/homebrew/opt/sphinx-doc/bin:$PATH
 # export PATH=/opt/homebrew/opt/llvm/bin:$PATH
-# if I want the llvm always active decomment the line below
-# export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-# If you need to have llvm first in your PATH, run:
-#   echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> ~/.zshrc
-#
-# For compilers to find llvm you may need to set:
-#   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-#   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 
 # --- Autocompilation options
 [[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
@@ -19,6 +13,9 @@ export PATH=/opt/homebrew/bin:$PATH
 
 # --- Terminal personalization
 [[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
+
+# --- fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
