@@ -14,7 +14,6 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        require("fidget").setup({})
         local cmp_lsp = require('cmp_nvim_lsp')
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -22,6 +21,8 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities()
         )
+
+        require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd" },
@@ -42,6 +43,25 @@ return {
                                 }
                             }
                         }
+                    })
+                end,
+                ["julials"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.julials.setup({
+                        -- For infos: https://discourse.julialang.org/t/neovim-languageserver-jl/37286/91?page=5
+                        -- on_new_config = function(new_config, _)
+                        --     local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/")
+                        --     lspconfig.util.path.is_file(julia)
+                        --     new_config.cmd[1] = julia
+                        -- end,
+                        -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
+                        root_dir = function(fname)
+                            local util = require 'lspconfig.util'
+                            return util.root_pattern 'Project.toml' (fname) or util.find_git_ancestor(fname) or
+                                util.path.dirname(fname)
+                        end,
+                        julia_env_path = { "/Users/tdinelli/.julia/environments/nvim-lspconfig" },
+                        capabilities = capabilities,
                     })
                 end,
                 ["fortls"] = function()

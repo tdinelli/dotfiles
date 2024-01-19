@@ -33,11 +33,10 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
     { desc = "Change the word under the cursor" })
 
 -- Think if we will need this again
--- TAB remapping
+-- TAB remapping. (Don't know if needed again)
 vim.keymap.set("n", "th", "<cmd> tabfirst <CR>", { desc = "[T]ab [H]ead" })
 vim.keymap.set("n", "tj", "<cmd> tabprev <CR>", { desc = "Move to previous tab" })
 vim.keymap.set("n", "tk", "<cmd> tabnext <CR>", { desc = "Move to next tab" })
---- Don't know if needed again
 vim.keymap.set("n", "te", "<cmd> tabedit<Space> <CR>", { desc = "" })
 vim.keymap.set("n", "tm", "<cmd> tabm<Space> <CR>", { desc = "" })
 vim.keymap.set("n", "tn", "<cmd> tabnew <CR>", { desc = "" })
