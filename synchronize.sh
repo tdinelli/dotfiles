@@ -5,4 +5,4 @@ MACOSX_DOTFILES_DIR="$MACOSX_HOME/Documents/GitHub/dotfiles/"
 
 stow --no-folding --dotfiles --target="$MACOSX_HOME" --dir="$MACOSX_DOTFILES_DIR" zshrc
 stow --no-folding --dotfiles --target="$MACOSX_HOME" --dir="$MACOSX_DOTFILES_DIR" vim
-stow --no-folding --ignore=lazy-lock.json --target="$MACOSX_CONFIG_HOME" --dir="$MACOSX_DOTFILES_DIR" neovim
+stow --no-folding --target="$MACOSX_CONFIG_HOME" --dir="$MACOSX_DOTFILES_DIR" neovim
