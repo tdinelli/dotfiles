@@ -1,7 +1,7 @@
 export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 export GREP_OPTIONS='--color=auto'
-export TERM="xterm-color"
+export TERM="xterm-256color"
 
 # This shows the git branch
 setopt prompt_subst

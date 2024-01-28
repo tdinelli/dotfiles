@@ -5,6 +5,9 @@ alias vim="nvim"
 alias vimdiff="nvim -d"
 alias vi="nvim"
 
+# --- tmux
+alias tmux="tmux -2"
+
 # --- libraries
 alias set-boost-1.83.0-clang="export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/boost/boost-1.83.0-clang-17.0.1/lib:$DYLD_LIBRARY_PATH"
 alias set-boost-1.83.0-gcc="export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/boost/boost-1.83.0-gcc-13.2.0/lib:$DYLD_LIBRARY_PATH"

@@ -1,9 +1,9 @@
 # --- Exports
-export PATH=/opt/homebrew/bin:$PATH
+export PATH="/opt/homebrew/bin:$PATH"
 export CC="/opt/homebrew/opt/llvm/bin/clang"
 export CXX="/opt/homebrew/opt/llvm/bin/clang++"
-# export PATH=/opt/homebrew/opt/sphinx-doc/bin:$PATH
-# export PATH=/opt/homebrew/opt/llvm/bin:$PATH
+export FC="/opt/homebrew/bin/gfortran-13"
+export PATH="/opt/homebrew/opt/sphinx-doc/bin:$PATH"
 
 # --- Autocompilation options
 [[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
