@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 
 -- netrw options
-vim.g.netrw_liststyle = 3
+vim.g.netrw_liststyle = 0
 vim.g.netrw_winsize = 30
 vim.keymap.set("n", "<leader>tv", vim.cmd.Lexplore, { desc = "[T]ree [V]iew" })
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "[P]roject [V]iew" })

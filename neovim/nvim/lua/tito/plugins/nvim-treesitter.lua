@@ -8,9 +8,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         config = function()
             local configs = require("nvim-treesitter.configs")
-
             configs.setup({
-                -- ensure these language parsers are installed
                 ensure_installed = {
                     "latex",
                     "cpp",

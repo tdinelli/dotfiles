@@ -1,6 +1,8 @@
 -- This set the cursor always to be fat as in vim
 -- vim.opt.guicursor=''
 
+vim.opt.termguicolors = true
+vim.opt.guifont = "font-hack-nerd-font"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
