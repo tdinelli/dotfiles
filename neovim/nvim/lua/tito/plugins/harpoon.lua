@@ -6,6 +6,8 @@ return {
     config = function()
         local harpoon = require("harpoon")
 
+        harpoon:setup()
+
         -- remapping
         vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end,
             { desc = "Add file to harpoon database" })
@@ -25,5 +27,7 @@ return {
             { desc = "Toggle the [P]revious buffer stored inside the harpoon list" })
         vim.keymap.set("n", "<C-N>", function() harpoon:list():next() end,
             { desc = "Toggle the [N]ext buffer stored inside the harpoon list" })
+
+        -- vim.keymap.set("n", "<leader>gt", function() harpoon.tmux:sendCommand(0, "ls -La") end)
     end,
 }

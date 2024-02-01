@@ -15,6 +15,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
         local cmp_lsp = require('cmp_nvim_lsp')
+
         local capabilities = vim.tbl_deep_extend(
             "force",
             {},
@@ -23,15 +24,18 @@ return {
         )
 
         require("fidget").setup({})
-        require("mason").setup()
+        require("mason").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd" },
             handlers = {
+                -- This handles all the LSP automatically
                 function(server_name)
                     require("lspconfig")[server_name].setup({
                         capabilities = capabilities,
                     })
                 end,
+
+                -- lua_ls specific config
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup({
@@ -45,6 +49,7 @@ return {
                         }
                     })
                 end,
+                -- julials specific config (Still under testing not sure about the configuration)
                 ["julials"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.julials.setup({
@@ -62,13 +67,6 @@ return {
                         end,
                         julia_env_path = { "/Users/tdinelli/.julia/environments/nvim-lspconfig" },
                         capabilities = capabilities,
-                    })
-                end,
-                ["fortls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.fortls.setup({
-                        capabilities = capabilities,
-                        -- root_dir = ".fortls",
                     })
                 end,
             },
@@ -90,8 +88,8 @@ return {
                 ['<C-Space>'] = cmp.mapping.complete(),
 
                 -- Scroll up and down in the completion documentation
-                ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-d>'] = cmp.mapping.scroll_docs(4),
+                ['<C-k>'] = cmp.mapping.scroll_docs(-4),
+                ['<C-j>'] = cmp.mapping.scroll_docs(4),
             }),
             sources = cmp.config.sources({
                     { name = "nvim_lsp" },
@@ -144,7 +142,7 @@ return {
                 vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
                 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+                vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)
                 vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
                 vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
                 vim.keymap.set("n", "<leader>wl", function()
