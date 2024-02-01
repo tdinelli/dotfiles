@@ -1,9 +1,7 @@
 # dotfiles
 
-Repository containing my personal dotfiles
-
-## ZSHRC
-[zshrc](zshrc) is the folder containing my personal configuration for zshell.
-
-## NEOVIM
-[neovim](neovim) is the folder contaning my neovim setup with lazy as a package manager (**Something is missing for sure**).
+Repository containing my personal dotfiles, managed using [stow](https://www.gnu.org/software/stow/).
+Always **WIP**, and not always updated. Next steps:
+- Migrate to XDG coherent structure, in order to ease ubuntu synchronization.
+- Add *.ssh*.
+- Comment better everything.
