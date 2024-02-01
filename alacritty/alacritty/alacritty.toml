@@ -36,10 +36,6 @@ program = "/bin/zsh"
 decorations = "full"
 startup_mode = "Windowed"
 
-[window.dimensions]
-columns = 200
-lines = 30
-
 [window.padding]
 x = 6
 y = 6
