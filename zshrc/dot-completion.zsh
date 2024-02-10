@@ -1,3 +1,3 @@
 autoload -U compinit; compinit
-setopt COMPLETE_IN_WORD  # Complete from both ends of a word.
+setopt COMPLETE_IN_WORD
 zstyle ':completion:*' special-dirs true

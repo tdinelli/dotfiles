@@ -22,5 +22,4 @@ vcs_info_wrapper() {
   fi
 }
 RPROMPT=$'$(vcs_info_wrapper)'
-# PROMPT='%F{red}%w%f [%F{red}%T%F] %F{green}%2~%f $ '
 PROMPT='%F{green}%n@%m%f: %F{blue}%2~%f $ '
