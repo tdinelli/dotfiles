@@ -71,9 +71,6 @@ set foldenable
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 
-" Set <leader> key to space
-let mapleader = " "
-
 " netrw options
 let g:netrw_liststyle = 0
 let g:netrw_winsize = 30

@@ -32,9 +32,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]],
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = "Change the word under the cursor" })
 
--- Run Python file
-vim.keymap.set("n", "<leader>rp", "<Cmd>term python %<CR>", {desc = "[R]un [P]ython", noremap = true, silent = true})
-
 -- Think if we will need this again
 -- TAB remapping. (Don't know if needed again)
 vim.keymap.set("n", "th", "<cmd> tabfirst <CR>", { desc = "[T]ab [H]ead" })
@@ -48,3 +45,13 @@ vim.keymap.set("n", "t1", "<cmd> tabnext 1 <CR>", { desc = "Move to [T]ab number
 vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "Move to [T]ab number [2]" })
 vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "Move to [T]ab number [3]" })
 vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "Move to [T]ab number [4]" })
+
+-- ================================================================= --
+-- Down below I have my custom commands some of them are broken :)   --
+-- ================================================================= --
+
+-- Run Python file
+vim.keymap.set("n", "<leader>rp", "<Cmd>term python %<CR>", { desc = "[R]un [P]ython", noremap = true, silent = true })
+
+-- Comment doxygen inline for c/c++
+vim.keymap.set("n", "<leader>cl", [[:s/$/\ \/\/\!\<\ /g<Left><Left>]], { desc = "[C]omment [L]ine" })

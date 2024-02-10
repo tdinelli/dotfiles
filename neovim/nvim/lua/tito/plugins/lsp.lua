@@ -49,6 +49,24 @@ return {
                         }
                     })
                 end,
+
+                -- pylsp specific config
+                ["pylsp"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.pylsp.setup({
+                        capabilities = capabilities,
+                        settings = {
+                            pylsp = {
+                                plugins = {
+                                    pycodestyle = { enabled = true, maxLineLength = 120}, --, ignore = "E402" },
+                                    pyls_isort = { enabled = false },
+                                },
+
+                            }
+                        }
+                    })
+                end,
+
                 -- julials specific config (Still under testing not sure about the configuration)
                 ["julials"] = function()
                     local lspconfig = require("lspconfig")
@@ -92,6 +110,7 @@ return {
                 ['<C-j>'] = cmp.mapping.scroll_docs(4),
             }),
             sources = cmp.config.sources({
+                    -- TODO
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
                 },
