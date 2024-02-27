@@ -14,8 +14,7 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        local cmp_lsp = require('cmp_nvim_lsp')
-
+        local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
             "force",
             {},
@@ -26,7 +25,7 @@ return {
         require("fidget").setup({})
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd" },
+            ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd", "fortls" },
             handlers = {
                 -- This handles all the LSP automatically
                 function(server_name)
@@ -58,7 +57,7 @@ return {
                         settings = {
                             pylsp = {
                                 plugins = {
-                                    pycodestyle = { enabled = true, maxLineLength = 120}, --, ignore = "E402" },
+                                    pycodestyle = { enabled = true, maxLineLength = 120 }, --, ignore = "E402" },
                                     pyls_isort = { enabled = false },
                                 },
 
@@ -67,10 +66,25 @@ return {
                     })
                 end,
 
+                -- fortls config for details see: https://fortls.fortran-lang.org/editor_integration.html
+                ["fortls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.fortls.setup({
+                        capabilities = capabilities,
+                        cmd = {
+                            "fortls",
+                            "--hover_signature",
+                            "--hover_language=fortran",
+                            "--use_signature_help"
+                        },
+                    })
+                end,
+
                 -- julials specific config (Still under testing not sure about the configuration)
                 ["julials"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.julials.setup({
+                        capabilities = capabilities,
                         -- For infos: https://discourse.julialang.org/t/neovim-languageserver-jl/37286/91?page=5
                         -- on_new_config = function(new_config, _)
                         --     local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/")
@@ -79,12 +93,30 @@ return {
                         -- end,
                         -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
                         root_dir = function(fname)
-                            local util = require 'lspconfig.util'
-                            return util.root_pattern 'Project.toml' (fname) or util.find_git_ancestor(fname) or
+                            local util = require "lspconfig.util"
+                            return util.root_pattern "Project.toml" (fname) or util.find_git_ancestor(fname) or
                                 util.path.dirname(fname)
                         end,
                         julia_env_path = { "/Users/tdinelli/.julia/environments/nvim-lspconfig" },
+                    })
+                end,
+
+                -- clangd config, see this: http://www.lazyvim.org/extras/lang/clangd
+                ["clangd"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.clangd.setup({
                         capabilities = capabilities,
+                        cmd = {
+                            "/Users/tdinelli/.local/share/nvim/mason/bin/clangd",
+                            "--background-index",
+                            -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
+                            -- to add more checks, create .clang-tidy file in the root directory
+                            -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+                            "--clang-tidy",
+                            "--header-insertion=iwyu",
+                            "--completion-style=detailed",
+                            "--function-arg-placeholders",
+                        },
                     })
                 end,
             },
@@ -100,14 +132,14 @@ return {
             mapping = cmp.mapping.preset.insert({
                 -- TODO Rethink these mappings
                 -- `Enter` key to confirm completion
-                ['<CR>'] = cmp.mapping.confirm({ select = false }),
+                ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
                 -- Ctrl+Space to trigger completion menu
-                ['<C-Space>'] = cmp.mapping.complete(),
+                ["<C-Space>"] = cmp.mapping.complete(),
 
                 -- Scroll up and down in the completion documentation
-                ['<C-k>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-j>'] = cmp.mapping.scroll_docs(4),
+                ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-j>"] = cmp.mapping.scroll_docs(4),
             }),
             sources = cmp.config.sources({
                     -- TODO
@@ -118,20 +150,20 @@ return {
                     { name = "buffer" },
                 }),
             -- This I am just trying what they do beacuse I dont actually know
-            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-            -- cmp.setup.cmdline({ '/', '?' }, {
+            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won"t work anymore).
+            -- cmp.setup.cmdline({ "/", "?" }, {
             --     mapping = cmp.mapping.preset.cmdline(),
             --     sources = {
-            --         { name = 'buffer' }
+            --         { name = "buffer" }
             --     }
             -- }),
-            -- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-            -- cmp.setup.cmdline(':', {
+            -- -- Use cmdline & path source for ":" (if you enabled `native_menu`, this won"t work anymore).
+            -- cmp.setup.cmdline(":", {
             --     mapping = cmp.mapping.preset.cmdline(),
             --     sources = cmp.config.sources({
-            --         { name = 'path' }
+            --         { name = "path" }
             --     }, {
-            --             { name = 'cmdline' }
+            --             { name = "cmdline" }
             --         })
             -- })
         })

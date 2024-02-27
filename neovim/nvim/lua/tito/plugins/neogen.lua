@@ -4,9 +4,13 @@ return {
     event = { "VeryLazy" },
     config = function()
         require("neogen").setup({
+            enabled = true,
             languages = {
-                ["cpp.doxygen"] = require("neogen.configurations.cpp"),
-                lua = { template = { annotation_convention = "emmylua" } }
+                -- ["python.numpydoc"] = require("neogen.configurations.python"),
+                -- ["cpp.doxygen"] = require("neogen.configurations.cpp"),
+                lua = { template = { annotation_convention = "emmylua" } },
+                python = { template = { annotation_convention = "numpydoc" } },
+                cpp = { template = { annotation_convention = "doxygen" } }
             },
             -- remapping
             vim.keymap.set("n", "<leader>cc", ":lua require('neogen').generate({ type = 'class' })<CR>",
@@ -15,6 +19,8 @@ return {
                 { desc = "[C]omment [F]unction" }),
             vim.keymap.set("n", "<leader>ct", ":lua require('neogen').generate({ type = 'type' })<CR>",
                 { desc = "[C]omment [T]ype" }),
+            vim.keymap.set("n", "<leader>fi", ":lua require('neogen').generate({ type = 'file' })<CR>",
+                { desc = "Comment [F][I]le" }),
         })
     end,
 

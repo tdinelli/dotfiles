@@ -55,3 +55,7 @@ vim.keymap.set("n", "<leader>rp", "<Cmd>term python %<CR>", { desc = "[R]un [P]y
 
 -- Comment doxygen inline for c/c++
 vim.keymap.set("n", "<leader>cl", [[:s/$/\ \/\/\!\<\ /g<Left><Left>]], { desc = "[C]omment [L]ine" })
+
+-- Underline cursor line
+vim.keymap.set("n", "<leader>nl", [[:hi clear CursorLine]], { desc = "TODO" })
+vim.keymap.set("n", "<leader>tl", [[:hi CursorLine guibg=NONE ctermbg=NONE gui=underline cterm=underline]], { desc = "TODO" })

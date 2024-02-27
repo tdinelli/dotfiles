@@ -4,7 +4,8 @@ return {
     config = function()
         require("lualine").setup({
             options = {
-                theme = "catppuccin",
+                -- theme = "onehalf-lush",
+                theme = "github_light_tritanopia",
                 icons_enabled = true,
                 component_separators = { left = "|", right = "|" },
                 section_separators = { left = "", right = "" },

@@ -9,21 +9,7 @@ return {
         config = function()
             local configs = require("nvim-treesitter.configs")
             configs.setup({
-                ensure_installed = {
-                    "latex",
-                    "cpp",
-                    "c",
-                    "python",
-                    "julia",
-                    "markdown",
-                    "markdown_inline",
-                    "bash",
-                    "lua",
-                    "vim",
-                    "vimdoc",
-                    "gitignore",
-                    "fortran",
-                },
+                ensure_installed = { "latex", "cpp", "c", "python", "julia", "markdown", "markdown_inline", "bash", "lua", "vim", "vimdoc", "gitignore", "fortran", "make"},
                 sync_install = false,
                 auto_install = false,
                 highlight = { enable = true, additional_vim_regex_highlighting = false, },
