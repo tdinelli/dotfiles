@@ -6,7 +6,15 @@ return {
     config = function()
         local harpoon = require("harpoon")
 
-        harpoon:setup()
+        harpoon:setup({
+            settings = {
+                save_on_toggle = true,
+                sync_on_ui_close = false,
+                key = function()
+                    return vim.loop.cwd()
+                end,
+            },
+        })
 
         -- remapping
         vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end,
