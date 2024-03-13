@@ -6,8 +6,9 @@ Always **WIP**, and not always updated. Next steps:
 - Add *.ssh*, *.git*.
 - Comment better everything.
 
-## Something to check at least to me.
+## Something worth to check at least to me.
 
+- https://github.com/nvim-lua/kickstart.nvim
 - https://github.com/tjdevries/config_manager
 - https://github.com/ggerganov/ggterm
 - https://github.com/geirev/systemfiles/blob/master
