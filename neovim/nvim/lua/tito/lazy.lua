@@ -14,8 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 -- require("lazy").setup({{import = "tito.plugins"}, {import = "tito.plugins.lsp"}}, {
 require("lazy").setup({{import = "tito.plugins"}}, {
     install = {
-        -- colorscheme = { "catppuccin" },
-        colorscheme = { "newpaper" },
+        colorscheme = { "github-nvim-theme" },
     },
     checker = {
         enabled = true,

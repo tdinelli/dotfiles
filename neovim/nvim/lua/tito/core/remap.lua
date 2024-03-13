@@ -46,6 +46,9 @@ vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "Move to [T]ab number
 vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "Move to [T]ab number [3]" })
 vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "Move to [T]ab number [4]" })
 
+-- Set highlight on search, but clear on pressing <Esc> in normal mode (Taken from https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua)
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
 -- ================================================================= --
 -- Down below I have my custom commands some of them are broken :)   --
 -- ================================================================= --
@@ -57,5 +60,5 @@ vim.keymap.set("n", "<leader>rp", "<Cmd>term python %<CR>", { desc = "[R]un [P]y
 vim.keymap.set("n", "<leader>cl", [[:s/$/\ \/\/\!\<\ /g<Left><Left>]], { desc = "[C]omment [L]ine" })
 
 -- Underline cursor line
-vim.keymap.set("n", "<leader>nl", [[:hi clear CursorLine]], { desc = "TODO" })
-vim.keymap.set("n", "<leader>tl", [[:hi CursorLine guibg=NONE ctermbg=NONE gui=underline cterm=underline]], { desc = "TODO" })
+vim.keymap.set("n", "<leader>nl", [[:hi clear CursorLine<CR>]], { desc = "TODO" })
+vim.keymap.set("n", "<leader>tl", [[:hi CursorLine guibg=NONE ctermbg=NONE gui=underline cterm=underline<CR>]], { desc = "TODO" })
