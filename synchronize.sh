@@ -8,3 +8,4 @@ stow --no-folding --dotfiles --target="$MACOSX_HOME" --dir="$MACOSX_DOTFILES_DIR
 stow --no-folding --dotfiles --target="$MACOSX_HOME" --dir="$MACOSX_DOTFILES_DIR" tmux
 stow --no-folding --target="$MACOSX_CONFIG_HOME" --dir="$MACOSX_DOTFILES_DIR" neovim
 stow --no-folding --target="$MACOSX_CONFIG_HOME" --dir="$MACOSX_DOTFILES_DIR" alacritty
+stow --no-folding --target="$MACOSX_SSH_HOME" --dir="$MACOSX_DOTFILES_DIR" ssh
