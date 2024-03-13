@@ -12,7 +12,9 @@ return {
         "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
     },
+
     event = { "BufReadPre", "BufNewFile" },
+
     config = function()
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -57,7 +59,7 @@ return {
                         settings = {
                             pylsp = {
                                 plugins = {
-                                    pycodestyle = { enabled = true, maxLineLength = 120 }, --, ignore = "E402" },
+                                    pycodestyle = { enabled = true, maxLineLength = 89},
                                     pyls_isort = { enabled = false },
                                 },
 
@@ -97,7 +99,7 @@ return {
                             return util.root_pattern "Project.toml" (fname) or util.find_git_ancestor(fname) or
                                 util.path.dirname(fname)
                         end,
-                        julia_env_path = { "/Users/tdinelli/.julia/environments/nvim-lspconfig" },
+                        julia_env_path = { "$HOME/.julia/environments/nvim-lspconfig" },
                     })
                 end,
 
@@ -107,11 +109,9 @@ return {
                     lspconfig.clangd.setup({
                         capabilities = capabilities,
                         cmd = {
+                            -- "$HOME/.local/share/nvim/mason/bin/clangd",
                             "/Users/tdinelli/.local/share/nvim/mason/bin/clangd",
                             "--background-index",
-                            -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
-                            -- to add more checks, create .clang-tidy file in the root directory
-                            -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
                             "--clang-tidy",
                             "--header-insertion=iwyu",
                             "--completion-style=detailed",
@@ -123,16 +123,23 @@ return {
         })
 
         local cmp = require("cmp")
+
+        local luasnip = require("luasnip")
+        luasnip.config.setup({})
+
         cmp.setup({
             snippet = {
                 expand = function(args)
-                    require("luasnip").lsp_expand(args.body)
+                    luasnip.lsp_expand(args.body)
                 end,
             },
+            completion = { completeopt = 'menu,menuone,noinsert' },
             mapping = cmp.mapping.preset.insert({
                 -- TODO Rethink these mappings
                 -- `Enter` key to confirm completion
-                ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                -- ["<CR>"] = cmp.mapping.confirm({ select = false }),
+                -- TAB key to confirm completion
+                ["<tab>"] = cmp.mapping.confirm({ select = false }),
 
                 -- Ctrl+Space to trigger completion menu
                 ["<C-Space>"] = cmp.mapping.complete(),
@@ -142,30 +149,13 @@ return {
                 ["<C-j>"] = cmp.mapping.scroll_docs(4),
             }),
             sources = cmp.config.sources({
-                    -- TODO
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
+                    { name = "path" },
                 },
                 {
                     { name = "buffer" },
                 }),
-            -- This I am just trying what they do beacuse I dont actually know
-            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won"t work anymore).
-            -- cmp.setup.cmdline({ "/", "?" }, {
-            --     mapping = cmp.mapping.preset.cmdline(),
-            --     sources = {
-            --         { name = "buffer" }
-            --     }
-            -- }),
-            -- -- Use cmdline & path source for ":" (if you enabled `native_menu`, this won"t work anymore).
-            -- cmp.setup.cmdline(":", {
-            --     mapping = cmp.mapping.preset.cmdline(),
-            --     sources = cmp.config.sources({
-            --         { name = "path" }
-            --     }, {
-            --             { name = "cmdline" }
-            --         })
-            -- })
         })
 
         vim.diagnostic.config({
