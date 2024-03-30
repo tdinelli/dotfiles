@@ -1,15 +1,14 @@
 return {
     "Shatur/neovim-tasks",
-    Event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = { "nvim-lua/plenary.nvim", },
-
     config = function()
         local Path = require("plenary.path")
         require("tasks").setup({
             default_params = {
                 cmake = {
                     cmd = "cmake",
-                    build_dir = tostring(Path:new("{cwd}", "build", "{os}-{build_type}")),
+                    build_dir = tostring(Path:new("{cwd}", "build")),
                     build_type = "Debug",
                     args = {
                         configure = { "-D", "CMAKE_EXPORT_COMPILE_COMMANDS=1" },
@@ -20,7 +19,7 @@ return {
             params_file = ".cmake.neovim.json",
             quickfix = {
                 pos = "botright",
-                height = 12,
+                height = 8,
             },
         })
 

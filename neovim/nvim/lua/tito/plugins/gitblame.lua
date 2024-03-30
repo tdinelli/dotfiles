@@ -1,7 +1,7 @@
 
 return {
     "f-person/git-blame.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
         require("gitblame").setup {
             enabled = false,

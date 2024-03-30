@@ -59,7 +59,7 @@ return {
                         settings = {
                             pylsp = {
                                 plugins = {
-                                    pycodestyle = { enabled = true, maxLineLength = 89},
+                                    pycodestyle = { enabled = true, maxLineLength = 89 },
                                     pyls_isort = { enabled = false },
                                 },
 
@@ -76,6 +76,7 @@ return {
                         cmd = {
                             "fortls",
                             "--hover_signature",
+                            "--lowercase_intrinsics",
                             "--hover_language=fortran",
                             "--use_signature_help"
                         },
@@ -123,10 +124,8 @@ return {
         })
 
         local cmp = require("cmp")
-
         local luasnip = require("luasnip")
         luasnip.config.setup({})
-
         cmp.setup({
             snippet = {
                 expand = function(args)
@@ -174,6 +173,7 @@ return {
         -- those are the default ones in the future maybe I will move them into init.lua
         -- considering maybe I will add my own autogroups in the future
         -- TODO: add comments for the remapping
+        -- TODO: add the following vim.keymap.set("n", "<leader>ws", require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
             callback = function(ev)
@@ -193,9 +193,45 @@ return {
                 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                 vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-                vim.keymap.set("n", "<leader>f", function()
-                    vim.lsp.buf.format { async = true }
-                end, opts)
+
+                --- AUTOFORMATTING
+                -- 1. Old style
+                -- vim.keymap.set("n", "<leader>f", function()
+                --     vim.lsp.buf.format { async = true }
+                -- end, opts)
+                -- 2. New way
+                -- Taken from https://imbmax.com/code-formatting-in-neovim
+                -- This way you can define a set of specific filetypes
+                -- local table_has = function(tbl, val)
+                --     for _, v in ipairs(tbl) do
+                --         if v == val then
+                --             return true
+                --         end
+                --     end
+                --     return false
+                -- end
+                -- local nothandled_filetypes = { 'fortran' }
+                vim.keymap.set('n', '<leader>f', function()
+                    if vim.lsp.buf.server_ready() then
+                        local ft = vim.bo.filetype;
+                        if ft == 'fortran' then
+                            vim.api.nvim_buf_set_option(0, 'formatprg', 'findent')
+                            local pline = vim.fn.line('.')
+                            local pcol = vim.fn.col('.')
+                            vim.cmd("normal! gg=G")
+                            vim.cmd("normal! " .. pline .. "G")
+                            vim.cmd("normal! 0")
+
+                            for i = 0, pcol, 1
+                            do
+                                vim.cmd("normal! l")
+                            end
+                            vim.cmd("normal! zz")
+                        else
+                            vim.lsp.buf.format { async = true }
+                        end
+                    end
+                end) -- End keymap formatting
             end,
         })
     end

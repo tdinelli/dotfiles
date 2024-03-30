@@ -1,6 +1,6 @@
 -- This set the cursor always to be fat as in vim
 -- vim.opt.guicursor=''
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 
 vim.opt.termguicolors = true
 vim.opt.guifont = "font-hack-nerd-font"
@@ -12,9 +12,11 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.breakindent = true
 
 vim.opt.wrap = false
 
+vim.opt.undofile = false
 vim.opt.swapfile = false
 vim.opt.backup = false
 

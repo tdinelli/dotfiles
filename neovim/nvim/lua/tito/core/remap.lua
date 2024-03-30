@@ -1,6 +1,9 @@
 -- Set <leader> key to space
 vim.g.mapleader = " "
 
+-- This is needed to fix filetype detection for LaTeX
+vim.g.tex_flavor = "latex"
+
 -- netrw options
 vim.g.netrw_liststyle = 0
 vim.g.netrw_winsize = 30
@@ -46,6 +49,12 @@ vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "Move to [T]ab number
 vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "Move to [T]ab number [3]" })
 vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "Move to [T]ab number [4]" })
 
+-- Maximize/Minimize splits
+vim.keymap.set("n", "<C-w>M", [[<C-w>|]], { desc = "Maximize vertical split" })
+vim.keymap.set("n", "<C-w>H", [[<C-w>_]], { desc = "Maximize Horizontal split" })
+vim.keymap.set("n", "<C-w>d", [[<C-w>T]], { desc = "Detach split, move the split in a separate tab" })
+vim.keymap.set("n", "<C-w>m", [[<C-w>=]], { desc = "Resize split" })
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode (Taken from https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua)
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -61,4 +70,5 @@ vim.keymap.set("n", "<leader>cl", [[:s/$/\ \/\/\!\<\ /g<Left><Left>]], { desc = 
 
 -- Underline cursor line
 vim.keymap.set("n", "<leader>nl", [[:hi clear CursorLine<CR>]], { desc = "TODO" })
-vim.keymap.set("n", "<leader>tl", [[:hi CursorLine guibg=NONE ctermbg=NONE gui=underline cterm=underline<CR>]], { desc = "TODO" })
+vim.keymap.set("n", "<leader>tl", [[:hi CursorLine guibg=NONE ctermbg=NONE gui=underline cterm=underline<CR>]],
+    { desc = "TODO" })
