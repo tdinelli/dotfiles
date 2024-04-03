@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({{import = "tito.plugins"}}, {
     install = {
-        colorscheme = { "github-nvim-theme" },
+        colorscheme = { "alabaster" },
     },
     checker = {
         enabled = true,
