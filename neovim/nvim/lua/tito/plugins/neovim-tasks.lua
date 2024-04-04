@@ -1,6 +1,12 @@
 return {
     "Shatur/neovim-tasks",
-    event = { "BufReadPre", "BufNewFile" },
+    -- event = "VeryLazy",
+    keys = {
+        "<leader>bu",
+        "<leader>co",
+        "<leader>pu",
+        "<leader>mo",
+    },
     dependencies = { "nvim-lua/plenary.nvim", },
     config = function()
         local Path = require("plenary.path")
