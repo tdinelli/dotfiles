@@ -1,0 +1,66 @@
+Host bovisa
+    User tdinelli
+    HostName nodevg-0-4
+    ProxyJump tdinelli@10.75.224.1
+    LogLevel QUIET
+    # ForwardX11 yes
+    # ForwardAgent yes  
+    # ForwardX11Trusted yes
+
+Host bovisazilla
+    User tdinelli
+    HostName nodevg-0-4
+    ProxyJump tdinelli@131.175.56.199
+    LocalForward 2200 nodevg-0-4:22
+
+Host smokebovisa
+    User tdinelli
+    HostName nodevg-0-4
+    ProxyJump tdinelli@131.175.66.162,tdinelli@131.175.56.199
+    ForwardX11 no
+    LogLevel QUIET
+
+# HostNameweb opensmoke.chem.polimi.it
+# HostNameinterno 10.78.34.164
+Host opensmoke
+    HostName 131.175.66.162 
+    Port 22
+    User tdinelli
+    ForwardX11 yes
+
+# HostNameweb devopensmoke.chem.polimi.it 
+# HostNameinterno 10.78.34.123
+Host devopensmoke
+    HostName 10.78.34.123
+    Port 22
+    User tdinelli
+    ForwardX11 yes
+
+Host clusterdcmc
+    HostName masternode.chem.polimi.it
+    User eramalli
+    IdentityFile ~/.ssh/clusterDCMC/eramalli@cluster
+
+# HostName Pc-czyzg92.chem.polimi.it
+Host ufficio
+    HostName 10.78.34.181
+    User tdinelli@chem.polimi.it
+    IdentityFile ~/.ssh/fisso/tdinelli-linux-key@Pc-czyzg92
+    ForwardX11 yes
+    ForwardAgent yes  
+    ForwardX11Trusted yes
+    Port 22
+
+Host cavallotti
+    HostName nodevg-0-4
+    User tdinelli
+    ProxyJump ospite@10.78.32.179,tdinelli@131.175.56.199
+    ForwardX11 yes
+    LogLevel QUIET
+
+Host bovisaold
+    HostName nodevg-0-4
+    User tdinelli
+    ProxyJump tdinelli@chem.polimi.it@10.78.34.181,tdinelli@131.175.56.199
+    IdentityFile ~/.ssh/fisso/tdinelli-linux-key@Pc-czyzg92
+    LogLevel QUIET
