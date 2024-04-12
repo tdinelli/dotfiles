@@ -82,5 +82,11 @@ return {
         vim.keymap.set('n', '<leader>sn', function()
             builtin.find_files { cwd = vim.fn.stdpath 'config' }
         end, { desc = '[S]earch [N]eovim files' })
+
+        -- Shortcut for searching whithin my GitHub folder certain specific repo I
+        -- usually work on
+        vim.keymap.set('n', '<leader>so', function()
+            builtin.find_files { cwd = '$HOME/Documents/GitHub/OpenSMOKEpp/' }
+        end, { desc = '[S]earch [O]penSMOKE files' })
     end,
 }

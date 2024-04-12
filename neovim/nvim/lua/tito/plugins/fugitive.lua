@@ -1,6 +1,5 @@
 return {
     "tpope/vim-fugitive",
-    -- event = "VeryLazy",
     keys = { "<leader>gs"},
     config = function()
         -- remapping

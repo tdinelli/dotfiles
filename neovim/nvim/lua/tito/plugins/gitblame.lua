@@ -1,7 +1,7 @@
 
 return {
     "f-person/git-blame.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    keys = { "<leader>gb"},
     config = function()
         require("gitblame").setup {
             enabled = false,

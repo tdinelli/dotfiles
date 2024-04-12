@@ -30,8 +30,24 @@ return {
             ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd", "fortls" },
             handlers = {
                 -- This handles all the LSP automatically
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
+                -- function(server_name)
+                --     require("lspconfig")[server_name].setup({
+                --         capabilities = capabilities,
+                --     })
+                -- end,
+
+                -- texlab
+                ["texlab"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.texlab.setup({
+                        capabilities = capabilities,
+                    })
+                end,
+
+                -- cmake-language-server
+                ["cmake"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.cmake.setup({
                         capabilities = capabilities,
                     })
                 end,
