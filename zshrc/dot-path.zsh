@@ -7,3 +7,6 @@ export PATH="/Library/TeX/texbin/:$PATH"
 
 # Sphinx
 export PATH="/opt/homebrew/opt/sphinx-doc/bclang-17.0.3:$PATH"
+
+# Libtools
+export PATH="/opt/homebrew/opt/libtool/libexec/gnubin:$PATH"
