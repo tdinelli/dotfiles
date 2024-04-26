@@ -32,7 +32,7 @@ switch_compiler() {
 
         export Enzyme_DIR=/opt/homebrew/Cellar/enzyme/0.0.103/lib/cmake/Enzyme/
         export Boost_ROOT="$NUMERICAL_LIBRARIES/boost/boost-1.83.0-clang-17.0.1"
-        # export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3"
+        export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3"
     else
         echo "Usage: switch_compiler [gnu|llvm]"
         return 1
@@ -45,7 +45,6 @@ switch_compiler() {
     export CEQ_ROOT="$NUMERICAL_LIBRARIES/ceq/lib/linux/"
     return 0
 }
-
 # By default llvm is the compiler
 switch_compiler llvm
 
@@ -65,8 +64,8 @@ alias set-opensmoke-0.20.0="export PATH=$HOME/.tools/opensmoke/opensmoke-0.20.0/
 alias set-zrk="export DYLD_LIBRARY_PATH=$HOME/.tools/zero-rk/lib:$DYLD_LIBRARY_PATH;export PATH=$HOME/.tools/zero-rk/bin:$PATH"
 
 
-# export DYLD_LIBRARY_PATH=/opt/homebrew/opt/gfortran/lib/gcc/13:$DYLD_LIBRARY_PATH
-# export DYLD_LIBRARY_PATH=$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
-# export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/dakota/dakota-6.19.0-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=/opt/homebrew/opt/gfortran/lib/gcc/13:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/dakota/dakota-6.19.0-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
 alias set-optismoke="export PATH=$HOME/Documents/GitHub/OptiSMOKE_toolbox/build:$PATH"
-alias set-devsmoke="export PATH=$HOME/Documents/GitHub/OpenSMOKEppSolvers/build:$PATH"
+alias set-devsmoke="export PATH=$HOME/.tools/opensmoke/devsmoke/bin:$PATH"
