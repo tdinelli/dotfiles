@@ -58,9 +58,9 @@ vim.keymap.set("n", "<C-w>m", [[<C-w>=]], { desc = "Resize split" })
 -- Set highlight on search, but clear on pressing <Esc> in normal mode (Taken from https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua)
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
--- ================================================================= --
--- Down below I have my custom commands some of them are broken :)   --
--- ================================================================= --
+-- =================================================================
+-- Down below I have my custom commands some of them are broken :)
+-- =================================================================
 
 -- Run Python file
 vim.keymap.set("n", "<leader>rp", "<Cmd>term python %<CR>", { desc = "[R]un [P]ython", noremap = true, silent = true })

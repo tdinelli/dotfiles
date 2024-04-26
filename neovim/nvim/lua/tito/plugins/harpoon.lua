@@ -17,7 +17,7 @@ return {
         })
 
         -- remapping
-        vim.keymap.set("n", "<leader>ha", function() harpoon:list():append() end,
+        vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end,
             { desc = "Add file to harpoon database" })
         vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
             { desc = "Toggle quick menu for harpoon" })

@@ -67,22 +67,31 @@ return {
                     })
                 end,
 
-                -- pylsp specific config
-                ["pylsp"] = function()
+                -- pyright specific config
+                ["pyright"] = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.pylsp.setup({
+                    lspconfig.pyright.setup({
                         capabilities = capabilities,
-                        settings = {
-                            pylsp = {
-                                plugins = {
-                                    pycodestyle = { enabled = true, maxLineLength = 89 },
-                                    pyls_isort = { enabled = false },
-                                },
-
-                            }
-                        }
                     })
                 end,
+                -- Since pyright requires npm maybe you don't have it installed so you
+                -- can switch to pylsp
+                -- pylsp specific config
+                -- ["pylsp"] = function()
+                --     local lspconfig = require("lspconfig")
+                --     lspconfig.pylsp.setup({
+                --         capabilities = capabilities,
+                --         settings = {
+                --             pylsp = {
+                --                 plugins = {
+                --                     pycodestyle = { enabled = true, maxLineLength = 89 },
+                --                     pyls_isort = { enabled = false },
+                --                 },
+                --
+                --             }
+                --         }
+                --     })
+                -- end,
 
                 -- fortls config for details see: https://fortls.fortran-lang.org/editor_integration.html
                 ["fortls"] = function()
@@ -125,15 +134,15 @@ return {
                     local lspconfig = require("lspconfig")
                     lspconfig.clangd.setup({
                         capabilities = capabilities,
-                        cmd = {
-                            -- "$HOME/.local/share/nvim/mason/bin/clangd",
-                            "/Users/tdinelli/.local/share/nvim/mason/bin/clangd",
-                            "--background-index",
-                            "--clang-tidy",
-                            "--header-insertion=iwyu",
-                            "--completion-style=detailed",
-                            "--function-arg-placeholders",
-                        },
+                        -- cmd = {
+                        --     -- "$HOME/.local/share/nvim/mason/bin/clangd",
+                        --     "/Users/tdinelli/.local/share/nvim/mason/bin/clangd",
+                        --     "--background-index",
+                        --     "--clang-tidy",
+                        --     "--header-insertion=iwyu",
+                        --     "--completion-style=detailed",
+                        --     "--function-arg-placeholders",
+                        -- },
                     })
                 end,
             },
@@ -209,45 +218,6 @@ return {
                 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
                 vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-
-                --- AUTOFORMATTING
-                -- 1. Old style
-                -- vim.keymap.set("n", "<leader>f", function()
-                --     vim.lsp.buf.format { async = true }
-                -- end, opts)
-                -- 2. New way
-                -- Taken from https://imbmax.com/code-formatting-in-neovim
-                -- This way you can define a set of specific filetypes
-                -- local table_has = function(tbl, val)
-                --     for _, v in ipairs(tbl) do
-                --         if v == val then
-                --             return true
-                --         end
-                --     end
-                --     return false
-                -- end
-                -- local nothandled_filetypes = { 'fortran' }
-                vim.keymap.set('n', '<leader>f', function()
-                    if vim.lsp.buf.server_ready() then
-                        local ft = vim.bo.filetype;
-                        if ft == 'fortran' then
-                            vim.api.nvim_buf_set_option(0, 'formatprg', 'findent')
-                            local pline = vim.fn.line('.')
-                            local pcol = vim.fn.col('.')
-                            vim.cmd("normal! gg=G")
-                            vim.cmd("normal! " .. pline .. "G")
-                            vim.cmd("normal! 0")
-
-                            for i = 0, pcol, 1
-                            do
-                                vim.cmd("normal! l")
-                            end
-                            vim.cmd("normal! zz")
-                        else
-                            vim.lsp.buf.format { async = true }
-                        end
-                    end
-                end) -- End keymap formatting
             end,
         })
     end
