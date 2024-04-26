@@ -1,3 +1,7 @@
+import = [
+    "/Users/tdinelli/.config/alacritty/alabaster.toml"
+]
+
 [bell]
 animation = "EaseOutExpo"
 color = "0xffffff"
@@ -7,9 +11,9 @@ duration = 0
 cursor = "#fb1d1d"
 text = "#ffffff"
 
-[colors.primary]
-background = "0xffffff"
-foreground = "0x000000"
+# [colors.primary]
+# background = "0xffffff"
+# foreground = "0x000000"
 
 [cursor]
 style = "Block"
