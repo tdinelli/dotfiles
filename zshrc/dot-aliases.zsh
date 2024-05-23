@@ -1,4 +1,4 @@
-# --- commands
+# commands
 alias ll="ls -lh"
 alias la="ls -altrh"
 alias vim="nvim"
@@ -30,7 +30,7 @@ switch_compiler() {
         # One day will be flang
         # export FC="/opt/homebrew/opt/llvm/bin/flang"
 
-        export Enzyme_DIR=/opt/homebrew/Cellar/enzyme/0.0.103/lib/cmake/Enzyme/
+        export Enzyme_DIR="/opt/homebrew/Cellar/enzyme/0.0.103/lib/cmake/Enzyme/"
         export Boost_ROOT="$NUMERICAL_LIBRARIES/boost/boost-1.83.0-clang-17.0.1"
         export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3"
     else
@@ -68,4 +68,7 @@ export DYLD_LIBRARY_PATH=/opt/homebrew/opt/gfortran/lib/gcc/13:$DYLD_LIBRARY_PAT
 export DYLD_LIBRARY_PATH=$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/dakota/dakota-6.19.0-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
 alias set-optismoke="export PATH=$HOME/Documents/GitHub/OptiSMOKE_toolbox/build:$PATH"
-alias set-devsmoke="export PATH=$HOME/.tools/opensmoke/devsmoke/bin:$PATH"
+alias set-devsmoke="export PATH=$HOME/.tools/opensmoke/devsmoke/bin:$PATH;set-boost-1.83.0-gcc"
+
+# Basilisk
+alias set-basilisk="export BASILISK=/Users/tdinelli/Documents/GitHub/basilisk/src; export PATH=$PATH:$BASILISK"
