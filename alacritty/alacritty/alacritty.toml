@@ -11,10 +11,6 @@ duration = 0
 cursor = "#fb1d1d"
 text = "#ffffff"
 
-# [colors.primary]
-# background = "0xffffff"
-# foreground = "0x000000"
-
 [cursor]
 style = "Block"
 unfocused_hollow = true
@@ -39,6 +35,7 @@ program = "/bin/zsh"
 [window]
 decorations = "full"
 startup_mode = "Windowed"
+option_as_alt = "OnlyLeft"
 
 [window.padding]
 x = 6
