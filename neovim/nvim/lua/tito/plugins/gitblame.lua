@@ -1,7 +1,6 @@
-
 return {
     "f-person/git-blame.nvim",
-    keys = { "<leader>gb"},
+    keys = { "<leader>gb" },
     config = function()
         require("gitblame").setup {
             enabled = false,

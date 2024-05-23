@@ -36,8 +36,9 @@ vim.opt.wildmode = "longest,list,full"
 vim.opt.wildmenu = true
 
 -- Folding method
-vim.opt.foldcolumn = "0"
+vim.opt.foldcolumn = "0" -- 1 is nice
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 100
 vim.opt.foldlevelstart = 99
 vim.opt.foldenable = true
-vim.opt.foldmethod="expr"

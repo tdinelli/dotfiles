@@ -1,5 +1,3 @@
--- Set <leader> key to space
-vim.g.mapleader = " "
 
 -- This is needed to fix filetype detection for LaTeX
 vim.g.tex_flavor = "latex"
@@ -49,11 +47,15 @@ vim.keymap.set("n", "t2", "<cmd> tabnext 2 <CR>", { desc = "Move to [T]ab number
 vim.keymap.set("n", "t3", "<cmd> tabnext 3 <CR>", { desc = "Move to [T]ab number [3]" })
 vim.keymap.set("n", "t4", "<cmd> tabnext 4 <CR>", { desc = "Move to [T]ab number [4]" })
 
--- Maximize/Minimize splits
-vim.keymap.set("n", "<C-w>M", [[<C-w>|]], { desc = "Maximize vertical split" })
-vim.keymap.set("n", "<C-w>H", [[<C-w>_]], { desc = "Maximize Horizontal split" })
+-- Handle splits
+vim.keymap.set("n", "<C-w>m", [[<C-w>|]], { desc = "[M]aximize vertical split" })
+vim.keymap.set("n", "<C-w>h", [[<C-w>_]], { desc = "Maximize [H]orizontal split" })
 vim.keymap.set("n", "<C-w>d", [[<C-w>T]], { desc = "Detach split, move the split in a separate tab" })
-vim.keymap.set("n", "<C-w>m", [[<C-w>=]], { desc = "Resize split" })
+vim.keymap.set("n", "<C-w>e", [[<C-w>=]], { desc = "R[e]size split" })
+vim.keymap.set("n", "<M-,>", [[<c-w>5<]], { desc = "" })
+vim.keymap.set("n", "<M-.>", [[<c-w>5>]], { desc = "" })
+vim.keymap.set("n", "<M-t>", [[<C-w>+]], { desc = "" })
+vim.keymap.set("n", "<M-s>", [[<C-w>-]], { desc = "" })
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode (Taken from https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua)
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")

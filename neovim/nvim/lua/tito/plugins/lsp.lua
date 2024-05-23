@@ -17,6 +17,12 @@ return {
 
     config = function()
         local cmp_lsp = require("cmp_nvim_lsp")
+
+        -- vim.lsp.protocol.make_client_capabilities().textDocument.foldingRange = {
+        --     dynamicRegistration = false,
+        --     lineFoldingOnly = true
+        -- }
+
         local capabilities = vim.tbl_deep_extend(
             "force",
             {},

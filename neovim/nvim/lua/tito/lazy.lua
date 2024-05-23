@@ -11,14 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({{import = "tito.plugins"}}, {
-    install = {
-        colorscheme = { "alabaster" },
-    },
-    checker = {
-        enabled = true,
-        notify = false,
-    },
+require("lazy").setup({import = "tito.plugins"}, {
     change_detection = {
         notify = false,
     },

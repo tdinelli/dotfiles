@@ -1,7 +1,7 @@
 return {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
-    event = { "BufReadPre", "BufNewFile" },
+    event = "VeryLazy",
 
     config = function()
         local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -34,7 +34,7 @@ return {
 
         require("ufo").setup({
             provider_selector = function(bufnr, filetype, buftype)
-                return { "treesitter", "indent" }
+                return { 'treesitter', 'indent' }
             end,
             fold_virt_text_handler = handler,
         })
