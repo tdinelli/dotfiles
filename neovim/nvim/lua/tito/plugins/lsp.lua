@@ -17,12 +17,6 @@ return {
 
     config = function()
         local cmp_lsp = require("cmp_nvim_lsp")
-
-        -- vim.lsp.protocol.make_client_capabilities().textDocument.foldingRange = {
-        --     dynamicRegistration = false,
-        --     lineFoldingOnly = true
-        -- }
-
         local capabilities = vim.tbl_deep_extend(
             "force",
             {},
@@ -33,20 +27,18 @@ return {
         require("fidget").setup({})
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "pylsp", "cmake", "julials", "clangd", "fortls" },
+            ensure_installed = { "lua_ls", "cmake", "julials", "clangd", "fortls" },
             handlers = {
-                -- This handles all the LSP automatically
-                -- function(server_name)
-                --     require("lspconfig")[server_name].setup({
-                --         capabilities = capabilities,
-                --     })
-                -- end,
-
                 -- texlab
                 ["texlab"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.texlab.setup({
                         capabilities = capabilities,
+                        settings = {
+                            latex = {
+                                build = { auxDirectory = "build", logDirectory = "build", pdfDirectory = "build" },
+                            },
+                        },
                     })
                 end,
 
@@ -80,24 +72,6 @@ return {
                         capabilities = capabilities,
                     })
                 end,
-                -- Since pyright requires npm maybe you don't have it installed so you
-                -- can switch to pylsp
-                -- pylsp specific config
-                -- ["pylsp"] = function()
-                --     local lspconfig = require("lspconfig")
-                --     lspconfig.pylsp.setup({
-                --         capabilities = capabilities,
-                --         settings = {
-                --             pylsp = {
-                --                 plugins = {
-                --                     pycodestyle = { enabled = true, maxLineLength = 89 },
-                --                     pyls_isort = { enabled = false },
-                --                 },
-                --
-                --             }
-                --         }
-                --     })
-                -- end,
 
                 -- fortls config for details see: https://fortls.fortran-lang.org/editor_integration.html
                 ["fortls"] = function()
@@ -114,24 +88,25 @@ return {
                     })
                 end,
 
-                -- julials specific config (Still under testing not sure about the configuration)
+                -- Julia lsp is very broken ( :') )
                 ["julials"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.julials.setup({
-                        capabilities = capabilities,
-                        -- For infos: https://discourse.julialang.org/t/neovim-languageserver-jl/37286/91?page=5
-                        -- on_new_config = function(new_config, _)
-                        --     local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/")
-                        --     lspconfig.util.path.is_file(julia)
-                        --     new_config.cmd[1] = julia
-                        -- end,
                         -- This just adds dirname(fname) as a fallback (see nvim-lspconfig#1768).
                         root_dir = function(fname)
-                            local util = require "lspconfig.util"
-                            return util.root_pattern "Project.toml" (fname) or util.find_git_ancestor(fname) or
+                            local util = require 'lspconfig.util'
+                            return util.root_pattern 'Project.toml' (fname) or util.find_git_ancestor(fname) or
                                 util.path.dirname(fname)
                         end,
-                        julia_env_path = { "$HOME/.julia/environments/nvim-lspconfig" },
+                        settings = {
+                            julia = {
+                                lint = {
+                                    missingrefs = "none", -- Disabilita l'hint per variabili assegnate ma non usate
+                                    iter = false,         -- Puoi disabilitare altri hint specifici qui
+                                },
+                            },
+                        },
+                        capabilities = capabilities,
                     })
                 end,
 
