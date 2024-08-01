@@ -1,0 +1,24 @@
+# --- mpi stuff
+export PATH=/home/chimica2/tdinelli/Tools/DoctorSMOKE/DoctorSMOKE-nodoc-OF9/bin:$PATH
+export FOAM_INST_DIR=/software/OpenFOAM; . $FOAM_INST_DIR/OpenFOAM-9/etc/bashrc.cuoci;
+
+# --- gcc
+export PATH=/software/chimica2/tools/gcc/gcc-9.2.0/bin:/software/chimica2/tools/binutils/binutils-2.34-gcc-9.2.0/bin:$PATH
+export LD_LIBRARY_PATH=/software/chimica2/tools/gcc/gcc-9.2.0/lib:/software/chimica2/tools/gcc/gcc-9.2.0/lib64:/software/chimica2/tools/binutils/binutils-2.34-gcc-9.2.0/lib:$LD_LIBRARY_PATH
+export MANPATH=/software/chimica2/tools/gcc/gcc-9.2.0/share/man:$MANPATH
+export INFOPATH=/software/chimica2/tools/gcc/gcc-9.2.0/share/info:$INFOPATH
+
+# --- boost
+export LD_LIBRARY_PATH=/software/chimica2/libraries/boost/boost-1.78.0-gcc-9.2.0/lib:$LD_LIBRARY_PATH
+
+# --- glibc nodi-c
+#export LD_LIBRARY_PATH=/software/chimica2/libraries/glibc/glibc-2.14/lib:$LD_LIBRARY_PATH
+
+# --- sundials
+export LD_LIBRARY_PATH=/software/chimica2/libraries/sundials/sundials-6.1.0-opensmoke++/serial-gcc-9.2.0/lib64/:$LD_LIBRARY_PATH
+
+# --- OpenBLAS or MKL (Change this)
+export LD_LIBRARY_PATH=/software/chimica2/libraries/intel/oneapi/mkl/2023/lib/intel64:$LD_LIBRARY_PATH
+
+# --- bin
+export PATH=/home/chimica2/tdinelli/Tools/DoctorSMOKE/DoctorSMOKE-gcc-9.2.0/bin:$PATH

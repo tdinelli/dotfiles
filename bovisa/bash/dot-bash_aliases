@@ -1,0 +1,67 @@
+# --- Useful commands
+alias bulk='cd /global-scratch/bulk_pool/tdinelli'
+alias ll="ls -lh"
+alias la="ls -altrh"
+alias tmux="tmux -2"
+alias tls="tmux ls"
+alias gs="git status"
+
+# --- Useful Environment variables
+export OpenSMOKEpp_ROOT="/home/chimica2/tdinelli/GitHub/OpenSMOKEpp"
+export OpenSMOKEppSOLVERS_ROOT="/home/chimica2/tdinelli/GitHub/OpenSMOKEppSolvers"
+export OpenSMOKEpp_Tutorials_ROOT="/home/chimica2/tdinelli/GitHub/OpenSMOKEppTutorials"
+export Boost_ROOT="/software/chimica2/libraries/boost/boost-1.83.0-gcc-9.2.0"
+export Eigen3_ROOT="/software/chimica2/libraries/eigen/eigen-3.4.0"
+export Config_ROOT="/software/chimica2/libraries/libconfig/libconfig-1.5-gcc-9.2.0"
+export CEQ_ROOT="/home/chimica2/tdinelli/NumericalLibraries/CEQ/lib/linux"
+export BLAS_ROOT="/home/chimica2/tdinelli/NumericalLibraries/openblas/openblas-0.3.26-gcc-9.2.0"
+
+# --- CMake
+alias set-cmake='export PATH=/home/chimica2/tdinelli/Tools/cmake-3.25.3-linux-x86_64/bin:$PATH'
+
+# --- DoctorSMOKE
+alias set-doctorsmoke="source /home/chimica2/tdinelli/.bash-doctor-smoke"
+# source /home/chimica2/tdinelli/.bash-doctor-smoke
+
+# --- mySMOKE
+alias set-devsmoke='set-gcc-9.2; set-boost-1.83.0-gcc-9.2.0; set-intel-mkl-oneapi-2023; export PATH=/home/chimica2/tdinelli/Tools/opensmoke/opensmoke-0.21.0:$PATH; export LD_LIBRARY_PATH=/software/chimica2/tools/opensmoke++/opensmoke++0.21.0/gcc-9.2.0/lib/:$LD_LIBRARY_PATH; set-sundials-6.6.0-gcc-9.2.0; set-suitesparse-5.10.1-gcc-9.2.0; set-mpfr-4.1.0-gcc-9.2.0; set-gmp-6.2.1-gcc-9.2.0;'
+alias set-mysmoke="set-gcc-9.2; set-boost-1.83.0-gcc-9.2.0; export PATH=/home/chimica2/tdinelli/Tools/opensmoke/opensmoke-0.21.0:$PATH; export LD_LIBRARY_PATH=/software/chimica2/tools/opensmoke++/opensmoke++0.21.0/gcc-9.2.0/lib/:$LD_LIBRARY_PATH; set-glibc-2.14; set-gcc-9.2"
+
+# --- numdiff
+alias set-numdiff="export PATH=/home/chimica2/tdinelli/Tools/numdiff/bin:$PATH"
+
+# --- MESS
+alias set-mess='export LD_LIBRARY_PATH=/software/cinetica/libs/mpack/lib/:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH=/software/chimica2/libraries/intel/xe_2017/lib/intel64/:$LD_LIBRARY_PATH; export GFORTRAN_UNBUFFERED_ALL=Y; export PATH=/software/cinetica/molpros/mrcc:$PATH; export LD_LIBRARY_PATH=/software/cinetica/local/lib/:$LD_LIBRARY_PATH;'
+
+# --- NewOPTISMOKE
+alias set-dakota-6.17.0-gcc-9.2.0="set-gcc-9.2; export PATH=/home/chimica2/tdinelli/NumericalLibraries/dakota/dakota-6.17.0-gcc-9.2.0/bin:$PATH"
+alias set-dakota-lib-6.17.0-gcc-9.2.0="export LD_LIBRARY_PATH=/home/chimica2/tdinelli/NumericalLibraries/dakota/dakota-6.17.0-gcc-9.2.0/lib:$LD_LIBRARY_PATH"
+alias set-openblas-0.3.21-gcc-9.2.0="export LD_LIBRARY_PATH=/home/chimica2/tdinelli/NumericalLibraries/openblas/openblas-0.3.21-gcc-9.2.0/lib/:$LD_LIBRARY_PATH"
+alias set-nlopt-2.7.1-gcc-9.2="export LD_LIBRARY_PATH=/home/chimica2/tdinelli/NumericalLibraries/nlopt/nlopt-2.7.1-gcc-9.2/lib64:$LD_LIBRARY_PATH"
+alias set-devsmoke="export PATH=/home/chimica2/tdinelli/Tools/opensmoke/dev/bin:$PATH; set-boost-1.83.0-gcc-9.2.0; set-gcc-9.2"
+alias set-optismoke="export PATH=/home/chimica2/tdinelli/Tools/OptiSMOKE/new/bin:$PATH; set-gcc-9.2"
+alias set-devopti="export PATH=/home/chimica2/tdinelli/GitHub/OptiSMOKE_toolbox/build:$PATH; set-gcc-9.2"
+
+# --- Useful preprocessor command for Mixture rules implementation
+# alias set-preproc='set-gcc-9.2; set-boost-1.83.0-gcc-9.2.0; set-intel-mkl-oneapi-2023; export PATH=/home/chimica2/tdinelli/Tools/opensmoke/opensmoke-0.21.0:$PATH; export LD_LIBRARY_PATH=/software/chimica2/tools/opensmoke++/opensmoke++0.21.0/gcc-9.2.0/lib/:$LD_LIBRARY_PATH; set-sundials-6.6.0-gcc-9.2.0; set-suitesparse-5.10.1-gcc-9.2.0; set-mpfr-4.1.0-gcc-9.2.0; set-gmp-6.2.1-gcc-9.2.0; set-glibc-2.14;'
+# alias set-preproc='set-gcc-9.2; set-boost-1.83.0-gcc-9.2.0; set-intel-mkl-oneapi-2023; export PATH=/home/chimica2/tdinelli/Tools/opensmoke/opensmoke-0.21.0:$PATH; export LD_LIBRARY_PATH=/software/chimica2/tools/opensmoke++/opensmoke++0.21.0/gcc-9.2.0/lib/:$LD_LIBRARY_PATH; set-sundials-6.6.0-gcc-9.2.0; set-suitesparse-5.10.1-gcc-9.2.0; set-mpfr-4.1.0-gcc-9.2.0; set-gmp-6.2.1-gcc-9.2.0;'
+
+###### Compile OpenSMOKE
+# cmake \
+#   -DCMAKE_C_COMPILER=/software/chimica2/tools/gcc/gcc-9.2.0/bin/gcc \
+#   -DCMAKE_CXX_COMPILER=/software/chimica2/tools/gcc/gcc-9.2.0/bin/g++ \
+#   -DCMAKE_Fortran_COMPILER=/software/chimica2/tools/gcc/gcc-9.2.0/bin/gfortran \
+#   -DOPENSMOKE_USE_OPENMP=1 \
+#   -DOPENSMOKE_USE_CEQ=1 \
+#   -DOPENSMOKE_USE_MKL=0 \
+#   -DOPENSMOKE_USE_OPENBLAS=1 \
+#   -DOPENSMOKE_USE_SUNDIALS=0 \
+#   -DOPENSMOKE_USE_UMFPACK=0 \
+#   -DOPENSMOKE_USE_SUPERLU_SERIAL=0 \
+#   -DOPENSMOKE_USE_BZZMATH=0 \
+#   -DOPENSMOKE_USE_RADAU=0 \
+#   -DOPENSMOKE_USE_ODEPACK=0 \
+#   -DOPENSMOKE_USE_DASPK=0 \
+#   -DOPENSMOKE_USE_MEBDF=0 \
+#   -DOPENSMOKE_USE_LINPACK=0 \
+#   ..
