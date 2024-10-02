@@ -9,7 +9,7 @@ return {
                 -- ["python.numpydoc"] = require("neogen.configurations.python"),
                 -- ["cpp.doxygen"] = require("neogen.configurations.cpp"),
                 lua = { template = { annotation_convention = "emmylua" } },
-                python = { template = { annotation_convention = "numpydoc" } },
+                python = { template = { annotation_convention = "google_docstrings" } },
                 cpp = { template = { annotation_convention = "doxygen" } }
             },
             -- remapping

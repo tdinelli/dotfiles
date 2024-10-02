@@ -7,7 +7,7 @@ return {
             formatters_by_ft = {
                 cpp = { "clang-format" },
                 fortran = { { "findent", "fprettify" } },
-                python = { { "isort", "black", "autopep8" } },
+                python = { { "autopep8" } },
                 cmake = { "cmakelang" },
             },
         })
