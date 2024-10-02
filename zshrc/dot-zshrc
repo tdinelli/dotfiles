@@ -11,7 +11,7 @@
 [[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
 
 # --- fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
