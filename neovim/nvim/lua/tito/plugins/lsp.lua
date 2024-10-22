@@ -65,11 +65,25 @@ return {
                     })
                 end,
 
-                -- pyright specific config
-                ["pyright"] = function()
+                ["pylsp"] = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.pyright.setup({
+                    lspconfig.pylsp.setup({
                         capabilities = capabilities,
+                        settings = {
+                            pylsp = {
+                                plugins = {
+                                    -- formatter options
+                                    black = { enabled = true },
+                                    autopep8 = { enabled = false },
+                                    yapf = { enabled = false },
+                                    -- linter options
+                                    pycodestyle = {enabled = true, ignore = { 'W391' }, maxLineLength = 120 },
+                                    pylint = { enabled = false, executable = "pylint" },
+                                    pyflakes = { enabled = false },
+                                    mccabe = {enabled = false},
+                                },
+                            }
+                        },
                     })
                 end,
 

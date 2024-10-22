@@ -7,7 +7,7 @@ alias vi="nvim"
 
 # tmux
 alias tmux="tmux -2"
-alias tls="tmux ls"
+alias tms="tmux a"
 
 # git
 alias gs="git status"
@@ -66,3 +66,4 @@ alias set-devsmoke="export PATH=$HOME/.tools/opensmoke/devsmoke/bin:$PATH;set-bo
 # export DYLD_LIBRARY_PATH=$NUMERICAL_LIBRARIES/openblas/openblas-0.3.24-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
 # export DYLD_LIBRARY_PATH=/Users/tdinelli/NumericalLibraries/dakota/dakota-6.19.0-clang-17.0.3/lib:$DYLD_LIBRARY_PATH
 alias set-optismoke="export PATH=$HOME/Documents/GitHub/OptiSMOKE_toolbox/build:$PATH"
+alias set-sootsmoke="export PATH=/Users/tdinelli/Documents/GitHub/SootGen/build:$PATH"

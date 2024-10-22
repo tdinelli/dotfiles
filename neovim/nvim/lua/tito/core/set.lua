@@ -27,6 +27,8 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
+vim.api.nvim_set_hl(0, "ColorColumn", { bg = "LightGray" })
+
 vim.opt.updatetime = 50
 vim.opt.list = true
 vim.opt.listchars = { tab = "\\x20\\x20", eol = "\\u21b5" }

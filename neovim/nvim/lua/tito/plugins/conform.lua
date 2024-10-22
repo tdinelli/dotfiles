@@ -7,9 +7,16 @@ return {
             formatters_by_ft = {
                 cpp = { "clang-format" },
                 fortran = { { "findent", "fprettify" } },
-                python = { { "autopep8" } },
+                -- python = { "isort", "black", "autopep8" },
+                python = { "black" },
                 cmake = { "cmakelang" },
             },
+            formatters = {
+                black = {
+                    prepend_args = { '--fast', '--line-length', '120' },
+                },
+            },
+
         })
         --- AUTOFORMATTING
         -- 1. Old style
@@ -18,7 +25,15 @@ return {
         -- end, opts)
         -- 2. New way (Conform)
         vim.keymap.set('n', '<leader>f',
-            function() require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 500, }) end,
-            { desc = "Format current buffer" })
+            function()
+                require("conform").format(
+                    {
+                        async = false,
+                        timeout_ms = 5000,
+                        lsp_fallback = true,
+                    })
+            end,
+            { desc = "Format current buffer" }
+        )
     end
 }
