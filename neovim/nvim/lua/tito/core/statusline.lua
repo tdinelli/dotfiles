@@ -139,12 +139,12 @@ end
 -- Function to set up highlight groups
 local function setup_highlight_groups()
     -- Define a highlight group for each section with fg (foreground), bg (background), and style
-    vim.api.nvim_set_hl(0, 'StatusMode', { fg = '#d7ff87', bg = '#697587', bold = true }) -- Mode color
-    vim.api.nvim_set_hl(0, 'StatusGit', { fg = '#d7ff87', bg = '#697587', bold = true })  -- Git branch color
-    vim.api.nvim_set_hl(0, 'StatusFile', { fg = '#9fd437', bg = '#697587' })              -- File name color
-    vim.api.nvim_set_hl(0, 'StatusModified', { fg = '#d7ff87', bg = '#697587' })          -- Modified flag color
-    vim.api.nvim_set_hl(0, 'StatusDiagnostics', { fg = '#d7ff87', bg = '#697587' })       -- Diagnostics color
-    vim.api.nvim_set_hl(0, 'StatusPosition', { fg = '#d7ff87', bg = '#697587' })          -- Line/column color
+    vim.api.nvim_set_hl(0, "StatusMode", { fg = "#0f3635", bg = "#cfd0d1", bold = true }) -- Mode color
+    vim.api.nvim_set_hl(0, "StatusGit", { fg = "#0f3635", bg = "#cfd0d1", bold = true })  -- Git branch color
+    vim.api.nvim_set_hl(0, "StatusFile", { fg = "#0f3635", bg = "#cfd0d1" })              -- File name color
+    vim.api.nvim_set_hl(0, "StatusModified", { fg = "#0f3635", bg = "#cfd0d1" })          -- Modified flag color
+    vim.api.nvim_set_hl(0, "StatusDiagnostics", { fg = "#0f3635", bg = "#cfd0d1" })       -- Diagnostics color
+    vim.api.nvim_set_hl(0, "StatusPosition", { fg = "#0f3635", bg = "#cfd0d1" })          -- Line/column color
 end
 
 -- Call this function during your configuration setup
