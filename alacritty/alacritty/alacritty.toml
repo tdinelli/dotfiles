@@ -20,10 +20,12 @@ TERM = "xterm-256color"
 live_config_reload = "true"
 
 [font]
-size = 15.5
+size = 18.0
 
 [font.normal]
-family = "Hack Nerd Font"
+# family = "Hack Nerd Font"
+family = "JetBrainsMono Nerd Font"
+# family = "juliamono"
 
 [scrolling]
 history = 5000
