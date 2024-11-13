@@ -26,7 +26,7 @@ return {
                 }
             },
             defaults = {
-                path_display = { "truncate " },
+                path_display = { "truncate" },
                 mappings = {
                     i = {
                         ["<C-h>"] = "which_key",
@@ -49,13 +49,13 @@ return {
         pcall(telescope.load_extension, "ui-select")
 
         -- remapping
+        -- vim.keymap.set("n", "<leader>gr", function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
+        --     { desc = "[GR]ep something" })
         vim.keymap.set("n", "<leader>pf", builtin.find_files, { desc = "[P]roject [F]iles" })
         vim.keymap.set("n", "<leader>bf", builtin.buffers, { desc = "[B]uffer [F]ind" })
         vim.keymap.set("n", "<leader>km", builtin.keymaps, { desc = "[K]ey [M]aps" })
         vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
         vim.keymap.set("n", "<leader>gr", builtin.live_grep, { desc = "[GR]ep something" })
-        -- vim.keymap.set("n", "<leader>gr", function() builtin.grep_string({ search = vim.fn.input("Grep > ") }) end,
-        --     { desc = "[GR]ep something" })
         vim.keymap.set("n", "<leader>gw", builtin.grep_string, { desc = "[G]rep current [W]ord" })
         vim.keymap.set("n", "<leader>qo", builtin.quickfix, { desc = "[Q]uickfix [O]pen" })
         vim.keymap.set("n", "<leader>ts", builtin.treesitter, { desc = "[T]ree [S]itter search" })
@@ -64,7 +64,6 @@ return {
 
         -- Following stuff copied from kickstart
         vim.keymap.set('n', '<leader>/', function()
-            -- You can pass additional configuration to telescope to change theme, layout, etc.
             builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
                 winblend = 10,
                 previewer = false,
@@ -85,8 +84,7 @@ return {
             builtin.find_files { cwd = vim.fn.stdpath 'config' }
         end, { desc = '[S]earch [N]eovim files' })
 
-        -- Shortcut for searching whithin my GitHub folder certain specific repo I
-        -- usually work on
+        -- Shortcut for searching whithin my GitHub folder certain specific repo I usually work on
         vim.keymap.set('n', '<leader>so', function()
             builtin.find_files { cwd = '$HOME/Documents/GitHub/OpenSMOKEpp/' }
         end, { desc = '[S]earch [O]penSMOKE files' })

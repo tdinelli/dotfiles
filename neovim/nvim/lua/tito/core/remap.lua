@@ -1,4 +1,3 @@
-
 -- This is needed to fix filetype detection for LaTeX
 vim.g.tex_flavor = "latex"
 

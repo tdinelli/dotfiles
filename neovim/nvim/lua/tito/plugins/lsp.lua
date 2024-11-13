@@ -77,10 +77,10 @@ return {
                                     autopep8 = { enabled = false },
                                     yapf = { enabled = false },
                                     -- linter options
-                                    pycodestyle = {enabled = true, ignore = { 'W391' }, maxLineLength = 120 },
+                                    pycodestyle = { enabled = true, ignore = { 'W391' }, maxLineLength = 120 },
                                     pylint = { enabled = false, executable = "pylint" },
                                     pyflakes = { enabled = false },
-                                    mccabe = {enabled = false},
+                                    mccabe = { enabled = false },
                                 },
                             }
                         },
@@ -124,20 +124,21 @@ return {
                     })
                 end,
 
-                -- clangd config, see this: http://www.lazyvim.org/extras/lang/clangd
                 ["clangd"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.clangd.setup({
                         capabilities = capabilities,
-                        -- cmd = {
-                        --     -- "$HOME/.local/share/nvim/mason/bin/clangd",
-                        --     "/Users/tdinelli/.local/share/nvim/mason/bin/clangd",
-                        --     "--background-index",
-                        --     "--clang-tidy",
-                        --     "--header-insertion=iwyu",
-                        --     "--completion-style=detailed",
-                        --     "--function-arg-placeholders",
-                        -- },
+                        cmd = {
+                            vim.fn.stdpath("data") .. "/mason/bin/clangd",
+                            "--background-index",
+                            -- by default, clang-tidy use -checks=clang-diagnostic-*,clang-analyzer-*
+                            -- to add more checks, create .clang-tidy file in the root directory
+                            -- and add Checks key, see https://clang.llvm.org/extra/clang-tidy/
+                            "--clang-tidy",
+                            "--completion-style=bundled",
+                            "--cross-file-rename",
+                            "--header-insertion=iwyu",
+                        },
                     })
                 end,
             },

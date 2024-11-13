@@ -1,5 +1,4 @@
-local git = require('tito.core.git')
-
+local git = require("tito.core.git")
 
 local function gen_section(items)
     local out = ""
@@ -114,26 +113,10 @@ local function setup_diagnostics()
         return ""
     else
         return table.concat {
-            process_diagnostics(" ", errors),
-            process_diagnostics("  ", warnings),
+            process_diagnostics(" ", errors),
+            process_diagnostics("  ", warnings),
         }
     end
-end
-
-function Status_line()
-    local mode = vim.fn.mode()
-    local mg = get_mode_group(mode)
-
-    return table.concat({
-        gen_section({ get_mode_group_display_name(mg) }),
-        gen_section({ git.get_branch() or "" }),
-        "%=",
-        gen_section({ is_readonly(), get_file_icon(), "%t", is_modified() }),
-        "%=",
-        gen_section({ setup_diagnostics() }),
-        gen_section({ vim.bo.filetype, }),
-        gen_section({ "%l:%c" }),
-    })
 end
 
 -- Function to set up highlight groups
@@ -145,12 +128,13 @@ local function setup_highlight_groups()
     vim.api.nvim_set_hl(0, "StatusModified", { fg = "#0f3635", bg = "#cfd0d1" })          -- Modified flag color
     vim.api.nvim_set_hl(0, "StatusDiagnostics", { fg = "#0f3635", bg = "#cfd0d1" })       -- Diagnostics color
     vim.api.nvim_set_hl(0, "StatusPosition", { fg = "#0f3635", bg = "#cfd0d1" })          -- Line/column color
+    vim.api.nvim_set_hl(0, "StatusPercentage", { fg = "#0f3635", bg = "#cfd0d1" })        -- Added percentage color
 end
 
 -- Call this function during your configuration setup
 setup_highlight_groups()
 
--- Modify the Status_line function to use these highlight groups
+-- Modified Status_line function with file percentage
 function Status_line()
     local mode = vim.fn.mode()
     local mg = get_mode_group(mode)
@@ -165,6 +149,7 @@ function Status_line()
         "%#StatusDiagnostics#", gen_section({ setup_diagnostics() }),
         gen_section({ vim.bo.filetype }),
         "%#StatusPosition#", gen_section({ "%l:%c" }),
+        "%#StatusPercentage#", gen_section({ "%p%%" }), -- Added percentage section
     })
 end
 
