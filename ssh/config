@@ -31,11 +31,11 @@ Host smokebovisa
 
 # HostNameweb opensmoke.chem.polimi.it
 # HostNameinterno 10.78.34.164
+# HostName 131.175.66.162
 Host opensmoke
-    HostName 131.175.66.162
-    # HostName 10.78.34.164
-    # Port 22
+    HostName 10.78.34.164
     User tdinelli
+    # Port 22
     # ForwardX11 yes
 
 # HostNameweb devopensmoke.chem.polimi.it 
@@ -45,3 +45,13 @@ Host devopensmoke
     Port 22
     User tdinelli
     ForwardX11 yes
+
+# HostName Pc-czyzg92.chem.polimi.it
+Host ufficio
+    HostName 10.78.34.181
+    User tdinelli@chem.polimi.it
+    IdentityFile ~/.ssh/fisso/tdinelli-linux-key@Pc-czyzg92
+    Port 22
+    # ForwardX11 yes
+    # ForwardAgent yes  
+    # ForwardX11Trusted yes

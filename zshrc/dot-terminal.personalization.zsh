@@ -1,25 +1,41 @@
+# Enable colors
 export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 export GREP_OPTIONS='--color=auto'
 export TERM="xterm-256color"
 
-# This shows the git branch
-setopt prompt_subst
+# Load required modules
 autoload -Uz vcs_info
+autoload -U colors && colors
+
+# Configure version control information
+setopt prompt_subst
 zstyle ':vcs_info:*' actionformats \
     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
+zstyle ':vcs_info:*' formats \
     '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
-
 zstyle ':vcs_info:*' enable git cvs svn
 
-# or use pre_cmd, see man zshcontrib
-vcs_info_wrapper() {
-  vcs_info
-  if [ -n "$vcs_info_msg_0_" ]; then
-    echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
-  fi
-}
-RPROMPT=$'$(vcs_info_wrapper)'
-PROMPT='%F{green}%n@%m%f: %F{blue}%2~%f $ '
+# Add status indicators for git
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' unstagedstr ' ✗'
+zstyle ':vcs_info:git:*' stagedstr ' ✓'
+zstyle ':vcs_info:git:*' formats \
+    '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{yellow}%u%c%F{5}]%f '
+
+# Configure prompt to update vcs_info before each prompt
+precmd() { vcs_info }
+
+# Set prompt with git info on the right side of first line
+PS1=$'%F{green}%n%f: %F{blue}%~%f\n%F{3}❯%f '
+RPROMPT='${vcs_info_msg_0_}'
+PS2=$'%F{3}❯%f '
+
+# History configuration
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS

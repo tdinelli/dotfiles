@@ -7,6 +7,7 @@ alias vi="nvim"
 
 # tmux
 alias tmux="tmux -2"
+alias tls="tmux ls"
 alias tms="tmux a"
 
 # git
@@ -36,8 +37,9 @@ switch_compiler() {
         export Enzyme_DIR="/opt/homebrew/Cellar/enzyme/0.0.103/lib/cmake/Enzyme/"
         export Boost_ROOT="$NUMERICAL_LIBRARIES/boost/boost-1.83.0-clang-17.0.1"
         export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-clang-18.1.7"
+        export GSL_ROOT_DIR="$NUMERICAL_LIBRARIES/gsl/gsl-2.8-clang-18.1.7"
     else
-        echo "Usage: switch_compiler [gnu|llvm]"
+        echo "Usage: switch_compiler [gnu | llvm]"
         return 1
     fi
 
@@ -46,6 +48,7 @@ switch_compiler() {
     export OpenSMOKEppSolvers_ROOT="$HOME/Documents/GitHub/OpenSMOKEppSolvers"
     export Eigen3_ROOT="$NUMERICAL_LIBRARIES/eigen/eigen-3.4.0/share/eigen3/cmake"
     export CEQ_ROOT="$NUMERICAL_LIBRARIES/ceq/lib/linux/"
+    export caliper_DIR=/Users/tdinelli/NumericalLibraries/caliper/caliper-clang-18.1.7/share/cmake/caliper
     return 0
 }
 # By default llvm is the compiler
