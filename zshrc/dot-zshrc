@@ -1,17 +1,9 @@
-# --- Exports Paths
-[[ -f ~/.path.zsh ]] && source ~/.path.zsh
-
-# --- Autocompilation options
-[[ -f ~/.completion.zsh ]] && source ~/.completion.zsh
-
-# --- Aliases
-[[ -f ~/.aliases.zsh ]] && source ~/.aliases.zsh
-
-# --- Terminal personalization
-[[ -f ~/.terminal.personalization.zsh ]] && source ~/.terminal.personalization.zsh
-
-# --- fzf
-[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+export ZDOTDIR="$HOME"/.config/zsh
+[[ -f "$ZDOTDIR/.path.zsh" ]] && source "$ZDOTDIR/.path.zsh"
+[[ -f "$ZDOTDIR/.completion.zsh" ]] && source "$ZDOTDIR/.completion.zsh"
+[[ -f "$ZDOTDIR/.aliases.zsh" ]] && source "$ZDOTDIR/.aliases.zsh"
+[[ -f "$ZDOTDIR/.terminal.personalization.zsh" ]] && source "$ZDOTDIR/.terminal.personalization.zsh"
+[[ -f "$ZDOTDIR/.fzf.zsh" ]] && source "$ZDOTDIR/.fzf.zsh"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
