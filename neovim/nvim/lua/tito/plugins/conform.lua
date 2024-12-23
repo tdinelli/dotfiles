@@ -9,11 +9,23 @@ return {
                 fortran = { { "findent", "fprettify" } },
                 -- python = { "isort", "black", "autopep8" },
                 python = { "black" },
-                cmake = { "cmakelang" },
+                cmake = { "cmake_format" },
             },
             formatters = {
                 black = {
                     prepend_args = { '--fast', '--line-length', '120' },
+                },
+                cmake_format = {
+                    prepend_args = {
+                        '--line-width', '80',
+                        '--enable-markup',
+                        '--command-case', 'lower',
+                        '--keyword-case', 'lower',
+                        '--dangle-parens', 'true',
+                        '--separate-ctrl-name-with-space', 'true',
+                        '--separate-fn-name-with-space', 'true',
+                        '--line-ending', 'unix',
+                    },
                 },
             },
 

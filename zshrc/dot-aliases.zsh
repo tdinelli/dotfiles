@@ -27,6 +27,8 @@ switch_compiler() {
 
         export Boost_ROOT="$NUMERICAL_LIBRARIES/boost/boost-1.85.0-gcc-14.1.0"
         export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-gcc-14.1.0"
+        export OpenBLAS_DIR="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-gcc-14.1.0/lib/cmake/openblas"
+        export Dakota_ROOT="$NUMERICAL_LIBRARIES/dakota/dakota-6.19.0-gcc-14.1.0/lib/cmake/Dakota"
     elif [[ "$1" == "llvm" ]]; then
         export CC="/opt/homebrew/opt/llvm/bin/clang"
         export CXX="/opt/homebrew/opt/llvm/bin/clang++"
@@ -37,6 +39,7 @@ switch_compiler() {
         export Enzyme_DIR="/opt/homebrew/Cellar/enzyme/0.0.103/lib/cmake/Enzyme/"
         export Boost_ROOT="$NUMERICAL_LIBRARIES/boost/boost-1.83.0-clang-17.0.1"
         export BLAS_ROOT="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-clang-18.1.7"
+        export OpenBLAS_DIR="$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-clang-18.1.7/lib/cmake/openblas/"
         export GSL_ROOT_DIR="$NUMERICAL_LIBRARIES/gsl/gsl-2.8-clang-18.1.7"
     else
         echo "Usage: switch_compiler [gnu | llvm]"
