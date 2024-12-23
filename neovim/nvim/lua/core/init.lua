@@ -1,0 +1,5 @@
+require("core.global")
+require("core.remap")
+require("core.set")
+require("core.terminal")
+require("core.statusline")

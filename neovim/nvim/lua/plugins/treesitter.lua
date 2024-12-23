@@ -4,31 +4,23 @@ return {
         build = ":TSUpdate",
         dependencies = {
             'nvim-treesitter/nvim-treesitter-textobjects',
+            'nvim-treesitter/playground',
+            'JoosepAlviste/nvim-ts-context-commentstring',
         },
         event = { "BufReadPre", "BufNewFile" },
         config = function()
-            local configs = require("nvim-treesitter.configs")
-            configs.setup({
-                ensure_installed = { "latex",
-                    "cpp",
-                    "c",
-                    "python",
-                    "julia",
-                    "markdown",
-                    "markdown_inline",
-                    "bash",
-                    "lua",
-                    "vim",
-                    "vimdoc",
-                    "gitignore",
-                    "fortran",
-                    "make",
-                    "latex"
-                },
+            vim.g.skip_ts_context_commentstring_module = true
+            require('ts_context_commentstring').setup {}
 
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = {
+                    "latex", "cpp", "c", "python", "julia", "markdown", "markdown_inline",
+                    "bash", "lua", "vim", "vimdoc", "gitignore", "fortran", "make",
+                    "regex", "yaml", "toml", "json", "cmake"
+                },
                 sync_install = false,
                 auto_install = false,
-                highlight = { enable = true, additional_vim_regex_highlighting = false, },
+                highlight = { enable = true },
                 indent = { enable = true },
                 textobjects = {
                     select = {
@@ -73,7 +65,7 @@ return {
                             ['<leader>A'] = '@parameter.inner',
                         },
                     },
-                },
+                }
             })
         end,
     },

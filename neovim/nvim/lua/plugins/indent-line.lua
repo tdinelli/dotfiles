@@ -18,12 +18,10 @@ return {
                         "mason",
                     }
                 },
-                -- indent = { char = "┊", smart_indent_cap = true },
-                indent = { char = "┆",  smart_indent_cap = true },
-                -- indent = { char = "┋",  smart_indent_cap = true },
+                indent = { char = "┆", smart_indent_cap = true },
                 scope = { enabled = false },
                 whitespace = { remove_blankline_trail = true, },
-                viewport_buffer = { min = 100},
+                viewport_buffer = { min = 100 },
             }
         )
     end,
