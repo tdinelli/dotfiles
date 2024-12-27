@@ -85,7 +85,7 @@ function M.get_branch()
     end
 
     -- Update cache with branch name and icon
-    cache.branch = string.format(" %s", branch_info[1])
+    cache.branch = string.format(" %s", branch_info[1])
     return cache.branch
 end
 

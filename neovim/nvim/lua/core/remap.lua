@@ -71,10 +71,12 @@ apply_keymaps(tabs, "tabs")
 -----------------------------
 local movements = {
     -- Center screen after movements
-    { "n", "<C-d>", "<C-d>zz", { desc = "Move down fast while remaining in the center" } },
-    { "n", "<C-u>", "<C-u>zz", { desc = "Move up fast while remaining in the center" } },
-    { "n", "n",     "nzzzv",   { desc = "Keep search matches centered" } },
-    { "n", "N",     "Nzzzv",   { desc = "Previous search match (centered)" } },
+    { "n", "<C-d>", "<C-d>zz",          { desc = "Move down fast while remaining in the center" } },
+    { "n", "<C-u>", "<C-u>zz",          { desc = "Move up fast while remaining in the center" } },
+    { "n", "n",     "nzzzv",            { desc = "Keep search matches centered" } },
+    { "n", "N",     "Nzzzv",            { desc = "Previous search match (centered)" } },
+    { "v", "J",     ":m '>+1<CR>gv=gv", { desc = "In visual line mode move down the block" } },
+    { "v", "K",     ":m '<-2<CR>gv=gv", { desc = "In visual line mode move up the block" } },
 }
 apply_keymaps(movements, "movements")
 

@@ -55,10 +55,9 @@ return {
                         }
                     })
                 end,
+
                 ["clangd"] = function()
                     local lspconfig = require("lspconfig")
-
-                    -- Configure clangd with enhanced settings
                     lspconfig.clangd.setup({
                         capabilities = capabilities,
 
@@ -66,23 +65,23 @@ return {
                             vim.fn.stdpath("data") .. "/mason/bin/clangd",
 
                             -- Indexing and performance settings
-                            "--background-index", -- Index project in background for better performance
+                            "--background-index",       -- Index project in background for better performance
                             "--offset-encoding=utf-16", -- Ensure proper encoding handling
-                            "--pch-storage=memory", -- Store precompiled headers in memory for faster access
-                            "--clang-tidy", -- Enable clang-tidy for additional diagnostics
+                            "--pch-storage=memory",     -- Store precompiled headers in memory for faster access
+                            "--clang-tidy",             -- Enable clang-tidy for additional diagnostics
 
                             -- Code completion settings
-                            "--completion-style=bundled", -- Get detailed completion items
+                            "--completion-style=bundled",  -- Get detailed completion items
                             "--function-arg-placeholders", -- Include function argument placeholders in completion
-                            "--header-insertion=iwyu", -- Use IWYU style header insertion
+                            "--header-insertion=iwyu",     -- Use IWYU style header insertion
 
                             -- Cross-reference and refactoring settings
-                            "--cross-file-rename", -- Enable cross-file renaming
+                            "--cross-file-rename",     -- Enable cross-file renaming
                             "--all-scopes-completion", -- Show completions from all scopes
 
                             -- Additional helpful features
                             "--header-insertion-decorators", -- Show where headers will be inserted
-                            "--suggest-missing-includes", -- Suggest missing includes
+                            "--suggest-missing-includes",    -- Suggest missing includes
 
                             -- Performance optimization settings
                             "-j=1", -- Number of parallel workers for indexing
@@ -96,16 +95,16 @@ return {
 
                             -- Enhance code completion behavior
                             completionOrganization = "Detailed", -- Get more detailed completion items
-                            includeInlayHints = true, -- Show inlay hints for types and parameters
+                            includeInlayHints = true,            -- Show inlay hints for types and parameters
 
                             -- Configure clang-tidy integration
                             clangTidy = {
                                 -- Add additional clang-tidy checks beyond the defaults
                                 -- Default checks are: clang-diagnostic-*, clang-analyzer-*
                                 add = {
-                                    "modernize-*", -- Modern C++ features
+                                    "modernize-*",   -- Modern C++ features
                                     "performance-*", -- Performance improvements
-                                    "bugprone-*", -- Likely bug patterns
+                                    "bugprone-*",    -- Likely bug patterns
                                     "readability-*", -- Code readability
                                 },
                                 -- Disable specific checks that might be too noisy
@@ -134,7 +133,137 @@ return {
                             )(fname)
                         end,
                     })
-                end
+                end,
+
+                ["texlab"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.texlab.setup({
+                        capabilities = capabilities,
+                        cmd = { vim.fn.stdpath("data") .. "/mason/bin/texlab", },
+                        settings = {
+                            texlab = {
+                                -- For the future
+                                -- Configure forward search (PDF viewer integration)
+                                -- forwardSearch = {
+                                --     -- Configure your preferred PDF viewer here
+                                --     executable = "zathura",
+                                --     args = {
+                                --         "--synctex-forward",
+                                --         "%l:1:%f",
+                                --         "%p"
+                                --     },
+                                -- },
+                            },
+                        },
+
+                        filetypes = { "tex", "plaintex", "bib" },
+                        -- Root directory patterns for project detection
+                        root_dir = function(fname)
+                            return require("lspconfig.util").root_pattern(
+                                ".latexmkrc",
+                                "main.tex",
+                                "root.tex",
+                                ".git"
+                            )(fname)
+                        end,
+                    })
+                end,
+            },
+        })
+
+        -- Set up nvim-cmp with LuaSnip integration
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
+        luasnip.config.setup({})
+
+        -- Configure the completion engine
+        cmp.setup({
+            -- Snippet configuration - tells nvim-cmp how to handle snippet expansion
+            snippet = {
+                expand = function(args)
+                    luasnip.lsp_expand(args.body)
+                end,
+            },
+
+            -- Configure the completion experience
+            completion = { -- Specify completion behavior
+                completeopt = "menu,menuone,noinsert",
+                formatting = { -- Configure how completion menu appears
+                    format = function(entry, vim_item)
+                        vim_item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[Snippet]",
+                            buffer = "[Buffer]",
+                            path = "[Path]",
+                        })[entry.source.name]
+                        return vim_item
+                    end,
+                },
+            },
+
+            -- Window appearance configuration
+            window = {
+                documentation = {
+                    border = "rounded",
+                    max_height = 10,
+                    max_width = 50,
+                    zindex = 31,
+                    width = function()
+                        local columns = vim.o.columns
+                        local min_width = 20
+                        local max_width = math.min(columns * 0.3, 50)
+                        return math.max(min_width, max_width)
+                    end,
+                },
+                completion = {
+                    border = "rounded",
+                    winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+                    col_offset = -3,
+                    side_padding = 1,
+                    scrollbar = false,
+                    width = function()
+                        local columns = vim.o.columns
+                        local min_width = 20
+                        local max_width = math.min(columns * 0.4, 60)
+                        return math.max(min_width, max_width)
+                    end,
+                },
+            },
+
+            mapping = cmp.mapping.preset.insert({ -- Configure keybindings for completion control
+                -- Confirmation keybinding - use Tab to select
+                ["<Tab>"] = cmp.mapping.confirm({ select = false, }),
+                -- Manual trigger for completion menu
+                ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Manual, }),
+                -- Documentation scroll controls
+                ["<C-k>"] = cmp.mapping.scroll_docs(-4), -- Scroll up
+                ["<C-j>"] = cmp.mapping.scroll_docs(4),  -- Scroll down
+                -- Close completion menu
+                ["<C-e>"] = cmp.mapping.abort(),
+            }),
+
+            -- Configure completion sources in priority order
+            sources = cmp.config.sources({
+                { name = "nvim_lsp", priority = 1000 },
+                { name = "luasnip",  priority = 750 },
+                { name = "path",     priority = 500 },
+            }),
+
+            sorting = {
+                comparators = {
+                    cmp.config.compare.offset,
+                    cmp.config.compare.exact,
+                    cmp.config.compare.score,
+                    cmp.config.compare.kind,
+                    cmp.config.compare.sort_text,
+                    cmp.config.compare.length,
+                    cmp.config.compare.order,
+                },
+            },
+
+            experimental = {
+                ghost_text = false,  -- Enable ghost text (preview of completion)
+                native_menu = false, -- Enable native menu
             },
         })
 
