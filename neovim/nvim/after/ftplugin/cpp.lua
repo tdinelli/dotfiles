@@ -1,6 +1,13 @@
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.textwidth=120
+local indentation = {
+    tabstop = 2,
+    softtabstop = 2,
+    shiftwidth = 2,
+    expandtab = true,   -- Use spaces instead of tabs
+    smartindent = true, -- Smart autoindenting on new lines
+    breakindent = true, -- Preserve indentation on wrapped lines
+    textwidth = 120
+}
+for key, value in pairs(indentation) do
+    vim.opt[key] = value
+end
+
