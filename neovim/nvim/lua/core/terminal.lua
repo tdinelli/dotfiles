@@ -37,7 +37,7 @@ local term_maps = {
         vim.api.nvim_win_set_height(0, 12)
         vim.wo.winfixheight = true
         vim.cmd.term()
-    end, { desc = "[S]plit [T]erminal" }},
+    end, { desc = "[S]how [T]erminal" }},
     -- Optional: Quick terminal hide/show
     { "n", "<leader>tt", function()
         local term_bufs = {}

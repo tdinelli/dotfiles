@@ -1,7 +1,59 @@
--- Enhanced git functionality module that complements git-blame.nvim
+--[[
+Enhanced Git Functionality Module
+===============================
+
+This module provides enhanced Git functionality for Neovim, complementing git-blame.nvim
+with efficient caching and status monitoring capabilities. It offers a comprehensive
+interface for retrieving Git repository information while maintaining performance
+through an intelligent caching system.
+
+Features:
+- Efficient Git command execution with proper error handling
+- Smart caching system for Git information
+- Branch status monitoring
+- Detailed Git repository status information
+- Automatic cache invalidation through Neovim events
+
+Module Structure
+--------------
+The module is organized into several key components:
+1. Cache system for storing Git information
+2. Core Git command execution functionality
+3. Public interface for Git information retrieval
+4. Auto-command setup for cache management
+
+Usage Example:
+```lua
+local git = require('your-plugin-name')
+
+-- Get current branch name
+local branch = git.get_branch()
+
+-- Get formatted status string
+local status = git.get_status_string()
+
+-- Get detailed status information
+local details = git.get_status()
+```
+--]]
+
 local M = {}
 
--- Cache system for git information to optimize performance
+--[[
+Cache System
+-----------
+The cache system optimizes performance by storing frequently accessed Git information
+with a configurable expiration time. This reduces the number of Git command executions
+and improves response time for status updates.
+
+Structure:
+- branch: Current Git branch name
+- branch_timestamp: Last update time for branch information
+- cache_duration: Duration (in seconds) before cache invalidation
+- head_oid: Current HEAD commit hash
+- head_timestamp: Last update time for HEAD information
+- is_git_repo: Boolean indicating if current directory is in a Git repository
+--]]
 local cache = {
     branch = nil,
     branch_timestamp = 0,
@@ -11,7 +63,12 @@ local cache = {
     is_git_repo = nil
 }
 
--- Execute git commands safely with proper error handling
+--[[
+Executes a Git command safely with proper error handling.
+
+@param cmd string: The Git command to execute
+@return table|nil: Output lines from the command, or nil if the command failed
+--]]
 local function execute_git_command(cmd)
     -- We use vim.system when possible as it's more efficient than systemlist
     local output = vim.fn.systemlist(cmd)
@@ -25,7 +82,11 @@ local function execute_git_command(cmd)
     return output
 end
 
--- Check if current directory is inside a git repository
+--[[
+Checks if the current directory is inside a Git repository.
+
+@return boolean: true if inside a Git repository, false otherwise
+--]]
 function M.is_git_repo()
     -- Use cached value if available
     if cache.is_git_repo ~= nil then
@@ -37,7 +98,11 @@ function M.is_git_repo()
     return cache.is_git_repo
 end
 
--- Get the current HEAD commit hash
+--[[
+Retrieves the current HEAD commit hash.
+
+@return string|nil: Short form of HEAD commit hash, or nil if unavailable
+--]]
 function M.get_head_oid()
     local current_time = os.time()
 
@@ -56,7 +121,11 @@ function M.get_head_oid()
     return nil
 end
 
--- Get current git branch with safe caching
+--[[
+Gets the current Git branch name with an icon prefix.
+
+@return string|nil: Formatted branch name with icon, or nil if not in a Git repository
+--]]
 function M.get_branch()
     -- Early return if not in a git repo
     if not M.is_git_repo() then
@@ -89,7 +158,15 @@ function M.get_branch()
     return cache.branch
 end
 
--- Get git status with safe error handling
+--[[
+Retrieves detailed Git repository status information.
+
+@return table: Status information with the following fields:
+    - ahead: Number of commits ahead of remote
+    - behind: Number of commits behind remote
+    - staged: Number of staged changes
+    - changed: Number of unstaged changes
+--]]
 function M.get_status()
     -- Early return if not in a git repo
     if not M.is_git_repo() then
@@ -134,7 +211,17 @@ function M.get_status()
     return status
 end
 
--- Format status string with safe concatenation
+--[[
+Formats Git status information into a human-readable string.
+
+The string includes the following indicators:
+- ↑n: n commits ahead of remote
+- ↓n: n commits behind remote
+- ●n: n staged changes
+- ○n: n unstaged changes
+
+@return string: Formatted status string or empty string if not in a Git repository
+--]]
 function M.get_status_string()
     if not M.is_git_repo() then
         return ""
@@ -160,7 +247,12 @@ function M.get_status_string()
     return table.concat(parts, " ")
 end
 
--- Clear the cache (useful when git status changes)
+--[[
+Clears the Git information cache.
+
+This function is useful when Git status changes and cached information
+needs to be refreshed. It resets all cached values to their initial state.
+--]]
 function M.clear_cache()
     cache = {
         branch = nil,
@@ -172,7 +264,18 @@ function M.clear_cache()
     }
 end
 
--- Set up autocommands with improved event handling
+--[[
+Sets up autocommands for cache management.
+
+Creates autocommands that clear the Git information cache when:
+- A buffer is written
+- Neovim regains focus
+- The working directory changes
+- Neovim starts up
+
+This ensures that the cached information stays up-to-date with the actual
+Git repository state.
+--]]
 local function setup_autocmds()
     local group = vim.api.nvim_create_augroup("GitStatusCache", { clear = true })
 

@@ -1,15 +1,67 @@
--- core/statusline.lua - A comprehensive statusline module for Neovim
--- This module provides a clean, informative, and efficient statusline
--- that integrates with other core components
+--[[
+Neovim Statusline Module
+=======================
 
--- Import dependencies from our core modules
+A comprehensive statusline module for Neovim that provides a clean, informative,
+and efficient status display. This module integrates with other core components
+to show Git information, diagnostics, and file status in a visually appealing way.
+
+Visual Components
+---------------
+The statusline is divided into several sections, from left to right:
+1. Mode indicator (Normal, Insert, Visual, etc.)
+2. Git information (branch and status)
+3. File information (name, type, and status)
+4. Diagnostic information (errors, warnings)
+5. Position information (line:column and percentage)
+
+Each section is clearly separated with brackets and uses consistent spacing
+for optimal readability.
+
+Theme Customization
+-----------------
+The statusline appearance can be customized through the THEME table, which
+defines colors and styles for each component. Each theme entry supports:
+- fg: Foreground color (hex format)
+- bg: Background color (hex format)
+- bold: Boolean for bold text
+
+Example theme customization:
+```lua
+local THEME = {
+    mode = { fg = "#000000", bg = "#ffffff", bold = true },
+    git = { fg = "#0f3635", bg = "#cfd0d1", bold = true },
+    -- ... additional theme entries
+}
+```
+
+Dependencies
+-----------
+- core.git: Provides Git repository information
+- nvim-web-devicons: Provides filetype icons
+--]]
+
+-- Import our core git functionality module
 local git = require("core.git")
 
 -- Create our module table
 local M = {}
 
--- Theme configuration defining our statusline colors and styles
--- These values can be easily customized to match your colorscheme
+--[[
+Theme Configuration
+------------------
+Defines the visual appearance of each statusline component. Each entry
+specifies the colors and text styling for a specific section.
+
+Structure:
+- mode: Vim mode indicator styling
+- git: Git information section styling
+- file: File information styling
+- modified: File modification indicator styling
+- diagnostics: Error/warning count styling
+- position: Cursor position styling
+- percentage: File position percentage styling
+--]]
 local THEME = {
     mode = { fg = "#0f3635", bg = "#cfd0d1", bold = true },
     git = { fg = "#0f3635", bg = "#cfd0d1", bold = true },
@@ -20,8 +72,18 @@ local THEME = {
     percentage = { fg = "#0f3635", bg = "#cfd0d1" }
 }
 
--- Icons used throughout the statusline
--- Using a separate table makes it easy to modify all icons in one place
+--[[
+Icon Definitions
+---------------
+Centralizes all icons used in the statusline for easy customization
+and consistent appearance across the interface.
+
+Categories:
+- modified: Indicators for file modification state
+- readonly: Readonly file indicator
+- diagnostic: Different diagnostic severity indicators
+- git: Git status and branch indicators
+--]]
 local ICONS = {
     modified = {
         normal = "[+]",
@@ -43,8 +105,21 @@ local ICONS = {
     }
 }
 
--- Comprehensive mapping of Vim modes to their display names
--- This table provides clear, readable names for all Vim modes
+
+--[[
+Mode Display Mappings
+--------------------
+Comprehensive mapping of Vim mode codes to their human-readable names.
+This table covers all Vim modes including their variants and special states.
+
+Categories:
+- Normal mode and its variants
+- Visual mode variants
+- Select mode variants
+- Insert mode variants
+- Replace mode variants
+- Command and terminal modes
+--]]
 local MODE_MAPPINGS = {
     -- Normal mode variants
     n = "Normal",
@@ -94,6 +169,12 @@ local MODE_MAPPINGS = {
 -- Cache for storing diagnostic information to improve performance
 local diagnostic_cache = {}
 
+--[[
+Joins multiple statusline items with proper spacing.
+
+@param items table: Array of items to join
+@return string: Space-separated string of items
+--]]
 local function join_items(items)
     -- Filter out empty or nil items
     local filtered_items = vim.tbl_filter(function(item)
@@ -106,7 +187,36 @@ local function join_items(items)
     return table.concat(filtered_items, " ") .. " "
 end
 
--- Utility function to create bracketed sections with consistent spacing
+--[[
+Creates a combined section for diagnostics and filetype information.
+The section will be wrapped in parentheses and only shown if there's
+content to display.
+
+@param diagnostics string: Formatted diagnostic information
+@param filetype string: Current buffer's filetype
+@return string: Combined section wrapped in parentheses, or empty string if no content
+--]]
+local function create_combined_section(diagnostics, filetype)
+    -- Filter out empty strings
+    local parts = vim.tbl_filter(function(item)
+        return item and item ~= ""
+    end, { diagnostics, filetype })
+
+    -- Return empty string if no content
+    if #parts == 0 then
+        return ""
+    end
+
+    -- Join parts with space and wrap in parentheses
+    return string.format("[%s] ", table.concat(parts, " | "))
+end
+
+--[[
+Creates a bracketed section from multiple items.
+
+@param items table: Array of items to include in the section
+@return string: Formatted section with brackets and proper spacing
+--]]
 local function create_section(items)
     -- Remove empty or nil items to avoid unnecessary brackets
     local filtered_items = vim.tbl_filter(function(item)
@@ -121,14 +231,26 @@ local function create_section(items)
     return string.format("[%s] ", table.concat(filtered_items, " "))
 end
 
--- Get the formatted display name for the current mode
+--[[
+Gets the formatted display name for the current Vim mode.
+
+@return string: Uppercase name of the current mode
+--]]
 local function get_mode_display()
     local current_mode = vim.fn.mode()
     local mode_name = MODE_MAPPINGS[current_mode] or MODE_MAPPINGS["null"]
     return mode_name:upper()
 end
 
--- Get information about the current file's status
+--[[
+Retrieves current file status information.
+
+@return table: Table containing:
+    - is_modified: Modified status indicator
+    - is_readonly: Readonly status indicator
+    - filetype: Current buffer's filetype
+    - icon: Filetype icon from nvim-web-devicons
+--]]
 local function get_file_status()
     local modified = vim.bo.modified and ICONS.modified.normal or ""
     local readonly = vim.bo.readonly and ICONS.modified.readonly or ""
@@ -147,7 +269,15 @@ local function get_file_status()
     }
 end
 
--- Get diagnostic information with caching for better performance
+--[[
+Retrieves diagnostic information with caching for performance.
+
+@return table: Table containing counts of:
+    - errors: Number of error diagnostics
+    - warnings: Number of warning diagnostics
+    - info: Number of information diagnostics
+    - hints: Number of hint diagnostics
+--]]
 local function get_diagnostics()
     local bufnr = vim.api.nvim_get_current_buf()
 
@@ -169,7 +299,12 @@ local function get_diagnostics()
     return diagnostic_cache[bufnr].data
 end
 
--- Format diagnostic information for display in the statusline
+
+--[[
+Formats diagnostic information for statusline display.
+
+@return string: Formatted string showing error and warning counts
+--]]
 local function format_diagnostics()
     local diagnostics = get_diagnostics()
     local parts = {}
@@ -184,14 +319,29 @@ local function format_diagnostics()
     return #parts > 0 and table.concat(parts, " ") or ""
 end
 
--- Set up highlight groups for the statusline
+--[[
+Sets up highlight groups for the statusline components.
+Creates highlight groups based on the THEME configuration.
+--]]
 local function setup_highlights()
     for name, colors in pairs(THEME) do
         vim.api.nvim_set_hl(0, "Status" .. name:gsub("^%l", string.upper), colors)
     end
 end
 
--- Generate the complete statusline string
+--[[
+Generates the complete statusline string.
+
+This function combines all statusline components into a single string,
+properly formatted with highlights and spacing. Components include:
+- Current mode
+- Git information
+- File status and name
+- Diagnostic information
+- Position information
+
+@return string: Complete statusline string
+--]]
 function M.get_statusline()
     local file_status = get_file_status()
 
@@ -208,21 +358,27 @@ function M.get_statusline()
         "%#StatusMode#", create_section({ get_mode_display() }),
         "%#StatusGit#", create_section({ git_section }),
         "%=",
-        "%#StatusFile#", join_items({ -- Changed this line to use join_items
-        file_status.is_readonly,
-        file_status.icon,
-        "%t",
-        file_status.is_modified
-    }),
+        "%#StatusFile#", join_items({
+            file_status.is_readonly,
+            file_status.icon,
+            "%t",
+            file_status.is_modified
+        }),
         "%=",
-        "%#StatusDiagnostics#", create_section({ format_diagnostics() }),
-        create_section({ file_status.filetype }),
+        "%#StatusDiagnostics#", create_combined_section(format_diagnostics(), file_status.filetype),
         "%#StatusPosition#", create_section({ "%l:%c" }),
         "%#StatusPercentage#", create_section({ "%p%%" })
     })
 end
 
--- Initialize the statusline module
+--[[
+Initializes the statusline module.
+
+This function:
+1. Sets up highlight groups
+2. Configures the statusline format
+3. Sets up autocommands for diagnostic cache management
+--]]
 function M.setup()
     -- Set up highlights
     setup_highlights()
