@@ -34,10 +34,7 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = {
-                "lua_ls",
-                "clangd",
-            },
+            ensure_installed = { "lua_ls", "clangd", "pylsp" },
             handlers = {
                 ["lua_ls"] = function()
                     require("lspconfig").lua_ls.setup({
@@ -53,6 +50,84 @@ return {
                                 telemetry = { enable = false },
                             }
                         }
+                    })
+                end,
+
+                ["pylsp"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.pylsp.setup({
+                        capabilities = capabilities,
+                        cmd = {
+                            vim.fn.stdpath("data") .. "/mason/bin/pylsp",
+                        },
+                        settings = {
+                            pylsp = {
+                                plugins = {
+                                    -- Code analysis plugins
+                                    pyflakes = { enabled = false },
+                                    pycodestyle = { enabled = false },
+                                    mccabe = { enabled = false },
+
+                                    -- Formatting plugins
+                                    autopep8 = { enabled = false },
+                                    yapf = { enabled = false },
+
+                                    -- Type checking and imports
+                                    pylsp_mypy = { enabled = false },
+                                    pylsp_black = { enabled = false },
+                                    pylsp_isort = { enabled = false },
+
+                                    -- Enable helpful plugins that don't conflict with external tools
+                                    jedi_completion = {
+                                        enabled = true,
+                                        include_params = true,                -- Include parameter hints in completions
+                                        include_class_objects = true,         -- Include class objects in completions
+                                        fuzzy = true,                         -- Enable fuzzy matching for completions
+                                    },
+                                    jedi_hover = { enabled = true },          -- Enable documentation on hover
+                                    jedi_references = { enabled = true },     -- Enable finding references
+                                    jedi_signature_help = { enabled = true }, -- Enable signature help
+                                    jedi_symbols = { enabled = true },        -- Enable document symbols
+
+                                    -- Rope for refactoring operations
+                                    rope_completion = { enabled = true },
+                                    rope_autoimport = { enabled = true },
+                                },
+
+                                -- Configure diagnostics behavior
+                                diagnostics = {
+                                    enable = true,
+                                    report_syntax_errors = true,
+                                },
+
+                                -- Workspace configuration
+                                workspace = {
+                                    symbols = {
+                                        enabled = true,
+                                        exclude = {
+                                            "**/.git/**",
+                                            "**/__pycache__/**",
+                                            "**/venv/**",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+
+                        -- Configure file pattern matching
+                        filetypes = { "python" },
+
+                        -- Root directory patterns for project detection
+                        root_dir = function(fname)
+                            return require("lspconfig.util").root_pattern(
+                                "pyproject.toml",
+                                "setup.py",
+                                "setup.cfg",
+                                "requirements.txt",
+                                "Pipfile",
+                                ".git"
+                            )(fname)
+                        end,
                     })
                 end,
 
@@ -186,7 +261,7 @@ return {
             },
 
             -- Configure the completion experience
-            completion = { -- Specify completion behavior
+            completion = {     -- Specify completion behavior
                 completeopt = "menu,menuone,noinsert",
                 formatting = { -- Configure how completion menu appears
                     format = function(entry, vim_item)
@@ -202,33 +277,33 @@ return {
             },
 
             -- Window appearance configuration
-            window = {
-                documentation = {
-                    border = "rounded",
-                    max_height = 10,
-                    max_width = 50,
-                    zindex = 31,
-                    width = function()
-                        local columns = vim.o.columns
-                        local min_width = 20
-                        local max_width = math.min(columns * 0.3, 50)
-                        return math.max(min_width, max_width)
-                    end,
-                },
-                completion = {
-                    border = "rounded",
-                    winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-                    col_offset = -3,
-                    side_padding = 1,
-                    scrollbar = false,
-                    width = function()
-                        local columns = vim.o.columns
-                        local min_width = 20
-                        local max_width = math.min(columns * 0.4, 60)
-                        return math.max(min_width, max_width)
-                    end,
-                },
-            },
+            -- window = {
+            --     documentation = {
+            --         border = "rounded",
+            --         max_height = 10,
+            --         max_width = 50,
+            --         zindex = 31,
+            --         width = function()
+            --             local columns = vim.o.columns
+            --             local min_width = 20
+            --             local max_width = math.min(columns * 0.3, 50)
+            --             return math.max(min_width, max_width)
+            --         end,
+            --     },
+            --     completion = {
+            --         border = "rounded",
+            --         winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+            --         col_offset = -3,
+            --         side_padding = 1,
+            --         scrollbar = false,
+            --         width = function()
+            --             local columns = vim.o.columns
+            --             local min_width = 20
+            --             local max_width = math.min(columns * 0.4, 60)
+            --             return math.max(min_width, max_width)
+            --         end,
+            --     },
+            -- },
 
             mapping = cmp.mapping.preset.insert({ -- Configure keybindings for completion control
                 -- Confirmation keybinding - use Tab to select

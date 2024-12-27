@@ -12,20 +12,6 @@ return {
                 },
             },
 
-            -- Python formatters configuration
-            black = {
-                -- Black is the primary formatter for Python code style
-                prepend_args = { "--line-length=120", "--fast" },
-            },
-            isort = {
-                -- isort handles import sorting in Python
-                prepend_args = { "--profile", "black", "--line-length", "120" },
-            },
-            ruff_format = {
-                -- Ruff is a fast Python formatter and linter
-                prepend_args = { "--line-length=120" },
-            },
-
             -- CMake formatting configuration
             cmake_format = {
                 -- Configure cmake-format behavior
@@ -36,6 +22,25 @@ return {
                     "--separate-fn-name-with-space=false",
                 },
             },
+
+            -- python formatting configuration
+            black = {
+                prepend_args = {
+                    "--line-length=120",
+                    "--preview",
+                    "--quiet",
+                },
+            },
+            isort = {
+                prepend_args = {
+                    "--profile=black",
+                    "--line-length=120",
+                    "--multi-line=3",
+                    "--lines-after-imports=2",
+                    "--combine-as",
+                },
+            },
+            ruff_format = { prepend_args = { "format", "--line-length=120", }, },
         }
 
         -- Set up format-on-save functionality

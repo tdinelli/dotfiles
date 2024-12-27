@@ -2,9 +2,9 @@ local indentation = {
     tabstop = 2,
     softtabstop = 2,
     shiftwidth = 2,
-    expandtab = true,   -- Use spaces instead of tabs
-    smartindent = true, -- Smart autoindenting on new lines
-    breakindent = true, -- Preserve indentation on wrapped lines
+    expandtab = true,
+    smartindent = true,
+    breakindent = true,
     textwidth = 79
 }
 for key, value in pairs(indentation) do
