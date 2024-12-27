@@ -1,19 +1,127 @@
 return {
     "stevearc/conform.nvim",
-    opts = {},
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        require("conform").setup({})
-        vim.keymap.set("n", "<leader>f",
-            function()
-                require("conform").format(
-                    {
-                        async = false,
+        -- Define formatting options for each formatter
+        local formatters = {
+            -- C++ formatting configuration with clang-format
+            clangformat = {
+                prepend_args = {
+                    "--style=file:.clang-format", -- Try to use project's style first
+                    "--fallback-style=Google",    -- Fallback to Google style if no .clang-format found
+                },
+            },
+
+            -- Python formatters configuration
+            black = {
+                -- Black is the primary formatter for Python code style
+                prepend_args = { "--line-length=120", "--fast" },
+            },
+            isort = {
+                -- isort handles import sorting in Python
+                prepend_args = { "--profile", "black", "--line-length", "120" },
+            },
+            ruff_format = {
+                -- Ruff is a fast Python formatter and linter
+                prepend_args = { "--line-length=120" },
+            },
+
+            -- CMake formatting configuration
+            cmake_format = {
+                -- Configure cmake-format behavior
+                prepend_args = {
+                    "--line-width=100",
+                    "--tab-size=2",
+                    "--separate-ctrl-name-with-space=false",
+                    "--separate-fn-name-with-space=false",
+                },
+            },
+        }
+
+        -- Set up format-on-save functionality
+        local format_on_save = {
+            cpp = false,
+            python = false,
+            cmake = false,
+        }
+
+        -- Configure conform.nvim
+        require("conform").setup({
+            -- Define formatters for each filetype
+            formatters_by_ft = {
+                -- C++ files use clang-format
+                cpp = { "clang-format" },
+                -- Python files use multiple formatters in sequence
+                python = {
+                    "isort",       -- First sort imports
+                    "black",       -- Then format code
+                    "ruff_format", -- Finally, apply additional formatting
+                },
+                -- CMake files use cmake-format
+                cmake = { "cmake_format" },
+            },
+
+            -- Apply the formatter configurations
+            formatters = formatters,
+
+            -- Format on save configuration
+            format_on_save = function(bufnr)
+                -- Don't format if the file is too large
+                if vim.api.nvim_buf_line_count(bufnr) > 10000 then
+                    return
+                end
+
+                -- Get the filetype of the buffer
+                local filetype = vim.bo[bufnr].filetype
+
+                -- Check if format on save is enabled for this filetype
+                if format_on_save[filetype] then
+                    return {
                         timeout_ms = 5000,
                         lsp_fallback = true,
-                    })
+                    }
+                end
+            end,
+
+            -- Notify on format errors
+            notify_on_error = true,
+        })
+
+        -- Create keymap for manual formatting
+        vim.keymap.set(
+            "n",
+            "<leader>f",
+            function()
+                require("conform").format({
+                    async = false,
+                    timeout_ms = 5000,
+                    lsp_fallback = true,
+                })
             end,
             { desc = "Format current buffer" }
         )
-    end
+
+        -- Create commands for enabling/disabling format on save
+        vim.api.nvim_create_user_command("FormatEnable", function(args)
+            local ft = args.args ~= "" and args.args or vim.bo.filetype
+            format_on_save[ft] = true
+            print(string.format("Enabled formatting on save for '%s'", ft))
+        end, {
+            nargs = "?",
+            complete = function()
+                return vim.tbl_keys(format_on_save)
+            end,
+        })
+
+        vim.api.nvim_create_user_command("FormatDisable", function(args)
+            local ft = args.args ~= "" and args.args or vim.bo.filetype
+            format_on_save[ft] = false
+            print(string.format("Disabled formatting on save for '%s'", ft))
+        end, {
+            nargs = "?",
+            complete = function()
+                return vim.tbl_keys(format_on_save)
+            end,
+        })
+    end,
 }
