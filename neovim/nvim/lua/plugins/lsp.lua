@@ -41,7 +41,6 @@ return {
                 "clangd",
                 "fortls",
                 "pyright",
-                "rust_analyzer"
             },
             handlers = {
                 ["lua_ls"] = function()

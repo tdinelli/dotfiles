@@ -4,7 +4,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     config = function()
         require("conform").setup({})
-        vim.keymap.set('n', '<leader>f',
+        vim.keymap.set("n", "<leader>f",
             function()
                 require("conform").format(
                     {

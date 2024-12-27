@@ -2,6 +2,7 @@ return {
     "p00f/alabaster.nvim",
     lazy = false,
     priority = 1000,
+    dependencies = { "nvim-tree/nvim-web-devicons", },
     config = function()
         vim.opt.background = "light"
         vim.cmd.colorscheme("alabaster")
