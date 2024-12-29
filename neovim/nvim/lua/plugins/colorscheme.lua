@@ -1,5 +1,6 @@
 return {
     "projekt0n/github-nvim-theme",
+    dependencies = {"nvim-tree/nvim-web-devicons",},
     name = "github-theme",
     lazy = false,
     priority = 1000,

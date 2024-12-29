@@ -10,6 +10,9 @@ local ui = {
     scrolloff = 8,
     list = true,
     listchars = { tab = "\\x20\\x20", eol = "\\u21b5", trail = "·" },
+    lazyredraw = true, -- Don't redraw screen while executing macros
+    updatetime = 250,  -- Reduce updatetime from default 4000ms
+    redrawtime = 1500, -- Time in milliseconds for redrawing the display
 }
 
 -----------------------------
@@ -19,21 +22,21 @@ local indentation = {
     tabstop = 4,
     softtabstop = 4,
     shiftwidth = 4,
-    expandtab = true, -- Use spaces instead of tabs
+    expandtab = true,   -- Use spaces instead of tabs
     smartindent = true, -- Smart autoindenting on new lines
     breakindent = true, -- Preserve indentation on wrapped lines
-    wrap = false,    -- Don't wrap lines
+    wrap = false,       -- Don't wrap lines
 }
 
 -----------------------------
 -- Search and Completion
 -----------------------------
 local search = {
-    hlsearch = true, -- Highlight search results
+    hlsearch = true,  -- Highlight search results
     incsearch = true, -- Show search matches as you type
     wildmode = "longest,list,full",
-    wildmenu = true, -- Command-line completion
-    isfname = "@-@", -- Characters to be included in file names
+    wildmenu = true,  -- Command-line completion
+    isfname = "@-@",  -- Characters to be included in file names
 }
 
 -----------------------------
@@ -42,8 +45,8 @@ local search = {
 local files = {
     undofile = false, -- No persistent undo
     swapfile = false, -- No swap file
-    backup = false, -- No backup file
-    updatetime = 50, -- Faster completion
+    backup = false,   -- No backup file
+    updatetime = 50,  -- Faster completion
 }
 
 -----------------------------

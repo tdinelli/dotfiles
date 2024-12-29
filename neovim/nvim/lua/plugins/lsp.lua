@@ -159,7 +159,7 @@ return {
                             "--suggest-missing-includes",    -- Suggest missing includes
 
                             -- Performance optimization settings
-                            "-j=1", -- Number of parallel workers for indexing
+                            "-j=2", -- Number of parallel workers for indexing
                         },
 
                         -- Configure init_options for additional clangd features

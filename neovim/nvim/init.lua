@@ -1,4 +1,8 @@
-vim.g.mapleader = " "
+require("core")
+
+--------------------------------------
+-- lazy stuff and external plugins
+--------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -14,13 +18,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     end
 end
 vim.opt.rtp:prepend(lazypath)
-
--- Setup lazy.nvim
 require("lazy").setup({
-    spec = { { import = "plugins" }, },
-    -- Configure any other settings here. See the documentation for more details.
-    -- automatically check for plugin updates
+    spec = { import = "plugins", },
     checker = { enabled = false },
+    change_detection = { notify = false, },
 })
-
-require("core")
