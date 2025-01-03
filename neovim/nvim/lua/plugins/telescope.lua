@@ -10,6 +10,7 @@ return {
             cond = vim.fn.executable("make") == 1,
         },
         "nvim-telescope/telescope-ui-select.nvim",
+        "nvim-tree/nvim-web-devicons",
     },
     config = function()
         local telescope = require("telescope")
@@ -23,10 +24,11 @@ return {
             defaults = {
                 path_display = { "truncate" },
                 sorting_strategy = "ascending",
+                layout_strategy = 'grey',
                 layout_config = {
                     horizontal = {
                         prompt_position = "top",
-                        preview_width = 0.6,
+                        preview_width = 0.5,
                     },
                     vertical = {
                         mirror = false,
@@ -77,6 +79,8 @@ return {
             },
         }
         telescope.setup(config)
+        telescope.load_extension("grey")
+
         -- Load extensions
         local extensions = { "fzf", "ui-select" }
         for _, ext in ipairs(extensions) do

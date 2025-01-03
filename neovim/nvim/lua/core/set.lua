@@ -3,6 +3,7 @@
 -----------------------------
 local ui = {
     termguicolors = true,
+    background = "light",
     guifont = "font-hack-nerd-font",
     number = true,
     relativenumber = true,
@@ -13,6 +14,8 @@ local ui = {
     lazyredraw = true, -- Don't redraw screen while executing macros
     updatetime = 250,  -- Reduce updatetime from default 4000ms
     redrawtime = 1500, -- Time in milliseconds for redrawing the display
+    laststatus = 3,    -- When the last window will have a status line, 3: always and ONLY the last window
+
 }
 
 -----------------------------

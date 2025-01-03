@@ -1,17 +1,20 @@
 return {
-    "projekt0n/github-nvim-theme",
-    dependencies = {"nvim-tree/nvim-web-devicons",},
-    name = "github-theme",
+    "yorickpeterse/nvim-grey",
     lazy = false,
     priority = 1000,
     config = function()
-        require("github-theme").setup({
-            -- ...
-        })
-        vim.opt.background = "light"
-        vim.cmd.colorscheme("github_light")
+        vim.cmd.colorscheme("grey")
+
+        -- Status line coloring scheme
+        vim.api.nvim_set_hl(0, "StatusMode", { fg = "#0f3635", bg = "#cfd0d1", bold = true }) -- Mode color
+        vim.api.nvim_set_hl(0, "StatusGit", { fg = "#0f3635", bg = "#cfd0d1", bold = true })  -- Git branch color
+        vim.api.nvim_set_hl(0, "StatusFile", { fg = "#0f3635", bg = "#cfd0d1" })              -- File name color
+        vim.api.nvim_set_hl(0, "StatusModified", { fg = "#0f3635", bg = "#cfd0d1" })          -- Modified flag color
+        vim.api.nvim_set_hl(0, "StatusDiagnostics", { fg = "#0f3635", bg = "#cfd0d1" })       -- Diagnostics color
+        vim.api.nvim_set_hl(0, "StatusPosition", { fg = "#0f3635", bg = "#cfd0d1" })          -- Line/column color
+        vim.api.nvim_set_hl(0, "StatusPercentage", { fg = "#0f3635", bg = "#cfd0d1" })        -- Added percentage color
+
+        -- Visual highlight
         vim.api.nvim_set_hl(0, "Visual", { bg = "#f2dcdc" })
-        vim.api.nvim_set_hl(0, "Todo", { bg = "#faf7d4", fg = "#ff0d0d" })
-        vim.api.nvim_set_hl(0, "TODO", { bg = "#faf7d4", fg = "#ff0d0d" })
     end,
 }
