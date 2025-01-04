@@ -24,7 +24,6 @@ return {
             defaults = {
                 path_display = { "truncate" },
                 sorting_strategy = "ascending",
-                layout_strategy = 'grey',
                 layout_config = {
                     horizontal = {
                         prompt_position = "top",
@@ -79,7 +78,6 @@ return {
             },
         }
         telescope.setup(config)
-        telescope.load_extension("grey")
 
         -- Load extensions
         local extensions = { "fzf", "ui-select" }

@@ -35,6 +35,4 @@ function M.get_branch()
     end
 end
 
-vim.api.nvim_create_user_command("GitBlame", ":lua require('tito.core.git').blame_line()", {})
-
 return M

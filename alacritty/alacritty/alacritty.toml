@@ -1,5 +1,5 @@
 import = [
-    "/Users/tdinelli/.config/alacritty/alabaster.toml"
+    "/Users/tdinelli/.config/alacritty/colorscheme.toml"
 ]
 
 [bell]
@@ -23,9 +23,7 @@ live_config_reload = "true"
 size = 18.0
 
 [font.normal]
-# family = "Hack Nerd Font"
 family = "JetBrainsMono Nerd Font"
-# family = "juliamono"
 
 [scrolling]
 history = 5000

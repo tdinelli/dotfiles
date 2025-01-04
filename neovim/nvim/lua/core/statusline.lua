@@ -107,32 +107,21 @@ end
 
 local function setup_diagnostics()
     local diagnostics = get_lsp_diagnostics()
-    local errors = diagnostics.errors
-    local warnings = diagnostics.warnings
-    if errors == 0 and warnings == 0 then
-        return ""
-    else
-        return table.concat {
-            process_diagnostics("E: ", errors),
-            process_diagnostics(" W: ", warnings),
-        }
+    local errors, warnings = diagnostics.errors, diagnostics.warnings
+
+    -- No diagnostics
+    if errors == 0 and warnings == 0 then return "" end
+
+    local result = {}
+    if errors > 0 then
+        table.insert(result, process_diagnostics("E: ", errors))
     end
-end
+    if warnings > 0 then
+        table.insert(result, (errors > 0 and ", " or "") .. process_diagnostics("W: ", warnings))
+    end
 
--- Function to set up highlight groups
-local function setup_highlight_groups()
-    -- Define a highlight group for each section with fg (foreground), bg (background), and style
-    vim.api.nvim_set_hl(0, "StatusMode", { fg = "#0f3635", bg = "#cfd0d1", bold = true }) -- Mode color
-    vim.api.nvim_set_hl(0, "StatusGit", { fg = "#0f3635", bg = "#cfd0d1", bold = true })  -- Git branch color
-    vim.api.nvim_set_hl(0, "StatusFile", { fg = "#0f3635", bg = "#cfd0d1" })              -- File name color
-    vim.api.nvim_set_hl(0, "StatusModified", { fg = "#0f3635", bg = "#cfd0d1" })          -- Modified flag color
-    vim.api.nvim_set_hl(0, "StatusDiagnostics", { fg = "#0f3635", bg = "#cfd0d1" })       -- Diagnostics color
-    vim.api.nvim_set_hl(0, "StatusPosition", { fg = "#0f3635", bg = "#cfd0d1" })          -- Line/column color
-    vim.api.nvim_set_hl(0, "StatusPercentage", { fg = "#0f3635", bg = "#cfd0d1" })        -- Added percentage color
+    return table.concat(result)
 end
-
--- Call this function during your configuration setup
-setup_highlight_groups()
 
 -- Modified Status_line function with file percentage
 function Status_line()
