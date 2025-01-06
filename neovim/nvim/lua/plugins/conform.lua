@@ -26,7 +26,7 @@ return {
             -- python formatting configuration
             black = {
                 prepend_args = {
-                    "--line-length=120",
+                    "--line-length=89",
                     "--preview",
                     "--quiet",
                 },
@@ -34,13 +34,13 @@ return {
             isort = {
                 prepend_args = {
                     "--profile=black",
-                    "--line-length=120",
+                    "--line-length=89",
                     "--multi-line=3",
                     "--lines-after-imports=2",
                     "--combine-as",
                 },
             },
-            ruff_format = { prepend_args = { "format", "--line-length=120", }, },
+            ruff_format = { prepend_args = { "format", "--line-length=89", }, },
         }
 
         -- Set up format-on-save functionality

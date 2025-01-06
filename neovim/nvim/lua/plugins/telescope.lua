@@ -96,28 +96,31 @@ return {
         vim.keymap.set("n", "<leader>qo", builtin.quickfix, { desc = "[Q]uickfix [O]pen" })
         vim.keymap.set("n", "<leader>ts", builtin.treesitter, { desc = "[T]ree [S]itter search" })
         vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-        vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+        vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
 
         -- Following stuff copied from kickstart
-        vim.keymap.set('n', '<leader>/', function()
-            builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+        vim.keymap.set("n", "<leader>/", function()
+            builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {
                 winblend = 10,
                 previewer = false,
             })
-        end, { desc = '[/] Fuzzily search in current buffer' })
+        end, { desc = "[/] Fuzzily search in current buffer" })
 
         -- Also possible to pass additional configuration options.
         --  See `:help telescope.builtin.live_grep()` for information about particular keys
-        vim.keymap.set('n', '<leader>s/', function()
+        vim.keymap.set("n", "<leader>s/", function()
             builtin.live_grep {
                 grep_open_files = true,
-                prompt_title = 'Live Grep in Open Files',
+                prompt_title = "Live Grep in Open Files",
             }
-        end, { desc = '[S]earch [/] in Open Files' })
+        end, { desc = "[S]earch [/] in Open Files" })
 
         -- Shortcut for searching your neovim configuration files
-        vim.keymap.set('n', '<leader>sn', function()
-            builtin.find_files { cwd = vim.fn.stdpath 'config' }
-        end, { desc = '[S]earch [N]eovim files' })
+        vim.keymap.set("n", "<leader>sn", function()
+            builtin.find_files { cwd = vim.fn.stdpath "config" }
+        end, { desc = "[S]earch [N]eovim files" })
+
+        -- Search the TODO stuff from misc plugin
+        vim.keymap.set("n", "<leader>td", "<cmd>TodoTelescope<CR>", { desc = "Search [T]O[D]O" })
     end,
 }

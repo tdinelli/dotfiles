@@ -34,7 +34,7 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "pylsp" },
+            ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright"},
             handlers = {
                 ["lua_ls"] = function()
                     require("lspconfig").lua_ls.setup({
@@ -53,63 +53,36 @@ return {
                     })
                 end,
 
-                ["pylsp"] = function()
+                ["pyright"] = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.pylsp.setup({
+                    lspconfig.pyright.setup({
                         capabilities = capabilities,
                         cmd = {
-                            vim.fn.stdpath("data") .. "/mason/bin/pylsp",
+                            vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver",
+                            "--stdio",
                         },
                         settings = {
-                            pylsp = {
-                                plugins = {
-                                    -- Code analysis plugins
-                                    pyflakes = { enabled = false },
-                                    pycodestyle = { enabled = false },
-                                    mccabe = { enabled = false },
+                            python = {
+                                analysis = {
+                                    autoSearchPaths = true,
+                                    diagnosticMode = "openFilesOnly",
+                                    useLibraryCodeForTypes = true,
+                                    typeCheckingMode = "basic",
 
-                                    -- Formatting plugins
-                                    autopep8 = { enabled = false },
-                                    yapf = { enabled = false },
-
-                                    -- Type checking and imports
-                                    pylsp_mypy = { enabled = false },
-                                    pylsp_black = { enabled = false },
-                                    pylsp_isort = { enabled = false },
-
-                                    -- Enable helpful plugins that don't conflict with external tools
-                                    jedi_completion = {
-                                        enabled = true,
-                                        include_params = true,                -- Include parameter hints in completions
-                                        include_class_objects = true,         -- Include class objects in completions
-                                        fuzzy = true,                         -- Enable fuzzy matching for completions
+                                    -- Similar diagnostics control as pylsp
+                                    diagnosticSeverityOverrides = {
+                                        reportGeneralTypeIssues = "warning",
+                                        reportOptionalMemberAccess = "warning",
+                                        reportOptionalSubscript = "warning",
+                                        reportPrivateImportUsage = "warning",
                                     },
-                                    jedi_hover = { enabled = true },          -- Enable documentation on hover
-                                    jedi_references = { enabled = true },     -- Enable finding references
-                                    jedi_signature_help = { enabled = true }, -- Enable signature help
-                                    jedi_symbols = { enabled = true },        -- Enable document symbols
-
-                                    -- Rope for refactoring operations
-                                    rope_completion = { enabled = true },
-                                    rope_autoimport = { enabled = true },
                                 },
 
-                                -- Configure diagnostics behavior
-                                diagnostics = {
-                                    enable = true,
-                                    report_syntax_errors = true,
-                                },
-
-                                -- Workspace configuration
-                                workspace = {
-                                    symbols = {
-                                        enabled = true,
-                                        exclude = {
-                                            "**/.git/**",
-                                            "**/__pycache__/**",
-                                            "**/venv/**",
-                                        },
-                                    },
+                                -- Workspace configuration similar to pylsp
+                                exclude = {
+                                    "**/.git/**",
+                                    "**/__pycache__/**",
+                                    "**/venv/**",
                                 },
                             },
                         },
@@ -117,7 +90,7 @@ return {
                         -- Configure file pattern matching
                         filetypes = { "python" },
 
-                        -- Root directory patterns for project detection
+                        -- Root directory patterns for project detection (same as your pylsp config)
                         root_dir = function(fname)
                             return require("lspconfig.util").root_pattern(
                                 "pyproject.toml",
@@ -130,6 +103,83 @@ return {
                         end,
                     })
                 end,
+                -- ["pylsp"] = function()
+                --     local lspconfig = require("lspconfig")
+                --     lspconfig.pylsp.setup({
+                --         capabilities = capabilities,
+                --         cmd = {
+                --             vim.fn.stdpath("data") .. "/mason/bin/pylsp",
+                --         },
+                --         settings = {
+                --             pylsp = {
+                --                 plugins = {
+                --                     -- Code analysis plugins
+                --                     pyflakes = { enabled = false },
+                --                     pycodestyle = { enabled = false },
+                --                     mccabe = { enabled = false },
+                --
+                --                     -- Formatting plugins
+                --                     autopep8 = { enabled = false },
+                --                     yapf = { enabled = false },
+                --
+                --                     -- Type checking and imports
+                --                     pylsp_mypy = { enabled = false },
+                --                     pylsp_black = { enabled = false },
+                --                     pylsp_isort = { enabled = false },
+                --
+                --                     -- Enable helpful plugins that don't conflict with external tools
+                --                     jedi_completion = {
+                --                         enabled = true,
+                --                         include_params = true,                -- Include parameter hints in completions
+                --                         include_class_objects = true,         -- Include class objects in completions
+                --                         fuzzy = true,                         -- Enable fuzzy matching for completions
+                --                     },
+                --                     jedi_hover = { enabled = true },          -- Enable documentation on hover
+                --                     jedi_references = { enabled = true },     -- Enable finding references
+                --                     jedi_signature_help = { enabled = true }, -- Enable signature help
+                --                     jedi_symbols = { enabled = true },        -- Enable document symbols
+                --
+                --                     -- Rope for refactoring operations
+                --                     rope_completion = { enabled = true },
+                --                     rope_autoimport = { enabled = true },
+                --                 },
+                --
+                --                 -- Configure diagnostics behavior
+                --                 diagnostics = {
+                --                     enable = true,
+                --                     report_syntax_errors = true,
+                --                 },
+                --
+                --                 -- Workspace configuration
+                --                 workspace = {
+                --                     symbols = {
+                --                         enabled = true,
+                --                         exclude = {
+                --                             "**/.git/**",
+                --                             "**/__pycache__/**",
+                --                             "**/venv/**",
+                --                         },
+                --                     },
+                --                 },
+                --             },
+                --         },
+                --
+                --         -- Configure file pattern matching
+                --         filetypes = { "python" },
+                --
+                --         -- Root directory patterns for project detection
+                --         root_dir = function(fname)
+                --             return require("lspconfig.util").root_pattern(
+                --                 "pyproject.toml",
+                --                 "setup.py",
+                --                 "setup.cfg",
+                --                 "requirements.txt",
+                --                 "Pipfile",
+                --                 ".git"
+                --             )(fname)
+                --         end,
+                --     })
+                -- end,
 
                 ["clangd"] = function()
                     local lspconfig = require("lspconfig")
