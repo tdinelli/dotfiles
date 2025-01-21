@@ -1,7 +1,7 @@
 local indentation = {
-    tabstop = 3,
-    softtabstop = 3,
-    shiftwidth = 3,
+    tabstop = 4,
+    softtabstop = 4,
+    shiftwidth = 4,
     expandtab = true,
     smartindent = true,
     breakindent = true,

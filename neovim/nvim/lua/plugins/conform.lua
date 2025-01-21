@@ -26,7 +26,7 @@ return {
             -- python formatting configuration
             black = {
                 prepend_args = {
-                    "--line-length=89",
+                    "--line-length=120",
                     "--preview",
                     "--quiet",
                 },
@@ -34,13 +34,40 @@ return {
             isort = {
                 prepend_args = {
                     "--profile=black",
-                    "--line-length=89",
+                    "--line-length=120",
                     "--multi-line=3",
                     "--lines-after-imports=2",
                     "--combine-as",
                 },
             },
-            ruff_format = { prepend_args = { "format", "--line-length=89", }, },
+            ruff_format = { prepend_args = { "format", "--line-length=120", }, },
+
+            -- LaTeX formatting configuration
+            latexindent = {
+                prepend_args = {
+                    "-l",                  -- Use local configuration file if available
+                    "-m",                  -- Modify line breaks
+                    "--logfile=/dev/null", -- Disable logging
+                },
+                -- "-g=/dev/null",                -- Disable backup files
+                -- "--local",                     -- Use .latexindent.yaml from project directory
+                -- "--lines=1-100000",            -- Format entire file
+                -- "-y=\"noTabs:1\"",             -- Prevent usage of tabs
+                -- "-y=\"defaultIndent:' '\"",    -- Use space for indentation
+                -- "-y=\"indentRules:' '\"",      -- Use space for indentation
+                -- "-y=\"maximumIndentation:89\"" -- Set maximum line length to 89
+            },
+            ["bibtex-tidy"] = {
+                prepend_args = {
+                    "--omit=abstract", -- Skip abstract field
+                    "--curly",         -- Use curly braces for titles
+                    "--sort-fields",   -- Sort fields within entries
+                    "--duplicates",    -- Check for duplicates
+                    "--align=14",      -- Align fields at column 14
+                    "--wrap=80",       -- Wrap long lines at 80 characters
+                    "--blank-lines"
+                },
+            },
         }
 
         -- Set up format-on-save functionality
@@ -48,6 +75,10 @@ return {
             cpp = false,
             python = false,
             cmake = false,
+            latex = false,
+            tex = false,
+            plaintex = false,
+            bib = false,
         }
 
         -- Configure conform.nvim
@@ -64,6 +95,12 @@ return {
                 },
                 -- CMake files use cmake-format
                 cmake = { "cmake_format" },
+
+                -- LaTeX
+                latex = { "latexindent" },
+                tex = { "latexindent" },
+                plaintex = { "latexindent" },
+                bib = { "bibtex-tidy" }
             },
 
             -- Apply the formatter configurations

@@ -3,8 +3,6 @@ export CLICOLOR=1
 export LSCOLORS=Exfxcxdxbxegedabagacad
 export GREP_OPTIONS='--color=auto'
 export TERM="xterm-256color"
-# export TERM = "screen-256color"
-# export TERM = "tmux-256color"
 
 # Load required modules
 autoload -Uz vcs_info

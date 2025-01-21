@@ -34,7 +34,7 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright"},
+            ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright", "cmake" },
             handlers = {
                 ["lua_ls"] = function()
                     require("lspconfig").lua_ls.setup({
@@ -288,6 +288,41 @@ return {
                                 ".latexmkrc",
                                 "main.tex",
                                 "root.tex",
+                                ".git"
+                            )(fname)
+                        end,
+                    })
+                end,
+
+                ["cmake"] = function()
+                    require("lspconfig").cmake.setup({
+                        capabilities = capabilities,
+                        cmd = {
+                            vim.fn.stdpath("data") .. "/mason/bin/cmake-language-server",
+                        },
+                        init_options = {
+                            buildDirectory = "build",
+                        },
+                        settings = {
+                            cmake = {
+                                diagnostics = {
+                                    enabled = true,
+                                },
+                                formatting = {
+                                    enabled = true,
+                                },
+                                languageSupport = {
+                                    enableAutoComplete = true,
+                                    enableHover = true,
+                                    enableReferences = true,
+                                },
+                            },
+                        },
+                        filetypes = { "cmake", "CMakeLists.txt" },
+                        root_dir = function(fname)
+                            return require("lspconfig.util").root_pattern(
+                                "CMakeLists.txt",
+                                "cmake",
                                 ".git"
                             )(fname)
                         end,
