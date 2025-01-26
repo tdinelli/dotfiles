@@ -338,61 +338,16 @@ return {
 
         -- Configure the completion engine
         cmp.setup({
-            -- Snippet configuration - tells nvim-cmp how to handle snippet expansion
-            snippet = {
-                expand = function(args)
-                    luasnip.lsp_expand(args.body)
-                end,
-            },
-
-            -- Configure the completion experience
-            completion = {     -- Specify completion behavior
-                completeopt = "menu,menuone,noinsert",
-                formatting = { -- Configure how completion menu appears
-                    format = function(entry, vim_item)
-                        vim_item.menu = ({
-                            nvim_lsp = "[LSP]",
-                            luasnip = "[Snippet]",
-                            buffer = "[Buffer]",
-                            path = "[Path]",
-                        })[entry.source.name]
-                        return vim_item
-                    end,
-                },
-            },
-
-            -- Window appearance configuration
-            -- window = {
-            --     documentation = {
-            --         border = "rounded",
-            --         max_height = 10,
-            --         max_width = 50,
-            --         zindex = 31,
-            --         width = function()
-            --             local columns = vim.o.columns
-            --             local min_width = 20
-            --             local max_width = math.min(columns * 0.3, 50)
-            --             return math.max(min_width, max_width)
-            --         end,
-            --     },
-            --     completion = {
-            --         border = "rounded",
-            --         winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-            --         col_offset = -3,
-            --         side_padding = 1,
-            --         scrollbar = false,
-            --         width = function()
-            --             local columns = vim.o.columns
-            --             local min_width = 20
-            --             local max_width = math.min(columns * 0.4, 60)
-            --             return math.max(min_width, max_width)
-            --         end,
-            --     },
-            -- },
+            -- Configure completion sources in priority order
+            sources = cmp.config.sources({
+                { name = "nvim_lsp", priority = 1000 },
+                { name = "luasnip",  priority = 750 },
+                { name = "path",     priority = 500 },
+            }),
 
             mapping = cmp.mapping.preset.insert({ -- Configure keybindings for completion control
                 -- Confirmation keybinding - use Tab to select
-                ["<Tab>"] = cmp.mapping.confirm({ select = false, }),
+                ["<Tab>"] = cmp.mapping.confirm({ select = true, }),
                 -- Manual trigger for completion menu
                 ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Manual, }),
                 -- Documentation scroll controls
@@ -402,12 +357,6 @@ return {
                 ["<C-e>"] = cmp.mapping.abort(),
             }),
 
-            -- Configure completion sources in priority order
-            sources = cmp.config.sources({
-                { name = "nvim_lsp", priority = 1000 },
-                { name = "luasnip",  priority = 750 },
-                { name = "path",     priority = 500 },
-            }),
 
             sorting = {
                 comparators = {
@@ -421,9 +370,76 @@ return {
                 },
             },
 
-            experimental = {
-                ghost_text = false,  -- Enable ghost text (preview of completion)
-                native_menu = false, -- Enable native menu
+            -- Snippet configuration - tells nvim-cmp how to handle snippet expansion
+            snippet = {
+                expand = function(args)
+                    luasnip.lsp_expand(args.body)
+                end,
+            },
+
+            -- Window appearance configuration
+            window = {
+                completion = {
+                    border = "rounded",
+                    winhighlight = "Normal:CmpNormal,FloatBorder:CmpBorder",
+                    col_offset = -3,
+                    side_padding = 0,
+                },
+                documentation = {
+                    border = "rounded",
+                    winhighlight = "Normal:CmpDocNormal,FloatBorder:CmpDocBorder",
+                    max_width = 50,
+                    max_height = 30,
+                },
+            },
+
+            -- Appearance of completion items
+            formatting = {
+                fields = { "kind", "abbr", "menu" },
+                format = function(entry, vim_item)
+                    local kind_icons = {
+                        Text = "󰉿",
+                        Method = "󰆧",
+                        Function = "󰊕",
+                        Constructor = "",
+                        Field = "󰜢",
+                        Variable = "󰀫",
+                        Class = "󰠱",
+                        Interface = "",
+                        Module = "",
+                        Property = "󰜢",
+                        Unit = "󰑭",
+                        Value = "󰎠",
+                        Enum = "",
+                        Keyword = "󰌋",
+                        Snippet = "",
+                        Color = "󰏘",
+                        File = "󰈙",
+                        Reference = "󰈇",
+                        Folder = "󰉋",
+                        EnumMember = "",
+                        Constant = "󰏿",
+                        Struct = "󰙅",
+                        Event = "",
+                        Operator = "󰆕",
+                        TypeParameter = "",
+                    }
+                    vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
+                    vim_item.menu = ({
+                        nvim_lsp = "[LSP]",
+                        luasnip = "[Snippet]",
+                        buffer = "[Buffer]",
+                        path = "[Path]",
+                    })[entry.source.name]
+                    return vim_item
+                end,
+            },
+
+            -- Completion appearance
+            completion = {
+                completeopt = "menu,menuone,noinsert",
+                keyword_length = 1,
+                keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
             },
         })
 
