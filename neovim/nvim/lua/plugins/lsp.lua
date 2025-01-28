@@ -333,8 +333,7 @@ return {
 
         -- Set up nvim-cmp with LuaSnip integration
         local cmp = require("cmp")
-        local luasnip = require("luasnip")
-        luasnip.config.setup({})
+        require("snippets.luasnip")
 
         -- Configure the completion engine
         cmp.setup({
