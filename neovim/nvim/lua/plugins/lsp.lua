@@ -333,7 +333,8 @@ return {
 
         -- Set up nvim-cmp with LuaSnip integration
         local cmp = require("cmp")
-        require("snippets.luasnip")
+        local luasnip = require("luasnip")
+        require("snippets.customsnippets")
 
         -- Configure the completion engine
         cmp.setup({
@@ -440,6 +441,8 @@ return {
                 keyword_length = 1,
                 keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
             },
+
+
         })
 
         -- LSP keymaps

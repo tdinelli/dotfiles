@@ -8,7 +8,7 @@ return {
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        require("ts_context_commentstring").setup {}
+        require("ts_context_commentstring").setup({})
 
         require("nvim-treesitter.configs").setup({
             ensure_installed = {
@@ -18,7 +18,7 @@ return {
             },
             sync_install = false,
             auto_install = false,
-            highlight = { enable = true, additional_vim_regex_highlighting = false, },
+            highlight = { enable = true, additional_vim_regex_highlighting = false },
             indent = { enable = true },
             textobjects = {
                 select = {

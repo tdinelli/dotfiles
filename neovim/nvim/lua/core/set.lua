@@ -5,17 +5,17 @@ local ui = {
     termguicolors = true,
     background = "light",
     guifont = "font-hack-nerd-font",
+    -- guifont = "",
     number = true,
     relativenumber = true,
     signcolumn = "yes",
     scrolloff = 8,
     list = true,
-    listchars = { tab = "\\x20\\x20", eol = "\\u21b5", trail = "·" },
+    listchars = { tab = "·!", eol = "\\u21b5", trail = "·" },
     lazyredraw = true, -- Don't redraw screen while executing macros
     updatetime = 250,  -- Reduce updatetime from default 4000ms
     redrawtime = 1500, -- Time in milliseconds for redrawing the display
     laststatus = 3,    -- When the last window will have a status line, 3: always and ONLY the last window
-
 }
 
 -----------------------------
@@ -74,6 +74,3 @@ end
 for _, settings in pairs({ ui, indentation, search, files, folding }) do
     apply_settings(settings)
 end
-
--- Set ColorColumn highlight
-vim.api.nvim_set_hl(0, "ColorColumn", { bg = "LightGray" })

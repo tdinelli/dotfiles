@@ -23,7 +23,8 @@ live_config_reload = "true"
 size = 18.0
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+# family = "Ibm Plex Mono"
+family = "BlexMono Nerd Font Light"
 
 [scrolling]
 history = 5000

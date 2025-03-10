@@ -13,9 +13,9 @@ return {
                     winbar = {},
                 },
                 ignore_focus = {},
-                always_divide_middle = true,
-                always_show_tabline = true,
-                globalstatus = false,
+                always_divide_middle = false,
+                always_show_tabline = false,
+                globalstatus = true,
                 refresh = {
                     statusline = 100,
                     tabline = 100,
@@ -23,7 +23,7 @@ return {
                 }
             },
             sections = {
-                lualine_a = { { "mode", color = { visual = { bg = "#fc9afc" }, } } },
+                lualine_a = { "mode" },
                 lualine_b = { "branch", "diff", "diagnostics" },
                 lualine_c = { "filename" },
                 lualine_x = { "encoding", "filetype" },

@@ -15,11 +15,24 @@ return {
             -- CMake formatting configuration
             cmake_format = {
                 -- Configure cmake-format behavior
+                -- prepend_args = {
+                --     "--line-width=100",
+                --     "--tab-size=2",
+                --     "--separate-ctrl-name-with-space=false",
+                --     "--separate-fn-name-with-space=false",
+                -- },
                 prepend_args = {
                     "--line-width=100",
                     "--tab-size=2",
                     "--separate-ctrl-name-with-space=false",
                     "--separate-fn-name-with-space=false",
+                    "--command-case=lower",
+                    "--enable-markup=false",
+                    "--keyword-case=upper",    -- Makes keywords like ON, OFF, TRUE, FALSE uppercase
+                    "--enable-sort=false",     -- Prevents automatic sorting of arguments
+                    "--dangle-parens=true",    -- Puts closing parentheses on their own line
+                    "--line-ending=unix",      -- Uses Unix-style line endings (LF)
+                    "--max-pargs-hwrap=3",     -- Forces positional arguments to wrap after 1 argument
                 },
             },
 
@@ -68,6 +81,9 @@ return {
                     "--blank-lines"
                 },
             },
+
+            -- Json
+            ["fixjson"] = {}
         }
 
         -- Set up format-on-save functionality
@@ -79,6 +95,7 @@ return {
             tex = false,
             plaintex = false,
             bib = false,
+            json = false,
         }
 
         -- Configure conform.nvim
@@ -100,7 +117,8 @@ return {
                 latex = { "latexindent" },
                 tex = { "latexindent" },
                 plaintex = { "latexindent" },
-                bib = { "bibtex-tidy" }
+                bib = { "bibtex-tidy" },
+                json = { "fixjson" }
             },
 
             -- Apply the formatter configurations
