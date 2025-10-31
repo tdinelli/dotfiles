@@ -28,11 +28,11 @@ return {
                     "--separate-fn-name-with-space=false",
                     "--command-case=lower",
                     "--enable-markup=false",
-                    "--keyword-case=upper",    -- Makes keywords like ON, OFF, TRUE, FALSE uppercase
-                    "--enable-sort=false",     -- Prevents automatic sorting of arguments
-                    "--dangle-parens=true",    -- Puts closing parentheses on their own line
-                    "--line-ending=unix",      -- Uses Unix-style line endings (LF)
-                    "--max-pargs-hwrap=3",     -- Forces positional arguments to wrap after 1 argument
+                    "--keyword-case=upper", -- Makes keywords like ON, OFF, TRUE, FALSE uppercase
+                    "--enable-sort=false",  -- Prevents automatic sorting of arguments
+                    "--dangle-parens=true", -- Puts closing parentheses on their own line
+                    "--line-ending=unix",   -- Uses Unix-style line endings (LF)
+                    "--max-pargs-hwrap=3",  -- Forces positional arguments to wrap after 1 argument
                 },
             },
 
@@ -72,7 +72,7 @@ return {
             },
             ["bibtex-tidy"] = {
                 prepend_args = {
-                    "--omit=abstract", -- Skip abstract field
+                    "--omit=abstract,url", -- Skip abstract field
                     "--curly",         -- Use curly braces for titles
                     "--sort-fields",   -- Sort fields within entries
                     "--duplicates",    -- Check for duplicates

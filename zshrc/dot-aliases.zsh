@@ -41,6 +41,8 @@ switch_compiler() {
         export OpenBLAS_DIR=$NUMERICAL_LIBRARIES/openblas/openblas-0.3.26-clang-18.1.7/lib/cmake/openblas
         export GSL_ROOT_DIR=$NUMERICAL_LIBRARIES/gsl/gsl-2.8-clang-18.1.7
         export Dakota_DIR=$NUMERICAL_LIBRARIES/dakota/dakota-6.19.0-clang-18.1.7/lib/cmake/Dakota
+        export Ceres_DIR="$NUMERICAL_LIBRARIES/ceres/ceres-2.2.0-clang-18.1.7/lib/cmake/Ceres"
+        export SUNDIALS_DIR="$NUMERICAL_LIBRARIES/sundials/sundials-7.2.0-clang-18.1.7/lib/cmake/sundials"
     else
         echo "Usage: switch_compiler [gnu | llvm]"
         return 1
@@ -49,6 +51,7 @@ switch_compiler() {
     export OpenSMOKEpp_ROOT="$HOME/Documents/GitHub/OpenSMOKEpp"
     export OpenSMOKEppSolvers_ROOT="$HOME/Documents/GitHub/OpenSMOKEppSolvers"
     export Eigen3_ROOT="$NUMERICAL_LIBRARIES/eigen/eigen-3.4.0/share/eigen3/cmake"
+    export autodiff_ROOT="$NUMERICAL_LIBRARIES/autodiff/lib/cmake/autodiff"
     return 0
 }
 # By default llvm is the compiler

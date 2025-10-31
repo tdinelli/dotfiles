@@ -34,7 +34,8 @@ return {
         })
 
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright", "cmake" },
+            -- ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright", "cmake" },
+            ensure_installed = { "lua_ls", "pylsp", "pyright", "cmake" },
             handlers = {
                 ["lua_ls"] = function()
                     require("lspconfig").lua_ls.setup({
@@ -49,6 +50,14 @@ return {
                                 },
                                 telemetry = { enable = false },
                             }
+                        }
+                    })
+                end,
+
+                ["fortls"] = function()
+                    require("lspconfig").fortls.setup({
+                        capabilities = capabilities,
+                        settings = {
                         }
                     })
                 end,
@@ -181,84 +190,95 @@ return {
                 --     })
                 -- end,
 
-                ["clangd"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.clangd.setup({
-                        capabilities = capabilities,
-
-                        cmd = {
-                            vim.fn.stdpath("data") .. "/mason/bin/clangd",
-
-                            -- Indexing and performance settings
-                            "--background-index",       -- Index project in background for better performance
-                            "--offset-encoding=utf-16", -- Ensure proper encoding handling
-                            "--pch-storage=memory",     -- Store precompiled headers in memory for faster access
-                            "--clang-tidy",             -- Enable clang-tidy for additional diagnostics
-
-                            -- Code completion settings
-                            "--completion-style=bundled",  -- Get detailed completion items
-                            "--function-arg-placeholders", -- Include function argument placeholders in completion
-                            "--header-insertion=iwyu",     -- Use IWYU style header insertion
-
-                            -- Cross-reference and refactoring settings
-                            "--cross-file-rename",     -- Enable cross-file renaming
-                            "--all-scopes-completion", -- Show completions from all scopes
-
-                            -- Additional helpful features
-                            "--header-insertion-decorators", -- Show where headers will be inserted
-                            "--suggest-missing-includes",    -- Suggest missing includes
-
-                            -- Performance optimization settings
-                            "-j=2", -- Number of parallel workers for indexing
-                        },
-
-                        -- Configure init_options for additional clangd features
-                        init_options = {
-                            -- Configure clangd's built-in code analysis
-                            fallbackFlags = { "-std=c++17" }, -- Default to C++17 if no compilation database found
-                            compilationDatabaseDirectories = { "build", "Build", "OUT", "out" },
-
-                            -- Enhance code completion behavior
-                            completionOrganization = "Detailed", -- Get more detailed completion items
-                            includeInlayHints = true,            -- Show inlay hints for types and parameters
-
-                            -- Configure clang-tidy integration
-                            clangTidy = {
-                                -- Add additional clang-tidy checks beyond the defaults
-                                -- Default checks are: clang-diagnostic-*, clang-analyzer-*
-                                add = {
-                                    "modernize-*",   -- Modern C++ features
-                                    "performance-*", -- Performance improvements
-                                    "bugprone-*",    -- Likely bug patterns
-                                    "readability-*", -- Code readability
-                                },
-                                -- Disable specific checks that might be too noisy
-                                remove = {
-                                    "modernize-use-trailing-return-type", -- Avoid forcing trailing return types
-                                },
-                            },
-                        },
-
-                        -- Configure file pattern matching
-                        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-
-                        -- Root directory patterns for project detection
-                        root_dir = function(fname)
-                            return require("lspconfig.util").root_pattern(
-                                "compile_commands.json",
-                                "compile_flags.txt",
-                                ".clangd",
-                                ".clang-tidy",
-                                ".clang-format",
-                                "configure.ac",
-                                "CMakeLists.txt",
-                                "build/compile_commands.json",
-                                "compile_flags.txt",
-                                ".git"
-                            )(fname)
-                        end,
-                    })
-                end,
+                -- ["clangd"] = function()
+                --     local lspconfig = require("lspconfig")
+                --
+                --     lspconfig.clangd.setup({
+                --         capabilities = capabilities,
+                --
+                --         cmd = {
+                --             vim.fn.stdpath("data") .. "/mason/bin/clangd",
+                --
+                --             -- Enable reading config files (.clangd and config.yaml)
+                --             -- "--enable-config",
+                --
+                --             -- Indexing and performance settings
+                --             "--background-index",       -- Index project in background for better performance
+                --             "--offset-encoding=utf-16", -- Ensure proper encoding handling
+                --             "--pch-storage=memory",     -- Store precompiled headers in memory for faster access
+                --             "--clang-tidy",             -- Enable clang-tidy for additional diagnostics
+                --
+                --             -- Code completion settings
+                --             "--completion-style=bundled",  -- Get detailed completion items
+                --             "--function-arg-placeholders", -- Include function argument placeholders in completion
+                --             "--header-insertion=iwyu",     -- Use IWYU style header insertion
+                --
+                --             -- Cross-reference and refactoring settings
+                --             "--cross-file-rename",     -- Enable cross-file renaming
+                --             "--all-scopes-completion", -- Show completions from all scopes
+                --
+                --             -- Additional helpful features
+                --             "--header-insertion-decorators", -- Show where headers will be inserted
+                --             "--suggest-missing-includes",    -- Suggest missing includes
+                --
+                --             -- Performance optimization settings
+                --             "-j=2", -- Number of parallel workers for indexing
+                --         },
+                --
+                --         -- Configure init_options for additional clangd features
+                --         init_options = {
+                --             -- Configure clangd's built-in code analysis
+                --             -- Better fallback flags for standalone files without compile_commands.json
+                --             fallbackFlags = {
+                --                 "-std=c++17",
+                --                 -- "-Wall",
+                --                 -- "-Wextra",
+                --                 -- "-isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+                --                 -- "-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1",
+                --             },
+                --             compilationDatabaseDirectories = { "build", "Build", "OUT", "out" },
+                --
+                --             -- Enhance code completion behavior
+                --             completionOrganization = "Detailed", -- Get more detailed completion items
+                --             includeInlayHints = true,            -- Show inlay hints for types and parameters
+                --
+                --             -- Configure clang-tidy integration
+                --             clangTidy = {
+                --                 -- Add additional clang-tidy checks beyond the defaults
+                --                 -- Default checks are: clang-diagnostic-*, clang-analyzer-*
+                --                 add = {
+                --                     "modernize-*",   -- Modern C++ features
+                --                     "performance-*", -- Performance improvements
+                --                     "bugprone-*",    -- Likely bug patterns
+                --                     "readability-*", -- Code readability
+                --                 },
+                --                 -- Disable specific checks that might be too noisy
+                --                 remove = {
+                --                     "modernize-use-trailing-return-type", -- Avoid forcing trailing return types
+                --                 },
+                --             },
+                --         },
+                --
+                --         -- Configure file pattern matching
+                --         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+                --
+                --         -- Root directory patterns for project detection
+                --         -- Fallback to file's directory for simple standalone files
+                --         root_dir = function(fname)
+                --             return require("lspconfig.util").root_pattern(
+                --                 "compile_commands.json",
+                --                 "compile_flags.txt",
+                --                 ".clangd",
+                --                 ".clang-tidy",
+                --                 ".clang-format",
+                --                 "configure.ac",
+                --                 "CMakeLists.txt",
+                --                 "build/compile_commands.json",
+                --                 ".git"
+                --             )(fname) -- or vim.fn.fnamemodify(fname, ":p:h")
+                --         end,
+                --     })
+                -- end,
 
                 ["texlab"] = function()
                     local lspconfig = require("lspconfig")

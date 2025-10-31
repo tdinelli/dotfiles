@@ -10,17 +10,14 @@ Host bovisa4
     User tdinelli
     HostName nodevg-0-4
     ProxyJump bovisa_master
-
-Host bovisa3
-    User tdinelli
-    HostName nodevg-0-3
-    ProxyJump bovisa_master
+    ForwardX11 yes
+    ForwardAgent yes
+    ForwardX11Trusted yes
 
 Host bovisa2
     User tdinelli
     HostName nodevg-0-2
-    ProxyJump tdinelli@10.75.224.1
-    LogLevel QUIET
+    ProxyJump bovisa_master
 
 Host smokebovisa
     User tdinelli
