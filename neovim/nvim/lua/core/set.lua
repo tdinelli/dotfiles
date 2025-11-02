@@ -5,7 +5,6 @@ local ui = {
     termguicolors = true,
     background = "light",
     guifont = "font-hack-nerd-font",
-    -- guifont = "",
     number = true,
     relativenumber = true,
     signcolumn = "yes",

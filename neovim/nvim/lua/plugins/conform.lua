@@ -5,9 +5,9 @@ return {
         -- Define formatting options for each formatter
         local formatters = {
             -- C++ formatting configuration with clang-format
-            clangformat = {
+            clang_format = {
                 prepend_args = {
-                    "--style=file:.clang-format", -- Try to use project's style first
+                    "--style=file", -- Try to use project's style first
                     "--fallback-style=Google",    -- Fallback to Google style if no .clang-format found
                 },
             },
@@ -103,7 +103,7 @@ return {
             -- Define formatters for each filetype
             formatters_by_ft = {
                 -- C++ files use clang-format
-                cpp = { "clang-format" },
+                cpp = { "clang_format" },
                 -- Python files use multiple formatters in sequence
                 python = {
                     "isort",       -- First sort imports

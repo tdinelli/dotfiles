@@ -13,7 +13,7 @@ end
 
 -- LSP Semantic Token Highlighting for C
 -- Set function names to blue
-vim.api.nvim_set_hl(0, '@lsp.type.function.c', { fg = '#0451a5', bold = true })
-vim.api.nvim_set_hl(0, '@lsp.type.method.c', { fg = '#0451a5', bold = true })
-vim.api.nvim_set_hl(0, '@lsp.type.function', { fg = '#0451a5', bold = true })
-vim.api.nvim_set_hl(0, '@lsp.type.method', { fg = '#0451a5', bold = true })
+-- vim.api.nvim_set_hl(0, '@lsp.type.function.c', { fg = '#0451a5', bold = true })
+-- vim.api.nvim_set_hl(0, '@lsp.type.method.c', { fg = '#0451a5', bold = true })
+-- vim.api.nvim_set_hl(0, '@lsp.type.function', { fg = '#0451a5', bold = true })
+-- vim.api.nvim_set_hl(0, '@lsp.type.method', { fg = '#0451a5', bold = true })

@@ -33,350 +33,94 @@ return {
             }
         })
 
-        require("mason-lspconfig").setup({
-            -- ensure_installed = { "lua_ls", "clangd", "pylsp", "pyright", "cmake" },
-            ensure_installed = { "lua_ls", "pylsp", "pyright", "cmake" },
-            handlers = {
-                ["lua_ls"] = function()
-                    require("lspconfig").lua_ls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim" }
-                                },
-                                workspace = {
-                                    checkThirdParty = false,
-                                },
-                                telemetry = { enable = false },
-                            }
-                        }
-                    })
-                end,
+        -- Configure servers (NO CLANGD)
+        vim.lsp.config('lua_ls', {
+            capabilities = capabilities,
+            settings = {
+                Lua = {
+                    diagnostics = { globals = { "vim" } },
+                    workspace = { checkThirdParty = false },
+                    telemetry = { enable = false },
+                }
+            }
+        })
 
-                ["fortls"] = function()
-                    require("lspconfig").fortls.setup({
-                        capabilities = capabilities,
-                        settings = {
-                        }
-                    })
-                end,
-
-                ["pyright"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.pyright.setup({
-                        capabilities = capabilities,
-                        cmd = {
-                            vim.fn.stdpath("data") .. "/mason/bin/pyright-langserver",
-                            "--stdio",
+        vim.lsp.config('pyright', {
+            capabilities = capabilities,
+            settings = {
+                python = {
+                    analysis = {
+                        autoSearchPaths = true,
+                        diagnosticMode = "openFilesOnly",
+                        useLibraryCodeForTypes = true,
+                        typeCheckingMode = "basic",
+                        diagnosticSeverityOverrides = {
+                            reportGeneralTypeIssues = "warning",
+                            reportOptionalMemberAccess = "warning",
+                            reportOptionalSubscript = "warning",
+                            reportPrivateImportUsage = "warning",
                         },
-                        settings = {
-                            python = {
-                                analysis = {
-                                    autoSearchPaths = true,
-                                    diagnosticMode = "openFilesOnly",
-                                    useLibraryCodeForTypes = true,
-                                    typeCheckingMode = "basic",
-
-                                    -- Similar diagnostics control as pylsp
-                                    diagnosticSeverityOverrides = {
-                                        reportGeneralTypeIssues = "warning",
-                                        reportOptionalMemberAccess = "warning",
-                                        reportOptionalSubscript = "warning",
-                                        reportPrivateImportUsage = "warning",
-                                    },
-                                },
-
-                                -- Workspace configuration similar to pylsp
-                                exclude = {
-                                    "**/.git/**",
-                                    "**/__pycache__/**",
-                                    "**/venv/**",
-                                },
-                            },
-                        },
-
-                        -- Configure file pattern matching
-                        filetypes = { "python" },
-
-                        -- Root directory patterns for project detection (same as your pylsp config)
-                        root_dir = function(fname)
-                            return require("lspconfig.util").root_pattern(
-                                "pyproject.toml",
-                                "setup.py",
-                                "setup.cfg",
-                                "requirements.txt",
-                                "Pipfile",
-                                ".git"
-                            )(fname)
-                        end,
-                    })
-                end,
-                -- ["pylsp"] = function()
-                --     local lspconfig = require("lspconfig")
-                --     lspconfig.pylsp.setup({
-                --         capabilities = capabilities,
-                --         cmd = {
-                --             vim.fn.stdpath("data") .. "/mason/bin/pylsp",
-                --         },
-                --         settings = {
-                --             pylsp = {
-                --                 plugins = {
-                --                     -- Code analysis plugins
-                --                     pyflakes = { enabled = false },
-                --                     pycodestyle = { enabled = false },
-                --                     mccabe = { enabled = false },
-                --
-                --                     -- Formatting plugins
-                --                     autopep8 = { enabled = false },
-                --                     yapf = { enabled = false },
-                --
-                --                     -- Type checking and imports
-                --                     pylsp_mypy = { enabled = false },
-                --                     pylsp_black = { enabled = false },
-                --                     pylsp_isort = { enabled = false },
-                --
-                --                     -- Enable helpful plugins that don't conflict with external tools
-                --                     jedi_completion = {
-                --                         enabled = true,
-                --                         include_params = true,                -- Include parameter hints in completions
-                --                         include_class_objects = true,         -- Include class objects in completions
-                --                         fuzzy = true,                         -- Enable fuzzy matching for completions
-                --                     },
-                --                     jedi_hover = { enabled = true },          -- Enable documentation on hover
-                --                     jedi_references = { enabled = true },     -- Enable finding references
-                --                     jedi_signature_help = { enabled = true }, -- Enable signature help
-                --                     jedi_symbols = { enabled = true },        -- Enable document symbols
-                --
-                --                     -- Rope for refactoring operations
-                --                     rope_completion = { enabled = true },
-                --                     rope_autoimport = { enabled = true },
-                --                 },
-                --
-                --                 -- Configure diagnostics behavior
-                --                 diagnostics = {
-                --                     enable = true,
-                --                     report_syntax_errors = true,
-                --                 },
-                --
-                --                 -- Workspace configuration
-                --                 workspace = {
-                --                     symbols = {
-                --                         enabled = true,
-                --                         exclude = {
-                --                             "**/.git/**",
-                --                             "**/__pycache__/**",
-                --                             "**/venv/**",
-                --                         },
-                --                     },
-                --                 },
-                --             },
-                --         },
-                --
-                --         -- Configure file pattern matching
-                --         filetypes = { "python" },
-                --
-                --         -- Root directory patterns for project detection
-                --         root_dir = function(fname)
-                --             return require("lspconfig.util").root_pattern(
-                --                 "pyproject.toml",
-                --                 "setup.py",
-                --                 "setup.cfg",
-                --                 "requirements.txt",
-                --                 "Pipfile",
-                --                 ".git"
-                --             )(fname)
-                --         end,
-                --     })
-                -- end,
-
-                -- ["clangd"] = function()
-                --     local lspconfig = require("lspconfig")
-                --
-                --     lspconfig.clangd.setup({
-                --         capabilities = capabilities,
-                --
-                --         cmd = {
-                --             vim.fn.stdpath("data") .. "/mason/bin/clangd",
-                --
-                --             -- Enable reading config files (.clangd and config.yaml)
-                --             -- "--enable-config",
-                --
-                --             -- Indexing and performance settings
-                --             "--background-index",       -- Index project in background for better performance
-                --             "--offset-encoding=utf-16", -- Ensure proper encoding handling
-                --             "--pch-storage=memory",     -- Store precompiled headers in memory for faster access
-                --             "--clang-tidy",             -- Enable clang-tidy for additional diagnostics
-                --
-                --             -- Code completion settings
-                --             "--completion-style=bundled",  -- Get detailed completion items
-                --             "--function-arg-placeholders", -- Include function argument placeholders in completion
-                --             "--header-insertion=iwyu",     -- Use IWYU style header insertion
-                --
-                --             -- Cross-reference and refactoring settings
-                --             "--cross-file-rename",     -- Enable cross-file renaming
-                --             "--all-scopes-completion", -- Show completions from all scopes
-                --
-                --             -- Additional helpful features
-                --             "--header-insertion-decorators", -- Show where headers will be inserted
-                --             "--suggest-missing-includes",    -- Suggest missing includes
-                --
-                --             -- Performance optimization settings
-                --             "-j=2", -- Number of parallel workers for indexing
-                --         },
-                --
-                --         -- Configure init_options for additional clangd features
-                --         init_options = {
-                --             -- Configure clangd's built-in code analysis
-                --             -- Better fallback flags for standalone files without compile_commands.json
-                --             fallbackFlags = {
-                --                 "-std=c++17",
-                --                 -- "-Wall",
-                --                 -- "-Wextra",
-                --                 -- "-isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
-                --                 -- "-I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1",
-                --             },
-                --             compilationDatabaseDirectories = { "build", "Build", "OUT", "out" },
-                --
-                --             -- Enhance code completion behavior
-                --             completionOrganization = "Detailed", -- Get more detailed completion items
-                --             includeInlayHints = true,            -- Show inlay hints for types and parameters
-                --
-                --             -- Configure clang-tidy integration
-                --             clangTidy = {
-                --                 -- Add additional clang-tidy checks beyond the defaults
-                --                 -- Default checks are: clang-diagnostic-*, clang-analyzer-*
-                --                 add = {
-                --                     "modernize-*",   -- Modern C++ features
-                --                     "performance-*", -- Performance improvements
-                --                     "bugprone-*",    -- Likely bug patterns
-                --                     "readability-*", -- Code readability
-                --                 },
-                --                 -- Disable specific checks that might be too noisy
-                --                 remove = {
-                --                     "modernize-use-trailing-return-type", -- Avoid forcing trailing return types
-                --                 },
-                --             },
-                --         },
-                --
-                --         -- Configure file pattern matching
-                --         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-                --
-                --         -- Root directory patterns for project detection
-                --         -- Fallback to file's directory for simple standalone files
-                --         root_dir = function(fname)
-                --             return require("lspconfig.util").root_pattern(
-                --                 "compile_commands.json",
-                --                 "compile_flags.txt",
-                --                 ".clangd",
-                --                 ".clang-tidy",
-                --                 ".clang-format",
-                --                 "configure.ac",
-                --                 "CMakeLists.txt",
-                --                 "build/compile_commands.json",
-                --                 ".git"
-                --             )(fname) -- or vim.fn.fnamemodify(fname, ":p:h")
-                --         end,
-                --     })
-                -- end,
-
-                ["texlab"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.texlab.setup({
-                        capabilities = capabilities,
-                        cmd = { vim.fn.stdpath("data") .. "/mason/bin/texlab", },
-                        settings = {
-                            texlab = {
-                                -- For the future
-                                -- Configure forward search (PDF viewer integration)
-                                -- forwardSearch = {
-                                --     -- Configure your preferred PDF viewer here
-                                --     executable = "zathura",
-                                --     args = {
-                                --         "--synctex-forward",
-                                --         "%l:1:%f",
-                                --         "%p"
-                                --     },
-                                -- },
-                            },
-                        },
-
-                        filetypes = { "tex", "plaintex", "bib" },
-                        -- Root directory patterns for project detection
-                        root_dir = function(fname)
-                            return require("lspconfig.util").root_pattern(
-                                ".latexmkrc",
-                                "main.tex",
-                                "root.tex",
-                                ".git"
-                            )(fname)
-                        end,
-                    })
-                end,
-
-                ["cmake"] = function()
-                    require("lspconfig").cmake.setup({
-                        capabilities = capabilities,
-                        cmd = {
-                            vim.fn.stdpath("data") .. "/mason/bin/cmake-language-server",
-                        },
-                        init_options = {
-                            buildDirectory = "build",
-                        },
-                        settings = {
-                            cmake = {
-                                diagnostics = {
-                                    enabled = true,
-                                },
-                                formatting = {
-                                    enabled = true,
-                                },
-                                languageSupport = {
-                                    enableAutoComplete = true,
-                                    enableHover = true,
-                                    enableReferences = true,
-                                },
-                            },
-                        },
-                        filetypes = { "cmake", "CMakeLists.txt" },
-                        root_dir = function(fname)
-                            return require("lspconfig.util").root_pattern(
-                                "CMakeLists.txt",
-                                "cmake",
-                                ".git"
-                            )(fname)
-                        end,
-                    })
-                end,
+                    },
+                    exclude = {
+                        "**/.git/**",
+                        "**/__pycache__/**",
+                        "**/venv/**",
+                    },
+                },
+            },
+            filetypes = { "python" },
+            root_markers = {
+                "pyproject.toml",
+                "setup.py",
+                "setup.cfg",
+                "requirements.txt",
+                "Pipfile",
+                ".git"
             },
         })
 
-        -- Set up nvim-cmp with LuaSnip integration
+        vim.lsp.config('texlab', {
+            capabilities = capabilities,
+            settings = { texlab = {} },
+            filetypes = { "tex", "plaintex", "bib" },
+            root_markers = { ".latexmkrc", "main.tex", "root.tex", ".git" },
+        })
+
+        vim.lsp.config('neocmake', {
+            capabilities = capabilities,
+            init_options = {
+                format = { enable = true },
+                scan_cmake_in_package = true
+            },
+            filetypes = { "cmake" },
+            root_markers = { "CMakeLists.txt", "cmake", ".git" },
+        })
+
+        -- Setup mason-lspconfig (WITHOUT clangd in ensure_installed)
+        require("mason-lspconfig").setup({
+            ensure_installed = { "lua_ls", "pyright", "neocmake", "texlab" },
+        })
+
+        -- Set up nvim-cmp with buffer and path completion for C++
         local cmp = require("cmp")
         local luasnip = require("luasnip")
-        require("snippets.customsnippets")
+        pcall(require, "snippets.customsnippets")
 
-        -- Configure the completion engine
         cmp.setup({
-            -- Configure completion sources in priority order
             sources = cmp.config.sources({
                 { name = "nvim_lsp", priority = 1000 },
                 { name = "luasnip",  priority = 750 },
-                { name = "path",     priority = 500 },
+                { name = "buffer",   priority = 500 },  -- This gives you word completion from open buffers
+                { name = "path",     priority = 400 },
             }),
 
-            mapping = cmp.mapping.preset.insert({ -- Configure keybindings for completion control
-                -- Confirmation keybinding - use Tab to select
-                ["<Tab>"] = cmp.mapping.confirm({ select = true, }),
-                -- Manual trigger for completion menu
-                ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Manual, }),
-                -- Documentation scroll controls
-                ["<C-k>"] = cmp.mapping.scroll_docs(-4), -- Scroll up
-                ["<C-j>"] = cmp.mapping.scroll_docs(4),  -- Scroll down
-                -- Close completion menu
+            mapping = cmp.mapping.preset.insert({
+                ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+                ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Manual }),
+                ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-j>"] = cmp.mapping.scroll_docs(4),
                 ["<C-e>"] = cmp.mapping.abort(),
             }),
-
 
             sorting = {
                 comparators = {
@@ -390,14 +134,12 @@ return {
                 },
             },
 
-            -- Snippet configuration - tells nvim-cmp how to handle snippet expansion
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end,
             },
 
-            -- Window appearance configuration
             window = {
                 completion = {
                     border = "rounded",
@@ -413,35 +155,16 @@ return {
                 },
             },
 
-            -- Appearance of completion items
             formatting = {
                 fields = { "kind", "abbr", "menu" },
                 format = function(entry, vim_item)
                     local kind_icons = {
-                        Text = "󰉿",
-                        Method = "󰆧",
-                        Function = "󰊕",
-                        Constructor = "",
-                        Field = "󰜢",
-                        Variable = "󰀫",
-                        Class = "󰠱",
-                        Interface = "",
-                        Module = "",
-                        Property = "󰜢",
-                        Unit = "󰑭",
-                        Value = "󰎠",
-                        Enum = "",
-                        Keyword = "󰌋",
-                        Snippet = "",
-                        Color = "󰏘",
-                        File = "󰈙",
-                        Reference = "󰈇",
-                        Folder = "󰉋",
-                        EnumMember = "",
-                        Constant = "󰏿",
-                        Struct = "󰙅",
-                        Event = "",
-                        Operator = "󰆕",
+                        Text = "󰉿", Method = "󰆧", Function = "󰊕", Constructor = "",
+                        Field = "󰜢", Variable = "󰀫", Class = "󰠱", Interface = "",
+                        Module = "", Property = "󰜢", Unit = "󰑭", Value = "󰎠",
+                        Enum = "", Keyword = "󰌋", Snippet = "", Color = "󰏘",
+                        File = "󰈙", Reference = "󰈇", Folder = "󰉋", EnumMember = "",
+                        Constant = "󰏿", Struct = "󰙅", Event = "", Operator = "󰆕",
                         TypeParameter = "",
                     }
                     vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
@@ -455,17 +178,14 @@ return {
                 end,
             },
 
-            -- Completion appearance
             completion = {
                 completeopt = "menu,menuone,noinsert",
                 keyword_length = 1,
                 keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
             },
-
-
         })
 
-        -- LSP keymaps
+        -- LSP keymaps (will only work for non-C++ files now)
         local function on_attach(_, bufnr)
             local map = function(mode, lhs, rhs, desc)
                 vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
@@ -488,7 +208,6 @@ return {
             map("n", "<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Workspace Symbols")
         end
 
-        -- Attach keymaps when LSP connects
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("UserLspConfig", {}),
             callback = function(ev)

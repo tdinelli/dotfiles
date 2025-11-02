@@ -1,7 +1,7 @@
 require("core")
 
 --------------------------------------
--- lazy stuff and external plugins
+--- lazy stuff and external plugins
 --------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

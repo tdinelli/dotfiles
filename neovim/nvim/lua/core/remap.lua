@@ -83,6 +83,7 @@ apply_keymaps(movements, "movements")
 -----------------------------
 -- Some custom commands
 -----------------------------
+--- Run a python file
 vim.keymap.set("n", "<leader>rp", function()
     local file = vim.fn.expand('%')
     if vim.fn.filereadable(file) == 0 then
@@ -96,7 +97,7 @@ vim.keymap.set("n", "<leader>rp", function()
     vim.cmd('term python ' .. file)
 end, { desc = "[R]un [P]ython" })
 
--- Doxygen inline variable comments
+--- Doxygen inline variable comments
 vim.api.nvim_create_user_command('DoxygenComment', function()
     local line = vim.api.nvim_get_current_line()
     if not line:match("//!<") then
@@ -105,6 +106,16 @@ vim.api.nvim_create_user_command('DoxygenComment', function()
 end, { desc = "Add Doxygen inline comment at end of line", bang = true, bar = true, }
 )
 vim.keymap.set("n", "<leader>dc", "<cmd>DoxygenComment<CR>", { desc = "[D]oxygen [C]omment" })
+
+--- Toggle end of line char
+vim.keymap.set('n', '<leader>e', function()
+  local listchars = vim.opt.listchars:get()
+  if listchars.eol then
+    vim.opt.listchars:remove('eol')
+  else
+    vim.opt.listchars:append({ eol = '↵' })
+  end
+end, { noremap = true, silent = true })
 
 -----------------------------
 -- Latex flavour

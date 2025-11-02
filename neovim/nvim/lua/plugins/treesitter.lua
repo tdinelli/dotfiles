@@ -12,7 +12,7 @@ return {
 
         require("nvim-treesitter.configs").setup({
             ensure_installed = {
-                "latex", "cpp", "c", "python", "julia", "markdown", "markdown_inline",
+                "cpp", "c", "python", "julia", "markdown", "markdown_inline",
                 "bash", "lua", "vim", "vimdoc", "gitignore", "fortran", "make",
                 "regex", "yaml", "toml", "json", "cmake"
             },

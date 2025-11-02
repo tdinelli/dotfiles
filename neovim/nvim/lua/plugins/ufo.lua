@@ -44,3 +44,4 @@ return {
         vim.keymap.set("n", "zC", require("ufo").closeAllFolds, { desc = " Close all folds" })
     end,
 }
+
