@@ -1,10 +1,108 @@
+# =======================================================================
+# PATHS
 export ZDOTDIR="$HOME"/.config/zsh
-[[ -f "$ZDOTDIR/.path.zsh" ]] && source "$ZDOTDIR/.path.zsh"
-[[ -f "$ZDOTDIR/.completion.zsh" ]] && source "$ZDOTDIR/.completion.zsh"
-[[ -f "$ZDOTDIR/.aliases.zsh" ]] && source "$ZDOTDIR/.aliases.zsh"
-[[ -f "$ZDOTDIR/.terminal.personalization.zsh" ]] && source "$ZDOTDIR/.terminal.personalization.zsh"
-[[ -f "$ZDOTDIR/.fzf.zsh" ]] && source "$ZDOTDIR/.fzf.zsh"
 
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+# Brew
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+
+# Latex (I don't know why but in alacritty this is not automatically
+# sourced maybe is not alacritty but me messing up some configurations)
+export PATH="/Library/TeX/texbin/:$PATH"
+
+
+# =======================================================================
+# Completion system
+autoload -Uz compinit && compinit
+setopt COMPLETE_IN_WORD
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' special-dirs true
+
+# =======================================================================
+# Aliases
+# commands
+alias ll="ls -lh"
+alias la="ls -altrh"
+
+# vim
+alias vim="nvim"
+alias vimdiff="nvim -d"
+alias vi="nvim"
+
+# tmux
+alias tmux="tmux -2"
+alias tls="tmux ls"
+alias tms="tmux a"
+
+# git
+alias gs="git status"
+
+# HomeBrew
+alias brew="HOMEBREW_NO_AUTO_UPDATE=1 brew"
+
+switch_compiler() {
+    if [[ "$1" == "apple" ]]; then
+        export CC=/usr/bin/gcc
+        export CXX=/usr/bin/g++
+        export FC=/opt/homebrew/bin/gfortran-14
+    elif [[ "$1" == "gnu-brew" ]]; then
+        export CC=/opt/homebrew/bin/gcc-14
+        export CXX=/opt/homebrew/bin/g++-14
+        export FC=/opt/homebrew/bin/gfortran-14
+    elif [[ "$1" == "llvm-brew" ]]; then
+        export CC=/opt/homebrew/opt/llvm/bin/clang
+        export CXX=/opt/homebrew/opt/llvm/bin/clang++
+        export FC=/opt/homebrew/bin/gfortran-14
+    else
+        echo "Usage: switch_compiler [apple | gnu-brew | llvm-brew]"
+        return 1
+    fi
+    return 0
+}
+
+# =======================================================================
+# Numerical libraries
+export NUMERICAL_LIBRARIES="$HOME/NumericalLibraries"
+export OpenSMOKEpp_ROOT="$HOME/Documents/GitHub/OpenSMOKEpp"
+export OpenSMOKEppSolvers_ROOT="$HOME/Documents/GitHub/OpenSMOKEppSolvers"
+export Eigen3_ROOT="$NUMERICAL_LIBRARIES/eigen/eigen-3.4.0/share/eigen3/cmake"
+
+# CMAKE related options
+export CMAKE_PREFIX_PATH="/opt/homebrew/opt/openblas:/opt/homebrew/opt/boost@1.85"
+
+# =======================================================================
+# Setup fzf
+if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
+  PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
+fi
+
+# Auto-completion
+source "/opt/homebrew/opt/fzf/shell/completion.zsh"
+
+# Key bindings
+source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+
+# =======================================================================
+# Minimal terminal personalization
+autoload -Uz vcs_info
+autoload -U colors && colors
+
+# Enable colors for ls
+export CLICOLOR=1
+export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+
+PS1=$'%F{green}%n%f: %F{blue}%~%f\n%F{196}❯%f '
+PS2=$'%F{196}❯%f '
+
+# =======================================================================
+# Julia and Python
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
