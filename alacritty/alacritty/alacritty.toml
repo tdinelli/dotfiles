@@ -1,11 +1,31 @@
-import = [
-    "/Users/tdinelli/.config/alacritty/colorscheme.toml"
-]
-
 [bell]
 animation = "EaseOutExpo"
 color = "0xffffff"
 duration = 0
+
+[colors.primary]
+background = '#ffffff'  # or '#f5f5f5' for softer white
+foreground = '#000000'  # or '#333333' for softer black
+
+[colors.normal]
+black   = '#000000'
+red     = '#d70000'
+green   = '#008700'
+yellow  = '#af8700'
+blue    = '#0087ff'
+magenta = '#af00db'
+cyan    = '#00afaf'
+white   = '#808080'
+
+[colors.bright]
+black   = '#808080'
+red     = '#d75f00'
+green   = '#00af00'
+yellow  = '#d7af00'
+blue    = '#5f87ff'
+magenta = '#d787ff'
+cyan    = '#00d7ff'
+white   = '#d0d0d0'
 
 [colors.cursor]
 cursor = "#fb1d1d"
@@ -16,11 +36,10 @@ style = "Block"
 unfocused_hollow = true
 
 [env]
-TERM = "screen-256color"
 live_config_reload = "true"
 
 [font]
-size = 18.0
+size = 20.0
 
 [font.normal]
 # family = "Ibm Plex Mono"
@@ -30,7 +49,7 @@ family = "BlexMono Nerd Font Light"
 history = 5000
 multiplier = 3
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 
 [window]
@@ -39,5 +58,7 @@ startup_mode = "Windowed"
 option_as_alt = "OnlyLeft"
 
 [window.padding]
-x = 6
-y = 6
+x = 3
+y = 3
+
+[terminal]
