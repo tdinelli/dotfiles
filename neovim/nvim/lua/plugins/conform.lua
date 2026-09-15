@@ -6,10 +6,20 @@ return {
         local formatters = {
             -- C++ formatting configuration with clang-format
             clang_format = {
-                prepend_args = {
-                    "--style=file", -- Try to use project's style first
-                    "--fallback-style=Google",    -- Fallback to Google style if no .clang-format found
-                },
+                prepend_args = function(self, ctx)
+                    -- Check if .clang-format exists in project root
+                    local root = vim.fs.root(ctx.buf, { '.clang-format', '.git' })
+                    if root and vim.fn.filereadable(root .. '/.clang-format') == 1 then
+                        -- If .clang-format exists, don't pass style arguments
+                        -- clang-format will automatically use the config file
+                        return {}
+                    else
+                        -- Fallback to Google style if no config file found
+                        return {
+                            "--style={BasedOnStyle: Google, ColumnLimit: 100, ReflowComments: true, CommentPragmas: '^ IWYU pragma:'}"
+                        }
+                    end
+                end,
             },
 
             -- CMake formatting configuration
@@ -72,12 +82,12 @@ return {
             },
             ["bibtex-tidy"] = {
                 prepend_args = {
-                    "--omit=abstract,url", -- Skip abstract field
-                    "--curly",         -- Use curly braces for titles
-                    "--sort-fields",   -- Sort fields within entries
-                    "--duplicates",    -- Check for duplicates
-                    "--align=14",      -- Align fields at column 14
-                    "--wrap=80",       -- Wrap long lines at 80 characters
+                    "--omit=abstract,url,doi", -- Skip abstract field
+                    "--curly",             -- Use curly braces for titles
+                    "--sort-fields",       -- Sort fields within entries
+                    "--duplicates",        -- Check for duplicates
+                    "--align=14",          -- Align fields at column 14
+                    "--wrap=80",           -- Wrap long lines at 80 characters
                     "--blank-lines"
                 },
             },

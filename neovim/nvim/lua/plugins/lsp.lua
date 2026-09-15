@@ -86,6 +86,30 @@ return {
             root_markers = { ".latexmkrc", "main.tex", "root.tex", ".git" },
         })
 
+        vim.lsp.config('clangd', {
+            capabilities = vim.tbl_deep_extend("force", capabilities, {
+                offsetEncoding = { "utf-16" },
+            }),
+            cmd = {
+                "clangd",
+                "--background-index",
+                "--clang-tidy",
+                "--clang-tidy-checks=-bugprone-easily-swappable-parameters",
+                "--header-insertion=iwyu",
+                "--completion-style=detailed",
+                "--function-arg-placeholders",
+                "--fallback-style=google",
+            },
+            filetypes = { "c", "cpp", "objc", "objcpp" },
+            root_markers = {
+                "CMakeLists.txt",
+                "compile_commands.json",
+                "compile_flags.txt",
+                ".clangd",
+                ".git",
+            },
+        })
+
         vim.lsp.config('neocmake', {
             capabilities = capabilities,
             init_options = {
@@ -96,10 +120,12 @@ return {
             root_markers = { "CMakeLists.txt", "cmake", ".git" },
         })
 
-        -- Setup mason-lspconfig (WITHOUT clangd in ensure_installed)
+        -- Setup mason-lspconfig
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "pyright", "neocmake", "texlab" },
         })
+
+        vim.lsp.enable({ "clangd", "lua_ls", "pyright", "neocmake", "texlab" })
 
         -- Set up nvim-cmp with buffer and path completion for C++
         local cmp = require("cmp")
@@ -213,6 +239,14 @@ return {
             callback = function(ev)
                 vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
                 on_attach(nil, ev.buf)
+
+                -- alabaster only styles Treesitter's @function groups, not LSP
+                -- semantic tokens; without this, LSP semantic highlighting paints
+                -- over Treesitter and function names lose their color.
+                local client = vim.lsp.get_client_by_id(ev.data.client_id)
+                if client then
+                    client.server_capabilities.semanticTokensProvider = nil
+                end
             end,
         })
 

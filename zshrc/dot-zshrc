@@ -14,6 +14,8 @@ export PATH="/opt/homebrew/sbin:$PATH"
 
 # Latex (I don't know why but in alacritty this is not automatically
 # sourced maybe is not alacritty but me messing up some configurations)
+# I am not sure if this is still needed but I don't have time to test
+# this now.
 export PATH="/Library/TeX/texbin/:$PATH"
 
 
@@ -78,6 +80,10 @@ export Eigen3_ROOT="$NUMERICAL_LIBRARIES/eigen/eigen-3.4.0/share/eigen3/cmake"
 export CMAKE_PREFIX_PATH="/opt/homebrew/opt/openblas:/opt/homebrew/opt/boost@1.85"
 
 # =======================================================================
+# My tools
+export PATH=$HOME/Documents/GitHub/ckgrep/build/source/:$PATH
+
+# =======================================================================
 # Setup fzf
 if [[ ! "$PATH" == */opt/homebrew/opt/fzf/bin* ]]; then
   PATH="${PATH:+${PATH}:}/opt/homebrew/opt/fzf/bin"
@@ -123,3 +129,4 @@ unset __conda_setup
 path=('/Users/tdinelli/.juliaup/bin' $path)
 export PATH
 # <<< juliaup initialize <<<
+export PATH="$HOME/.local/bin:$PATH"
