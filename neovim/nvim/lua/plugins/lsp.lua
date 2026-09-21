@@ -3,23 +3,37 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/nvim-cmp",
         "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
         "j-hui/fidget.nvim",
+        {
+            "saghen/blink.cmp",
+            version = "1.*",
+            opts = {
+                keymap = {
+                    preset = "default",
+                    ["<Tab>"] = { "select_and_accept", "fallback" },
+                    ["<C-space>"] = { "show", "fallback" },
+                    ["<C-k>"] = { "scroll_documentation_up", "fallback" },
+                    ["<C-j>"] = { "scroll_documentation_down", "fallback" },
+                    ["<C-e>"] = { "hide", "fallback" },
+                },
+                appearance = { nerd_font_variant = "mono" },
+                completion = {
+                    menu = { border = "rounded" },
+                    documentation = { auto_show = true, window = { border = "rounded" } },
+                },
+                snippets = { preset = "luasnip" },
+                sources = { default = { "lsp", "path", "snippets", "buffer" } },
+            },
+        },
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-        local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
             "force",
             {},
             vim.lsp.protocol.make_client_capabilities(),
-            cmp_lsp.default_capabilities()
+            require("blink.cmp").get_lsp_capabilities()
         )
 
         require("fidget").setup({})
@@ -127,89 +141,8 @@ return {
 
         vim.lsp.enable({ "clangd", "lua_ls", "pyright", "neocmake", "texlab" })
 
-        -- Set up nvim-cmp with buffer and path completion for C++
-        local cmp = require("cmp")
-        local luasnip = require("luasnip")
+        -- Load custom LuaSnip snippets (expanded via blink.cmp's snippets source)
         pcall(require, "snippets.customsnippets")
-
-        cmp.setup({
-            sources = cmp.config.sources({
-                { name = "nvim_lsp", priority = 1000 },
-                { name = "luasnip",  priority = 750 },
-                { name = "buffer",   priority = 500 },  -- This gives you word completion from open buffers
-                { name = "path",     priority = 400 },
-            }),
-
-            mapping = cmp.mapping.preset.insert({
-                ["<Tab>"] = cmp.mapping.confirm({ select = true }),
-                ["<C-Space>"] = cmp.mapping.complete({ reason = cmp.ContextReason.Manual }),
-                ["<C-k>"] = cmp.mapping.scroll_docs(-4),
-                ["<C-j>"] = cmp.mapping.scroll_docs(4),
-                ["<C-e>"] = cmp.mapping.abort(),
-            }),
-
-            sorting = {
-                comparators = {
-                    cmp.config.compare.offset,
-                    cmp.config.compare.exact,
-                    cmp.config.compare.score,
-                    cmp.config.compare.kind,
-                    cmp.config.compare.sort_text,
-                    cmp.config.compare.length,
-                    cmp.config.compare.order,
-                },
-            },
-
-            snippet = {
-                expand = function(args)
-                    luasnip.lsp_expand(args.body)
-                end,
-            },
-
-            window = {
-                completion = {
-                    border = "rounded",
-                    winhighlight = "Normal:CmpNormal,FloatBorder:CmpBorder",
-                    col_offset = -3,
-                    side_padding = 0,
-                },
-                documentation = {
-                    border = "rounded",
-                    winhighlight = "Normal:CmpDocNormal,FloatBorder:CmpDocBorder",
-                    max_width = 50,
-                    max_height = 30,
-                },
-            },
-
-            formatting = {
-                fields = { "kind", "abbr", "menu" },
-                format = function(entry, vim_item)
-                    local kind_icons = {
-                        Text = "󰉿", Method = "󰆧", Function = "󰊕", Constructor = "",
-                        Field = "󰜢", Variable = "󰀫", Class = "󰠱", Interface = "",
-                        Module = "", Property = "󰜢", Unit = "󰑭", Value = "󰎠",
-                        Enum = "", Keyword = "󰌋", Snippet = "", Color = "󰏘",
-                        File = "󰈙", Reference = "󰈇", Folder = "󰉋", EnumMember = "",
-                        Constant = "󰏿", Struct = "󰙅", Event = "", Operator = "󰆕",
-                        TypeParameter = "",
-                    }
-                    vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
-                    vim_item.menu = ({
-                        nvim_lsp = "[LSP]",
-                        luasnip = "[Snippet]",
-                        buffer = "[Buffer]",
-                        path = "[Path]",
-                    })[entry.source.name]
-                    return vim_item
-                end,
-            },
-
-            completion = {
-                completeopt = "menu,menuone,noinsert",
-                keyword_length = 1,
-                keyword_pattern = [[\%(-\?\d\+\%(\.\d\+\)\?\|\h\w*\%(-\w*\)*\)]],
-            },
-        })
 
         -- LSP keymaps (will only work for non-C++ files now)
         local function on_attach(_, bufnr)

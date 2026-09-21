@@ -1,11 +1,21 @@
 return {
-    "p00f/alabaster.nvim",
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
     lazy = false,
     priority = 1000,
     config = function()
-        vim.cmd.colorscheme("alabaster")
+        require("github-theme").setup({})
+        vim.cmd.colorscheme("github_light_tritanopia")
     end,
 }
+-- return {
+--     "p00f/alabaster.nvim",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--         vim.cmd.colorscheme("alabaster")
+--     end,
+-- }
 -- return {
 --     "zenbones-theme/zenbones.nvim",
 --     -- Optionally install Lush. Allows for more configuration or extending the colorscheme

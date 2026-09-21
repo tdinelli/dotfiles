@@ -16,7 +16,10 @@ return {
         end,
     },
     {
-        "norcalli/nvim-colorizer.lua",
+        -- norcalli/nvim-colorizer.lua is unmaintained (last commit 2021) and
+        -- uses vim.tbl_flatten, deprecated for removal in Nvim 0.13; this is
+        -- an actively maintained fork with the same setup() API
+        "catgoose/nvim-colorizer.lua",
         config = function()
             require("colorizer").setup()
         end,
